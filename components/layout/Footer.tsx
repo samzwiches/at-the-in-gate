@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SiteMedia from "@/components/site-media/SiteMedia";
-import { siteMediaOverlayStyle } from "@/lib/site-media";
+import { hasSiteMediaOverlay, siteMediaOverlayStyle } from "@/lib/site-media";
 import { getSiteMedia } from "@/lib/supabase/site-media";
 
 const footerNavigation = [
@@ -25,8 +25,8 @@ export default async function Footer() {
 
   return (
     <footer className="relative isolate overflow-hidden bg-[#22251f] px-5 py-10 text-[#e7e1d5] sm:px-8 lg:px-12">
-      {footerMedia ? <SiteMedia mediaKey="footer.background" sizes="100vw" className="object-cover opacity-70" /> : null}
-      {footerMedia && footerMedia.overlay_tone !== "none" && footerMedia.overlay_opacity > 0 ? <span className="absolute inset-0" style={siteMediaOverlayStyle(footerMedia.overlay_tone, footerMedia.overlay_opacity)} aria-hidden="true" /> : null}
+      {footerMedia ? <SiteMedia mediaKey="footer.background" sizes="100vw" className="object-cover" /> : null}
+      {footerMedia && hasSiteMediaOverlay(footerMedia.overlay_tone, footerMedia.overlay_opacity, footerMedia.overlay_color) ? <span className="absolute inset-0" style={siteMediaOverlayStyle(footerMedia.overlay_tone, footerMedia.overlay_opacity, footerMedia.overlay_color)} aria-hidden="true" /> : null}
       <div className="relative">
         <div className="mx-auto grid max-w-[1344px] gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
           <div>

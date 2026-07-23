@@ -1327,6 +1327,7 @@ export type Database = {
           id: string
           media_key: string
           mobile_storage_path: string | null
+          overlay_color: string | null
           overlay_opacity: number
           overlay_tone: string
           page_key: string
@@ -1344,6 +1345,7 @@ export type Database = {
           id?: string
           media_key: string
           mobile_storage_path?: string | null
+          overlay_color?: string | null
           overlay_opacity?: number
           overlay_tone?: string
           page_key: string
@@ -1361,6 +1363,7 @@ export type Database = {
           id?: string
           media_key?: string
           mobile_storage_path?: string | null
+          overlay_color?: string | null
           overlay_opacity?: number
           overlay_tone?: string
           page_key?: string

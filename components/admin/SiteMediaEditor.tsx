@@ -3,8 +3,10 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import { useRouter } from "next/navigation";
 import {
   MAX_SITE_MEDIA_IMAGE_BYTES,
+  normalizeSiteMediaOverlayColor,
   SITE_MEDIA_GROUPS,
   SITE_MEDIA_SLOTS,
   siteMediaOverlayStyle,
@@ -25,6 +27,7 @@ type MediaRecord = {
   focal_y: number;
   overlay_opacity: number;
   overlay_tone: string;
+  overlay_color: string | null;
   signedUrl: string;
   mobileSignedUrl: string | null;
 };
@@ -52,6 +55,7 @@ function previewUrl(file: File | null) {
 }
 
 function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; initialMedia: MediaRecord | null }) {
+  const router = useRouter();
   const [record, setRecord] = useState(initialMedia);
   const [primaryFile, setPrimaryFile] = useState<File | null>(null);
   const [mobileFile, setMobileFile] = useState<File | null>(null);
@@ -62,6 +66,7 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
   const [focalX, setFocalX] = useState(initialMedia?.focal_x ?? slot.fallback?.focalX ?? 50);
   const [focalY, setFocalY] = useState(initialMedia?.focal_y ?? slot.fallback?.focalY ?? 50);
   const [overlayTone, setOverlayTone] = useState<SiteMediaOverlayTone>((initialMedia?.overlay_tone as SiteMediaOverlayTone | undefined) ?? slot.fallback?.overlayTone ?? "none");
+  const [overlayColor, setOverlayColor] = useState(initialMedia?.overlay_color ?? slot.fallback?.overlayColor ?? "");
   const [overlayOpacity, setOverlayOpacity] = useState(initialMedia?.overlay_opacity ?? slot.fallback?.overlayOpacity ?? 0);
   const [removeMobile, setRemoveMobile] = useState(false);
   const [status, setStatus] = useState<EditorStatus>({ kind: "idle", message: "" });
@@ -79,6 +84,8 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
   const primarySource = primaryPreview ?? record?.signedUrl ?? slot.fallback?.src ?? null;
   const mobileSource = mobilePreview ?? record?.mobileSignedUrl ?? null;
   const hasSavedAssignment = Boolean(record);
+  const validOverlayColor = normalizeSiteMediaOverlayColor(overlayColor);
+  const hasOverlayPreview = overlayOpacity > 0 && (Boolean(validOverlayColor) || overlayTone !== "none");
 
   function chooseFile(file: File | null, kind: "primary" | "mobile") {
     if (!file) return;
@@ -107,6 +114,10 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
     setFocalY(y);
   }
 
+  function updateOverlayColor(value: string) {
+    setOverlayColor(normalizeSiteMediaOverlayColor(value) ?? value);
+  }
+
   async function save() {
     if (!primaryFile && !record) {
       setStatus({ kind: "error", message: "Choose a primary image before saving this slot." });
@@ -121,6 +132,7 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
     formData.set("focalX", String(focalX));
     formData.set("focalY", String(focalY));
     formData.set("overlayTone", overlayTone);
+    formData.set("overlayColor", overlayColor);
     formData.set("overlayOpacity", String(overlayOpacity));
     formData.set("removeMobile", String(removeMobile));
     if (primaryFile) formData.set("primaryImage", primaryFile);
@@ -139,10 +151,12 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
       setMobileFile(null);
       setPrimaryPreview(null);
       setMobilePreview(null);
+      setOverlayColor(payload.media.overlay_color ?? "");
       setRemoveMobile(false);
       if (primaryInput.current) primaryInput.current.value = "";
       if (mobileInput.current) mobileInput.current.value = "";
-      setStatus({ kind: "success", message: payload.message ?? "Media saved." });
+      router.refresh();
+      setStatus({ kind: "success", message: "Media saved. This editor has refreshed; refresh any public page that was already open to see the latest treatment." });
     } catch {
       setStatus({ kind: "error", message: "The media editor could not reach the server. Please try again." });
     }
@@ -173,6 +187,7 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
       setFocalX(slot.fallback?.focalX ?? 50);
       setFocalY(slot.fallback?.focalY ?? 50);
       setOverlayTone(slot.fallback?.overlayTone ?? "none");
+      setOverlayColor(slot.fallback?.overlayColor ?? "");
       setOverlayOpacity(slot.fallback?.overlayOpacity ?? 0);
       setRemoveMobile(false);
       if (primaryInput.current) primaryInput.current.value = "";
@@ -201,7 +216,7 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
           <p className="text-[0.625rem] font-bold uppercase tracking-[0.15em] text-[#7b2430]">Primary preview</p>
           <button type="button" onPointerDown={chooseFocalPoint} className="relative mt-3 block w-full overflow-hidden border border-[#242721]/25 bg-[#dce4e4] text-left touch-manipulation" style={{ aspectRatio: slot.previewAspectRatio }} aria-label="Choose the focal point by clicking or tapping the image">
             {primarySource ? <img src={primarySource} alt="" className="h-full w-full object-cover" style={{ objectPosition: `${focalX}% ${focalY}%` }} /> : <span className="flex h-full items-center justify-center px-8 text-center font-serif text-2xl text-[#2d4737]/70">This slot keeps its existing color treatment until an image is added.</span>}
-            {primarySource && overlayTone !== "none" && overlayOpacity > 0 ? <span className="absolute inset-0" style={siteMediaOverlayStyle(overlayTone, overlayOpacity)} aria-hidden="true" /> : null}
+            {primarySource && hasOverlayPreview ? <span className="absolute inset-0" style={siteMediaOverlayStyle(overlayTone, overlayOpacity, validOverlayColor)} aria-hidden="true" /> : null}
             {primarySource ? <span className="absolute size-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#f9f5ed] bg-[#7b2430]/85 shadow-[0_0_0_2px_rgba(36,39,33,0.35)]" style={{ left: `${focalX}%`, top: `${focalY}%` }} aria-hidden="true" /> : null}
           </button>
           <p className="mt-3 text-xs leading-5 text-[#686a61]">Click or tap the image to place the crop target. Current position: {focalX}% across, {focalY}% down.</p>
@@ -215,9 +230,18 @@ function SiteMediaSlotEditor({ slot, initialMedia }: { slot: SiteMediaSlot; init
           {record?.mobile_storage_path ? <label className="flex items-start gap-2 text-xs leading-5 text-[#56584f]"><input type="checkbox" checked={removeMobile} onChange={(event) => setRemoveMobile(event.target.checked)} className="mt-1 size-3.5 accent-[#2d4737]" />Remove the current mobile crop when saving.</label> : null}
           <label className="block text-sm font-semibold text-[#2d4737]">Alt text<textarea value={altText} onChange={(event) => setAltText(event.target.value.slice(0, 500))} maxLength={500} rows={3} className="mt-2 w-full border border-[#242721]/25 bg-[#fffaf1] px-3 py-2.5 text-sm font-normal leading-6 text-[#242721] outline-none focus:border-[#2d4737]" /></label>
           <label className="block text-sm font-semibold text-[#2d4737]">Caption <span className="font-normal text-[#686a61]">(optional)</span><input value={caption} onChange={(event) => setCaption(event.target.value.slice(0, 500))} maxLength={500} className="mt-2 w-full border border-[#242721]/25 bg-[#fffaf1] px-3 py-2.5 text-sm font-normal text-[#242721] outline-none focus:border-[#2d4737]" /></label>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm font-semibold text-[#2d4737]">Overlay tone<select value={overlayTone} onChange={(event) => setOverlayTone(event.target.value as SiteMediaOverlayTone)} className="mt-2 w-full border border-[#242721]/25 bg-[#fffaf1] px-3 py-2.5 text-sm font-normal text-[#242721] outline-none focus:border-[#2d4737]"><option value="none">None</option><option value="light">Light</option><option value="dark">Dark</option><option value="cream">Cream</option><option value="brand">Hunter green</option></select></label>
-            <label className="block text-sm font-semibold text-[#2d4737]">Overlay strength<span className="mt-2 flex items-center gap-3"><input type="range" min="0" max="1" step="0.05" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} className="w-full accent-[#2d4737]" /><output className="w-9 text-right text-xs font-bold text-[#7b2430]">{Math.round(overlayOpacity * 100)}%</output></span></label>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <label className="block text-sm font-semibold text-[#2d4737]">Preset overlay tone<select value={overlayTone} onChange={(event) => setOverlayTone(event.target.value as SiteMediaOverlayTone)} className="mt-2 w-full border border-[#242721]/25 bg-[#fffaf1] px-3 py-2.5 text-sm font-normal text-[#242721] outline-none focus:border-[#2d4737]"><option value="none">None</option><option value="light">Light</option><option value="dark">Dark</option><option value="cream">Cream</option><option value="brand">Hunter green</option></select></label>
+            <div className="block text-sm font-semibold text-[#2d4737]">
+              <label htmlFor={`${slot.mediaKey}-overlay-color`}>Custom overlay color <span className="font-normal text-[#686a61]">(optional)</span></label>
+              <div className="mt-2 flex gap-2">
+                <input aria-label="Choose a custom overlay color" type="color" value={validOverlayColor ?? "#2d4737"} onChange={(event) => updateOverlayColor(event.target.value)} className="h-11 w-12 shrink-0 border border-[#242721]/25 bg-[#fffaf1] p-1" />
+                <input id={`${slot.mediaKey}-overlay-color`} value={overlayColor} onChange={(event) => updateOverlayColor(event.target.value)} inputMode="text" maxLength={7} placeholder="#7b2430" aria-invalid={Boolean(overlayColor && !validOverlayColor)} aria-describedby={`${slot.mediaKey}-overlay-color-help`} className="min-w-0 flex-1 border border-[#242721]/25 bg-[#fffaf1] px-3 py-2.5 font-mono text-sm font-normal text-[#242721] outline-none focus:border-[#2d4737]" />
+              </div>
+              <p id={`${slot.mediaKey}-overlay-color-help`} className={`mt-2 text-xs leading-5 ${overlayColor && !validOverlayColor ? "text-[#7b2430]" : "text-[#686a61]"}`}>{overlayColor && !validOverlayColor ? "Use three or six hexadecimal digits, such as #7b2430 or abc." : "A valid custom color takes precedence over the preset tone. Color and strength are saved separately."}</p>
+              {overlayColor ? <button type="button" onClick={() => setOverlayColor("")} className="mt-2 text-xs font-bold text-[#2d4737] underline decoration-[#b08d57] underline-offset-4 hover:text-[#7b2430]">Use preset tone instead</button> : null}
+            </div>
+            <label className="block text-sm font-semibold text-[#2d4737]">Overlay strength<span className="mt-2 flex items-center gap-3"><input type="range" min="0" max="1" step="0.05" value={overlayOpacity} onChange={(event) => setOverlayOpacity(Number(event.target.value))} className="w-full accent-[#2d4737]" /><output className="w-9 text-right text-xs font-bold text-[#7b2430]">{Math.round(overlayOpacity * 100)}%</output></span><span className="mt-3 flex items-center gap-2 text-xs font-normal leading-5 text-[#686a61]">Live color and strength <span className="size-5 border border-[#242721]/25" style={siteMediaOverlayStyle(overlayTone, overlayOpacity, validOverlayColor)} aria-hidden="true" /></span></label>
           </div>
           <div className="flex flex-wrap gap-3 border-t border-[#242721]/15 pt-5">
             <button type="submit" disabled={status.kind === "saving"} className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#f9f4eb] transition-colors hover:bg-[#7b2430] disabled:cursor-not-allowed disabled:opacity-70">{status.kind === "saving" ? "Saving…" : "Save changes"}</button>

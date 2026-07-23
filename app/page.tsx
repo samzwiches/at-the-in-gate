@@ -8,7 +8,7 @@ import EventCard from "@/components/events/EventCard";
 import JobCard from "@/components/jobs/JobCard";
 import ListingCard from "@/components/marketplace/ListingCard";
 import { communitySpaces, editorialImages } from "@/lib/placeholder-data";
-import { siteMediaOverlayStyle } from "@/lib/site-media";
+import { hasSiteMediaOverlay, siteMediaOverlayStyle, type SiteMediaFallback } from "@/lib/site-media";
 import { getPublishedEvents } from "@/lib/supabase/events";
 import { getPublishedJobs } from "@/lib/supabase/jobs";
 import { getPublishedListings } from "@/lib/supabase/listings";
@@ -48,7 +48,7 @@ export default async function Home() {
   const featuredEvents = events.slice(0, 3);
   const featuredJobs = jobs.slice(0, 3);
   const hasHeroImage = localImageExists(editorialImages.morningAtTheInGate.imageSrc);
-  const heroFallback = hasHeroImage ? {
+  const heroFallback: SiteMediaFallback | null = hasHeroImage ? {
     src: editorialImages.morningAtTheInGate.imageSrc,
     alt: editorialImages.morningAtTheInGate.imageAlt,
     focalX: 50,
@@ -57,6 +57,7 @@ export default async function Home() {
     overlayOpacity: 0.55,
   } : null;
   const heroOverlayTone = homeHeroMedia?.overlay_tone ?? heroFallback?.overlayTone ?? "none";
+  const heroOverlayColor = homeHeroMedia?.overlay_color ?? heroFallback?.overlayColor ?? null;
   const heroOverlayOpacity = homeHeroMedia?.overlay_opacity ?? heroFallback?.overlayOpacity ?? 0;
 
   return (
@@ -77,8 +78,8 @@ export default async function Home() {
           <div className="relative min-h-[440px] border-t border-[#242721]/20 bg-[#d9e0de] p-5 sm:p-8 lg:min-h-0 lg:border-l lg:border-t-0 lg:p-12">
             <div className="absolute inset-0 m-5 border border-[#2d4737]/25 sm:m-8 lg:m-12" aria-hidden="true" />
             <div className="relative flex h-full min-h-[400px] flex-col justify-between bg-[#355343] p-6 text-[#f9f4eb] sm:p-8">
-              <SiteMedia mediaKey="home.hero" fallback={heroFallback} fallbackFocalPositionClassName="object-[50%_28%] lg:object-[50%_50%]" sizes="(max-width: 1023px) 100vw, 42vw" loading="eager" className="object-cover opacity-70" />
-              {(homeHeroMedia || heroFallback) && heroOverlayTone !== "none" && heroOverlayOpacity > 0 ? <div className="absolute inset-0" style={siteMediaOverlayStyle(heroOverlayTone, heroOverlayOpacity)} aria-hidden="true" /> : null}
+              <SiteMedia mediaKey="home.hero" fallback={heroFallback} fallbackFocalPositionClassName="object-[50%_28%] lg:object-[50%_50%]" sizes="(max-width: 1023px) 100vw, 42vw" loading="eager" className="object-cover" />
+              {(homeHeroMedia || heroFallback) && hasSiteMediaOverlay(heroOverlayTone, heroOverlayOpacity, heroOverlayColor) ? <div className="absolute inset-0" style={siteMediaOverlayStyle(heroOverlayTone, heroOverlayOpacity, heroOverlayColor)} aria-hidden="true" /> : null}
               <div className="relative flex items-start justify-between"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#d8bd85]">At the in gate</p><span className="border border-[#d8bd85]/60 px-2 py-1 text-[0.6rem] font-bold tracking-[0.15em] text-[#d8bd85]">FIELD NOTES</span></div>
               <div className="relative max-w-sm"><p className="font-serif text-4xl leading-none tracking-[-0.04em] sm:text-5xl">Where the good rounds lead.</p><p className="mt-5 max-w-xs text-sm leading-6 text-[#e8e3d7]">A better way to keep up with the listings, people, and showgrounds shaping the season—without the endless group-chat scroll.</p></div>
               <div className="relative grid grid-cols-[1fr_auto] gap-4 border-t border-[#f9f4eb]/25 pt-5"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#d8bd85]">From the in gate</p><p className="text-right text-xs text-[#f9f4eb]">Hunter · Jumper · Eq · Pony</p></div>

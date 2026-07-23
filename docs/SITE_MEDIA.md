@@ -1,6 +1,8 @@
 # Site media
 
-Site media changes the image treatment inside fixed At The In Gate layouts. It is intentionally not a page builder: no HTML, CSS classes, spacing controls, or arbitrary placements are stored in the database.
+`/admin/site-media` changes image treatment inside fixed At The In Gate layouts. It is intentionally not a page builder: no HTML, CSS classes, spacing controls, or arbitrary placements are stored in the database.
+
+It does not edit page text, navigation, links, headings, cards, homepage copy, or footer copy.
 
 ## Current slots
 
@@ -26,9 +28,13 @@ The image slots are grouped in `/admin/site-media`. Resetting a slot removes its
 - A primary JPG, PNG, or WebP image up to 6 MB.
 - An optional separate mobile crop.
 - Image focal point (`focal_x`, `focal_y`) from 0 to 100.
-- Alt text, optional caption, overlay tone, and overlay strength.
+- Alt text, optional caption, a preset overlay tone, optional custom overlay color, and overlay strength.
 
-The supported overlay tones are `none`, `light`, `dark`, `cream`, and `brand`. Images render as controlled full-bleed heroes, contained editorial images, card images, section backgrounds, or subtle textures according to the fixed slot component—not through database-provided classes or styles.
+Captions are stored with the media assignment but are not currently rendered publicly.
+
+The supported preset overlay tones are `none`, `light`, `dark`, `cream`, and `brand`. A custom full-spectrum overlay color can also be selected with the color picker or entered as hexadecimal text. The editor accepts `#112233`, `112233`, `#abc`, and `abc`, then stores every valid value in the stable lowercase `#rrggbb` form. Overlay color and overlay opacity are controlled independently. When a valid custom color is present, it takes precedence over the selected preset tone; clearing it returns the slot to the preset. Existing media records without a custom color continue to use their named tone normally and require no cleanup.
+
+Images render as controlled full-bleed heroes, contained editorial images, card images, section backgrounds, or subtle textures according to the fixed slot component—not through database-provided classes or styles.
 
 ## Security and storage
 
@@ -39,3 +45,7 @@ The supported overlay tones are `none`, `light`, `dark`, `cream`, and `brand`. I
 - Replaced objects are removed only after no remaining assignment references them.
 
 The browser never receives a service-role key. The editor sends its changes to the authenticated, administrator-checked `/api/admin/site-media` route.
+
+## Saving and refresh behavior
+
+Normal media updates do not require a deployment. Saving updates the Supabase assignment and revalidates the relevant page. The editor refreshes itself after a successful save; refresh any public page that was already open in another tab or browser window to see its latest image, crop, or overlay treatment.

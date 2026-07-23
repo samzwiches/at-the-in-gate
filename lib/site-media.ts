@@ -12,6 +12,7 @@ export type SiteMediaFallback = {
   focalY?: number;
   overlayOpacity?: number;
   overlayTone?: SiteMediaOverlayTone;
+  overlayColor?: string;
 };
 
 export type SiteMediaSlot = {
@@ -192,7 +193,38 @@ export function isAcceptedSiteMediaType(value: string): value is (typeof ACCEPTE
   return ACCEPTED_SITE_MEDIA_TYPES.includes(value as (typeof ACCEPTED_SITE_MEDIA_TYPES)[number]);
 }
 
-export function siteMediaOverlayStyle(tone: SiteMediaOverlayTone | string, opacity: number) {
+const fullHexColorPattern = /^#?([0-9a-f]{6})$/i;
+const shorthandHexColorPattern = /^#?([0-9a-f]{3})$/i;
+
+/** Returns a stable six-digit hexadecimal color, or null for invalid/empty values. */
+export function normalizeSiteMediaOverlayColor(value: string | null | undefined) {
+  const color = value?.trim();
+  if (!color) return null;
+
+  const fullMatch = color.match(fullHexColorPattern);
+  if (fullMatch) return `#${fullMatch[1].toLowerCase()}`;
+
+  const shorthandMatch = color.match(shorthandHexColorPattern);
+  if (shorthandMatch) {
+    return `#${shorthandMatch[1].toLowerCase().split("").map((character) => `${character}${character}`).join("")}`;
+  }
+
+  return null;
+}
+
+export function hasSiteMediaOverlay(
+  tone: SiteMediaOverlayTone | string,
+  opacity: number,
+  overlayColor?: string | null
+) {
+  return opacity > 0 && (Boolean(normalizeSiteMediaOverlayColor(overlayColor)) || tone !== "none");
+}
+
+export function siteMediaOverlayStyle(
+  tone: SiteMediaOverlayTone | string,
+  opacity: number,
+  overlayColor?: string | null
+) {
   const colors: Record<SiteMediaOverlayTone, string> = {
     none: "transparent",
     light: "#f9f5ed",
@@ -202,5 +234,8 @@ export function siteMediaOverlayStyle(tone: SiteMediaOverlayTone | string, opaci
   };
 
   const safeTone: SiteMediaOverlayTone = tone in colors ? tone as SiteMediaOverlayTone : "none";
-  return { backgroundColor: colors[safeTone], opacity };
+  return {
+    backgroundColor: normalizeSiteMediaOverlayColor(overlayColor) ?? colors[safeTone],
+    opacity,
+  };
 }

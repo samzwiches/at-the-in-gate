@@ -7,6 +7,7 @@ import {
   getSiteMediaSlot,
   isAcceptedSiteMediaType,
   MAX_SITE_MEDIA_IMAGE_BYTES,
+  normalizeSiteMediaOverlayColor,
   SITE_MEDIA_BUCKET,
   SITE_MEDIA_PAGE_PATHS,
   type SiteMediaOverlayTone,
@@ -119,8 +120,13 @@ export async function POST(request: Request) {
   const focalY = focalValue(value(formData, "focalY"));
   const overlayOpacity = Number(value(formData, "overlayOpacity"));
   const overlayTone = value(formData, "overlayTone") as SiteMediaOverlayTone;
+  const overlayColorInput = value(formData, "overlayColor");
+  const overlayColor = normalizeSiteMediaOverlayColor(overlayColorInput);
   if (focalX === null || focalY === null || !Number.isFinite(overlayOpacity) || overlayOpacity < 0 || overlayOpacity > 1 || !overlayTones.has(overlayTone)) {
     return NextResponse.json({ error: "Focal points and overlay settings must stay within the allowed range." }, { status: 400 });
+  }
+  if (overlayColorInput && !overlayColor) {
+    return NextResponse.json({ error: "Custom overlay colors must use three or six hexadecimal digits, such as #7b2430 or abc." }, { status: 400 });
   }
 
   const client = getAdminClient();
@@ -189,9 +195,10 @@ export async function POST(request: Request) {
       focal_y: focalY,
       overlay_opacity: Math.round(overlayOpacity * 100) / 100,
       overlay_tone: overlayTone,
+      overlay_color: overlayColor,
       updated_by: authorization.user.id,
     }, { onConflict: "media_key" })
-    .select("id, media_key, page_key, placement, storage_path, mobile_storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, created_at, updated_at, updated_by")
+    .select("id, media_key, page_key, placement, storage_path, mobile_storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, overlay_color, created_at, updated_at, updated_by")
     .single();
 
   if (saveError || !saved) {

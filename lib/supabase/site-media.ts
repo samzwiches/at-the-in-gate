@@ -41,7 +41,7 @@ export const getSiteMedia = cache(async (mediaKey: string): Promise<ResolvedSite
   const client = await createClient();
   const { data, error } = await client
     .from("site_media")
-    .select("id, media_key, page_key, placement, storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, mobile_storage_path, created_at, updated_at, updated_by")
+    .select("id, media_key, page_key, placement, storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, overlay_color, mobile_storage_path, created_at, updated_at, updated_by")
     .eq("media_key", mediaKey)
     .maybeSingle();
 
@@ -54,7 +54,7 @@ export async function getSiteMediaForAdmin(): Promise<ResolvedSiteMedia[]> {
   const client = getAdminClient();
   const { data, error } = await client
     .from("site_media")
-    .select("id, media_key, page_key, placement, storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, mobile_storage_path, created_at, updated_at, updated_by")
+    .select("id, media_key, page_key, placement, storage_path, alt_text, caption, focal_x, focal_y, overlay_opacity, overlay_tone, overlay_color, mobile_storage_path, created_at, updated_at, updated_by")
     .order("page_key")
     .order("placement");
 
