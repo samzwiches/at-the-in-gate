@@ -1382,6 +1382,74 @@ export type Database = {
           },
         ]
       }
+      site_section_appearance: {
+        Row: {
+          background_color: string | null
+          body_text_color: string | null
+          border_color: string | null
+          button_text_color: string | null
+          created_at: string
+          default_text_color: string | null
+          eyebrow_text_color: string | null
+          font_preset: string | null
+          heading_text_color: string | null
+          hero_edge_size: number | null
+          hero_edge_style: string | null
+          metadata_text_color: string | null
+          navigation_text_color: string | null
+          section_key: string
+          surface_color: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          background_color?: string | null
+          body_text_color?: string | null
+          border_color?: string | null
+          button_text_color?: string | null
+          created_at?: string
+          default_text_color?: string | null
+          eyebrow_text_color?: string | null
+          font_preset?: string | null
+          heading_text_color?: string | null
+          hero_edge_size?: number | null
+          hero_edge_style?: string | null
+          metadata_text_color?: string | null
+          navigation_text_color?: string | null
+          section_key: string
+          surface_color?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          background_color?: string | null
+          body_text_color?: string | null
+          border_color?: string | null
+          button_text_color?: string | null
+          created_at?: string
+          default_text_color?: string | null
+          eyebrow_text_color?: string | null
+          font_preset?: string | null
+          heading_text_color?: string | null
+          hero_edge_size?: number | null
+          hero_edge_style?: string | null
+          metadata_text_color?: string | null
+          navigation_text_color?: string | null
+          section_key?: string
+          surface_color?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_section_appearance_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

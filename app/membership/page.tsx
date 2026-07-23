@@ -3,6 +3,7 @@ import ManageBillingButton from "@/components/membership/ManageBillingButton";
 import SubscribeButton from "@/components/membership/SubscribeButton";
 import PageContainer from "@/components/layout/PageContainer";
 import PageHero from "@/components/site-media/PageHero";
+import PageCanvas from "@/components/site-media/PageCanvas";
 import { getSafeNextPath } from "@/lib/auth/redirect";
 import { getAuthenticatedUser } from "@/lib/auth/require-user";
 import { getMembershipForProfile } from "@/lib/membership/membership";
@@ -36,14 +37,14 @@ export default async function MembershipPage({ searchParams }: MembershipPagePro
   const checkoutCancelled = checkout === "cancelled";
 
   return (
-    <main className="bg-[#f4efe5] py-12 sm:py-16">
+    <PageCanvas appearanceKey="membership.page" tone="cream" className="py-12 sm:py-16">
       <PageContainer>
         <div className="mx-auto max-w-5xl">
           <PageHero mediaKey="membership.hero">
           <header className="border-b border-[#242721]/20 pb-8">
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[#7b2430]">Member pass</p>
-            <h1 className="mt-4 max-w-3xl font-serif text-5xl tracking-[-0.045em] text-[#242721] sm:text-6xl">A place to talk shop after the last trip.</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#56584f]">Membership opens the native At The In Gate community: useful horse-show knowledge, buyer and seller perspective, and a little room for the conversations that usually live by the in gate.</p>
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[color:var(--section-eyebrow-color,#7b2430)]">Member pass</p>
+            <h1 className="section-appearance-heading-font mt-4 max-w-3xl text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">A place to talk shop after the last trip.</h1>
+            <p className="section-appearance-body-font mt-5 max-w-2xl text-lg leading-8 text-[color:var(--section-body-color,#56584f)]">Membership opens the native At The In Gate community: useful horse-show knowledge, buyer and seller perspective, and a little room for the conversations that usually live by the in gate.</p>
           </header>
           </PageHero>
 
@@ -108,6 +109,6 @@ export default async function MembershipPage({ searchParams }: MembershipPagePro
           </section>
         </div>
       </PageContainer>
-    </main>
+    </PageCanvas>
   );
 }

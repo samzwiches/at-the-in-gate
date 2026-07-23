@@ -12,7 +12,23 @@ import {
   SITE_MEDIA_PAGE_PATHS,
   type SiteMediaOverlayTone,
 } from "@/lib/site-media";
+import {
+  buttonTextContrastResult,
+  getSiteSectionAppearanceSection,
+  isSiteSectionFontPreset,
+  isSiteSectionHeroEdgeStyle,
+  isSiteSectionKey,
+  normalizeSiteSectionAppearanceColor,
+  sectionSupportsAppearanceField,
+  SITE_SECTION_APPEARANCE_COLOR_FIELDS,
+  type SiteSectionAppearanceValues,
+  type SiteSectionKey,
+} from "@/lib/site-section-appearance";
 import { getAdminClient } from "@/lib/supabase/admin";
+import {
+  deleteSiteSectionAppearanceForAdmin,
+  upsertSiteSectionAppearanceForAdmin,
+} from "@/lib/supabase/site-section-appearance";
 
 export const runtime = "nodejs";
 
@@ -87,6 +103,59 @@ function revalidateMediaSlot(pageKey: string) {
   revalidatePath("/", "layout");
   revalidatePath("/admin");
   revalidatePath("/admin/site-media");
+}
+
+function revalidateSectionAppearance(sectionKey: SiteSectionKey) {
+  const section = getSiteSectionAppearanceSection(sectionKey);
+  for (const path of section?.paths ?? []) {
+    revalidatePath(path);
+  }
+  revalidatePath("/", "layout");
+  revalidatePath("/admin");
+  revalidatePath("/admin/site-media");
+}
+
+function appearanceColorValue(value: unknown, field: string): { value: string | null } | { error: string } {
+  if (value === null || value === undefined || value === "") return { value: null };
+  if (typeof value !== "string") return { error: `${field} must be a hexadecimal color.` };
+
+  const normalized = normalizeSiteSectionAppearanceColor(value);
+  return normalized
+    ? { value: normalized }
+    : { error: `${field} must use three or six hexadecimal digits, such as #7b2430 or abc.` };
+}
+
+function appearanceFontValue(value: unknown): { value: "inherit" | "serif" | "sans" | null } | { error: string } {
+  if (value === null || value === undefined || value === "") return { value: null };
+  if (typeof value !== "string" || !isSiteSectionFontPreset(value)) {
+    return { error: "Choose inherit, serif, or sans for the font preset." };
+  }
+
+  return { value };
+}
+
+function appearanceHeroEdgeStyleValue(value: unknown): { value: "inherit" | "soft-fade" | "rounded" | "rounded-fade" | "none" | null } | { error: string } {
+  if (value === null || value === undefined || value === "") return { value: null };
+  if (typeof value !== "string" || !isSiteSectionHeroEdgeStyle(value)) {
+    return { error: "Choose a valid hero edge style." };
+  }
+
+  return { value };
+}
+
+function appearanceHeroEdgeSizeValue(value: unknown): { value: number | null } | { error: string } {
+  if (value === null || value === undefined || value === "") return { value: null };
+  const source = typeof value === "number" ? String(value) : typeof value === "string" ? value.trim() : "";
+  if (!/^\d+$/.test(source)) {
+    return { error: "Hero edge size must be a whole number from 0 through 96." };
+  }
+
+  const parsed = Number(source);
+  if (!Number.isInteger(parsed) || parsed < 0 || parsed > 96) {
+    return { error: "Hero edge size must be a whole number from 0 through 96." };
+  }
+
+  return { value: parsed };
 }
 
 async function removeIfUnreferenced(storagePath: string) {
@@ -222,11 +291,107 @@ export async function POST(request: Request) {
   });
 }
 
+export async function PATCH(request: Request) {
+  const authorization = await requireMediaAdministrator();
+  if (authorization.response || !authorization.user) return authorization.response!;
+
+  const payload: Record<string, unknown> = await request.json().catch(() => ({}));
+  const sectionKey = typeof payload.sectionKey === "string" ? payload.sectionKey.trim() : "";
+  if (!isSiteSectionKey(sectionKey)) {
+    return NextResponse.json({ error: "Choose a valid appearance section." }, { status: 400 });
+  }
+  const section = getSiteSectionAppearanceSection(sectionKey);
+  if (!section) return NextResponse.json({ error: "Choose a valid appearance section." }, { status: 400 });
+
+  const fontPreset = sectionSupportsAppearanceField(sectionKey, "font_preset")
+    ? appearanceFontValue(payload.fontPreset)
+    : { value: null };
+  if ("error" in fontPreset) return NextResponse.json(fontPreset, { status: 400 });
+
+  const values: SiteSectionAppearanceValues = {
+    font_preset: fontPreset.value,
+    default_text_color: null,
+    eyebrow_text_color: null,
+    heading_text_color: null,
+    body_text_color: null,
+    button_text_color: null,
+    metadata_text_color: null,
+    navigation_text_color: null,
+    background_color: null,
+    surface_color: null,
+    border_color: null,
+    hero_edge_style: null,
+    hero_edge_size: null,
+  };
+
+  for (const field of SITE_SECTION_APPEARANCE_COLOR_FIELDS) {
+    if (!sectionSupportsAppearanceField(sectionKey, field)) continue;
+    const color = appearanceColorValue(payload[field], field.replaceAll("_", " "));
+    if ("error" in color) return NextResponse.json(color, { status: 400 });
+    values[field] = color.value;
+  }
+
+  if (sectionSupportsAppearanceField(sectionKey, "hero_edge_style")) {
+    const heroEdgeStyle = appearanceHeroEdgeStyleValue(payload.hero_edge_style);
+    if ("error" in heroEdgeStyle) return NextResponse.json(heroEdgeStyle, { status: 400 });
+    values.hero_edge_style = heroEdgeStyle.value;
+  }
+  if (sectionSupportsAppearanceField(sectionKey, "hero_edge_size")) {
+    const heroEdgeSize = appearanceHeroEdgeSizeValue(payload.hero_edge_size);
+    if ("error" in heroEdgeSize) return NextResponse.json(heroEdgeSize, { status: 400 });
+    values.hero_edge_size = heroEdgeSize.value;
+  }
+
+  const buttonContrast = buttonTextContrastResult(values.button_text_color);
+  if (!buttonContrast.passes) {
+    return NextResponse.json({ error: "Button text must meet WCAG AA contrast against both hunter green and oxblood hover backgrounds." }, { status: 400 });
+  }
+
+  const { data, error } = await upsertSiteSectionAppearanceForAdmin({
+    section_key: sectionKey,
+    font_preset: values.font_preset ?? null,
+    default_text_color: values.default_text_color ?? null,
+    eyebrow_text_color: values.eyebrow_text_color ?? null,
+    heading_text_color: values.heading_text_color ?? null,
+    body_text_color: values.body_text_color ?? null,
+    button_text_color: values.button_text_color ?? null,
+    metadata_text_color: values.metadata_text_color ?? null,
+    navigation_text_color: values.navigation_text_color ?? null,
+    background_color: values.background_color ?? null,
+    surface_color: values.surface_color ?? null,
+    border_color: values.border_color ?? null,
+    hero_edge_style: values.hero_edge_style ?? null,
+    hero_edge_size: values.hero_edge_size ?? null,
+    updated_by: authorization.user.id,
+  });
+
+  if (error || !data) {
+    return NextResponse.json({ error: "We could not save that appearance treatment." }, { status: 500 });
+  }
+
+  revalidateSectionAppearance(sectionKey);
+  return NextResponse.json({ appearance: data, message: "Appearance saved. Refresh any public page that was already open to see the latest treatment." });
+}
+
 export async function DELETE(request: Request) {
   const authorization = await requireMediaAdministrator();
   if (authorization.response || !authorization.user) return authorization.response!;
 
-  const mediaKey = new URL(request.url).searchParams.get("mediaKey")?.trim() ?? "";
+  const url = new URL(request.url);
+  const appearanceKey = url.searchParams.get("appearanceKey")?.trim() ?? "";
+  if (appearanceKey) {
+    if (!isSiteSectionKey(appearanceKey)) {
+      return NextResponse.json({ error: "Choose a valid appearance section." }, { status: 400 });
+    }
+
+    const { error } = await deleteSiteSectionAppearanceForAdmin(appearanceKey);
+    if (error) return NextResponse.json({ error: "We could not reset that appearance treatment." }, { status: 500 });
+
+    revalidateSectionAppearance(appearanceKey);
+    return NextResponse.json({ message: "Appearance reset to the source-controlled page defaults." });
+  }
+
+  const mediaKey = url.searchParams.get("mediaKey")?.trim() ?? "";
   const slot = getSiteMediaSlot(mediaKey);
   if (!slot) return NextResponse.json({ error: "Choose a valid media slot." }, { status: 400 });
 

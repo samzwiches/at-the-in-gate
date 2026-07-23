@@ -1,13 +1,57 @@
 import Link from "next/link";
+import PageContainer from "@/components/layout/PageContainer";
 import ServiceOfferingCard from "@/components/services/ServiceOfferingCard";
+import PageHero from "@/components/site-media/PageHero";
+import PageCanvas from "@/components/site-media/PageCanvas";
 import CategoryNav from "@/components/ui/CategoryNav";
 import EmptyState from "@/components/ui/EmptyState";
-import PageContainer from "@/components/layout/PageContainer";
 import { getPublishedServiceOfferings } from "@/lib/supabase/services";
 import { serviceCategories } from "@/lib/taxonomy";
 
 export default async function ServicesPage() {
   const services = await getPublishedServiceOfferings();
-  const categoryItems = [{ label: "All services", href: "/services" }, ...serviceCategories.map((category) => ({ label: category.label, href: `/services/category/${category.slug}` }))];
-  return <main className="bg-[#e8dfd3] py-12 sm:py-16"><PageContainer><header className="max-w-3xl border-b border-[#242721]/20 pb-8"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[#7b2430]">Services and professionals</p><h1 className="mt-4 font-serif text-5xl tracking-[-0.045em] text-[#242721] sm:text-6xl">The people who keep the week moving.</h1><p className="mt-5 text-lg leading-8 text-[#56584f]">Specific services, attached to the real trainer, barn, shipper, or business standing behind them.</p><div className="mt-7 flex flex-wrap gap-3"><Link href="/services/new" className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#f9f5ed] transition-colors hover:bg-[#7b2430]">Add a service</Link><Link href="/services/mine" className="border border-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#2d4737] transition-colors hover:border-[#7b2430] hover:text-[#7b2430]">Manage my services</Link></div></header><section className="mt-8 border-y border-[#242721]/20 py-4"><CategoryNav ariaLabel="Service categories" items={categoryItems} activeHref="/services" /></section><section className="mt-10"><div className="flex items-end justify-between gap-3 border-b border-[#242721]/20 pb-4"><div><p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#7b2430]">Service book</p><h2 className="mt-2 font-serif text-3xl text-[#242721]">Find the right extra set of hands.</h2></div><p className="text-sm font-semibold text-[#56584f]">{services.length} {services.length === 1 ? "service" : "services"}</p></div>{services.length > 0 ? <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">{services.map((service) => <ServiceOfferingCard key={service.id} service={service} />)}</div> : <div className="mt-6"><EmptyState eyebrow="The service book is clear" title="No approved services are posted." description="Providers can add a specific offering once their directory identity is in place." action={<Link href="/services/new" className="inline-flex border-b border-[#2d4737] pb-1 text-sm font-bold text-[#2d4737]">Add a service</Link>} /></div>}</section></PageContainer></main>;
+  const categoryItems = [
+    { label: "All services", href: "/services" },
+    ...serviceCategories.map((category) => ({ label: category.label, href: `/services/category/${category.slug}` })),
+  ];
+
+  return (
+    <PageCanvas appearanceKey="services.page" tone="warm" className="py-12 sm:py-16">
+      <PageContainer>
+        <PageHero mediaKey="services.hero">
+          <header className="max-w-3xl border-b border-[#242721]/20 pb-8">
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[color:var(--section-eyebrow-color,#7b2430)]">Services and professionals</p>
+            <h1 className="section-appearance-heading-font mt-4 text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">The people who keep the week moving.</h1>
+            <p className="section-appearance-body-font mt-5 text-lg leading-8 text-[color:var(--section-body-color,#56584f)]">Specific services, attached to the real trainer, barn, shipper, or business standing behind them.</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/services/new" className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[color:var(--section-button-color,#f9f5ed)] transition-colors hover:bg-[#7b2430]">Add a service</Link>
+              <Link href="/services/mine" className="border border-[#2d4737] px-4 py-2.5 text-sm font-bold text-[color:var(--section-button-color,#2d4737)] transition-colors hover:border-[#7b2430] hover:text-[#7b2430]">Manage my services</Link>
+            </div>
+          </header>
+        </PageHero>
+
+        <section className="mt-8 border-y border-[#242721]/20 py-4">
+          <CategoryNav ariaLabel="Service categories" items={categoryItems} activeHref="/services" />
+        </section>
+        <section className="mt-10">
+          <div className="flex items-end justify-between gap-3 border-b border-[#242721]/20 pb-4">
+            <div>
+              <p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#7b2430]">Service book</p>
+              <h2 className="mt-2 font-serif text-3xl text-[#242721]">Find the right extra set of hands.</h2>
+            </div>
+            <p className="text-sm font-semibold text-[#56584f]">{services.length} {services.length === 1 ? "service" : "services"}</p>
+          </div>
+          {services.length > 0 ? (
+            <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {services.map((service) => <ServiceOfferingCard key={service.id} service={service} />)}
+            </div>
+          ) : (
+            <div className="mt-6">
+              <EmptyState eyebrow="The service book is clear" title="No approved services are posted." description="Providers can add a specific offering once their directory identity is in place." action={<Link href="/services/new" className="inline-flex border-b border-[#2d4737] pb-1 text-sm font-bold text-[#2d4737]">Add a service</Link>} />
+            </div>
+          )}
+        </section>
+      </PageContainer>
+    </PageCanvas>
+  );
 }

@@ -132,3 +132,47 @@
     outline-offset: 3px;
   }
 }
+
+@layer components {
+  .site-page-canvas {
+    background-color: var(--page-background-color);
+  }
+
+  .site-page-canvas--cream {
+    --page-background-color: #f4efe5;
+  }
+
+  .site-page-canvas--blue-gray {
+    --page-background-color: #dce4e4;
+  }
+
+  .site-page-canvas--warm {
+    --page-background-color: #e8dfd3;
+  }
+
+  .site-page-canvas--shop {
+    --page-background-color: #e7e1d5;
+  }
+
+  .site-page-canvas--mist {
+    --page-background-color: #eef1ed;
+  }
+
+  .site-page-hero[data-hero-edge-style="rounded"],
+  .site-page-hero[data-hero-edge-style="rounded-fade"] {
+    border-radius: var(--section-hero-edge-size, 20px);
+  }
+
+  .site-page-hero-edge-fade {
+    height: var(--section-hero-edge-size, 24px);
+    background: linear-gradient(to bottom, transparent, var(--page-background-color));
+  }
+
+  .section-appearance-heading-font {
+    font-family: var(--section-font-family, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif);
+  }
+
+  .section-appearance-body-font {
+    font-family: var(--section-font-family, var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif);
+  }
+}
