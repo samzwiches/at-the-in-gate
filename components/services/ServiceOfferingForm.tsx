@@ -1,0 +1,22 @@
+"use client";
+
+import { useActionState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { createServiceOffering, updateServiceOffering } from "@/app/services/actions";
+import FormFeedback from "@/components/ui/FormFeedback";
+import { initialFormActionState } from "@/lib/form-state";
+import type { RelationshipPickerOption } from "@/lib/relationships";
+import { serviceCategories } from "@/lib/taxonomy";
+
+type ServiceValues = { id: string; directory_entry_id: string; title: string; category: string; description: string; service_area: string | null; website: string | null; image_path: string | null; };
+const inputClassName = "mt-2 w-full border border-[#242721]/25 bg-[#f9f5ed] px-3.5 py-3 text-sm text-[#242721] outline-none transition-colors placeholder:text-[#777a70] focus:border-[#2d4737]";
+const labelClassName = "text-sm font-semibold text-[#2d4737]";
+
+export default function ServiceOfferingForm({ service, directoryEntries }: { service?: ServiceValues; directoryEntries: RelationshipPickerOption[] }) {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const action = service ? updateServiceOffering : createServiceOffering;
+  const [state, formAction, pending] = useActionState(action, initialFormActionState);
+  useEffect(() => { if (state.status === "success") { if (!service) formRef.current?.reset(); router.refresh(); } }, [router, service, state.status]);
+  return <form ref={formRef} action={formAction} className="mt-8 border border-[#242721]/20 bg-[#e7e1d5] p-5 sm:p-7">{service ? <input type="hidden" name="serviceId" value={service.id} /> : null}<div className="grid gap-5 sm:grid-cols-2"><label className={labelClassName}>Directory identity<select name="directoryEntryId" required defaultValue={service?.directory_entry_id ?? ""} className={inputClassName}><option value="" disabled>Choose your published directory listing</option>{directoryEntries.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}{entry.category ? ` · ${entry.category}` : ""}</option>)}</select></label><label className={labelClassName}>Service title<input name="title" required maxLength={180} defaultValue={service?.title} placeholder="What clients can book or request" className={inputClassName} /></label><label className={labelClassName}>Service category<select name="category" required defaultValue={service?.category ?? ""} className={inputClassName}><option value="" disabled>Choose one</option>{serviceCategories.map((category) => <option key={category.slug} value={category.slug}>{category.label}</option>)}</select></label><label className={labelClassName}>Service area <span className="font-normal text-[#686a61]">(optional)</span><input name="serviceArea" maxLength={240} defaultValue={service?.service_area ?? ""} placeholder="Northeast circuit, regional, nationwide" className={inputClassName} /></label></div><label className={`mt-5 block ${labelClassName}`}>Description<textarea name="description" required maxLength={10000} rows={8} defaultValue={service?.description} className={inputClassName} /></label><div className="mt-5 grid gap-5 sm:grid-cols-2"><label className={labelClassName}>Website <span className="font-normal text-[#686a61]">(optional)</span><input name="website" type="url" maxLength={2000} defaultValue={service?.website ?? ""} placeholder="https://" className={inputClassName} /></label><label className={labelClassName}>Image path <span className="font-normal text-[#686a61]">(optional)</span><input name="imagePath" maxLength={500} defaultValue={service?.image_path ?? ""} placeholder="/images/services/your-image.jpg" className={inputClassName} /></label></div><p className="mt-4 text-sm leading-6 text-[#56584f]">Your directory listing remains the public identity. This service adds the specific offering people are looking for.</p><div className="mt-6 flex flex-wrap gap-3 border-t border-[#242721]/15 pt-5"><button type="submit" name="intent" value="draft" disabled={pending} className="border border-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#2d4737] disabled:cursor-not-allowed disabled:opacity-70">Save draft</button><button type="submit" name="intent" value="submit" disabled={pending} className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#f9f5ed] transition-colors hover:bg-[#7b2430] disabled:cursor-not-allowed disabled:opacity-70">{pending ? "Saving…" : service ? "Send changes for review" : "Send for review"}</button></div><FormFeedback state={state} /></form>;
+}

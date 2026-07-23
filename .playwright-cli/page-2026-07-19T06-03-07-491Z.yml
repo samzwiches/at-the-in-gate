@@ -1,0 +1,89 @@
+- generic [active] [ref=f17e1]:
+  - generic [ref=f17e2]:
+    - banner [ref=f17e3]:
+      - generic [ref=f17e4]:
+        - link "At The In Gate home" [ref=f17e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f17e6]: A
+          - generic [ref=f17e7]:
+            - generic [ref=f17e8]: At The In Gate
+            - generic [ref=f17e9]: The show book
+        - group [ref=f17e10]:
+          - generic "Menu" [ref=f17e11] [cursor=pointer]
+    - main [ref=f17e13]:
+      - generic [ref=f17e14]:
+        - generic [ref=f17e15]:
+          - paragraph [ref=f17e16]: The tack trunk
+          - heading "Useful things for the horse-world life." [level=1] [ref=f17e17]
+          - paragraph [ref=f17e18]: A small, well-edited shop for barn days, ring-side notes, tack-room order, and the person who is always carrying one more thing.
+        - generic [ref=f17e19]:
+          - generic [ref=f17e20]: All goods
+          - generic [ref=f17e21]: At The In Gate
+          - generic [ref=f17e22]: Barn days
+          - generic [ref=f17e23]: Tack room
+          - generic [ref=f17e24]: Ring-side
+        - generic [ref=f17e25]:
+          - generic [ref=f17e27]:
+            - paragraph [ref=f17e28]: First collection
+            - heading "A few things with a proper point of view." [level=2] [ref=f17e29]
+            - paragraph [ref=f17e30]: These are static merchandising cards only. There is no cart, checkout, inventory, or payment layer in this foundation.
+          - generic [ref=f17e31]:
+            - article [ref=f17e32]:
+              - generic [ref=f17e33]: SB
+              - generic [ref=f17e36]:
+                - paragraph [ref=f17e37]: At The In Gate
+                - generic [ref=f17e38]:
+                  - heading "The Show Book Notebook" [level=2] [ref=f17e39]
+                  - generic [ref=f17e40]: $24
+                - paragraph [ref=f17e41]: A field notebook for orders of go, pony measurements, and the very important notes.
+            - article [ref=f17e42]:
+              - generic [ref=f17e43]: IG
+              - generic [ref=f17e46]:
+                - paragraph [ref=f17e47]: Barn days
+                - generic [ref=f17e48]:
+                  - heading "In Gate Canvas Tote" [level=2] [ref=f17e49]
+                  - generic [ref=f17e50]: $36
+                - paragraph [ref=f17e51]: For leather balm, spare gloves, a stack of ribbons, and whatever else found its way in.
+            - article [ref=f17e52]:
+              - generic [ref=f17e53]: "14"
+              - generic [ref=f17e56]:
+                - paragraph [ref=f17e57]: Ring-side
+                - generic [ref=f17e58]:
+                  - heading "Brass Number Pin Set" [level=2] [ref=f17e59]
+                  - generic [ref=f17e60]: $18
+                - paragraph [ref=f17e61]: A restrained set of pins for the person who owns more show-number strings than socks.
+            - article [ref=f17e62]:
+              - generic [ref=f17e63]: TR
+              - generic [ref=f17e66]:
+                - paragraph [ref=f17e67]: Tack room
+                - generic [ref=f17e68]:
+                  - heading "Tack Room Label Kit" [level=2] [ref=f17e69]
+                  - generic [ref=f17e70]: $28
+                - paragraph [ref=f17e71]: A practical little system for making the shared tack trunk make sense again.
+    - contentinfo [ref=f17e72]:
+      - generic [ref=f17e73]:
+        - generic [ref=f17e74]:
+          - paragraph [ref=f17e75]: At The In Gate
+          - paragraph [ref=f17e76]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f17e77]:
+          - link "Marketplace" [ref=f17e78] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f17e79] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f17e80] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f17e81] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f17e82] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f17e83] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f17e84]:
+          - paragraph [ref=f17e85]: In the loop
+          - paragraph [ref=f17e86]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f17e87] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f17e88]:
+        - paragraph [ref=f17e89]: © 2026 At The In Gate
+        - paragraph [ref=f17e90]: Built for the people who know the difference.
+  - alert [ref=f17e91]

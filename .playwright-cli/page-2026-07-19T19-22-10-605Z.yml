@@ -1,0 +1,200 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "At The In Gate home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: A
+          - generic [ref=e7]:
+            - generic [ref=e8]: At The In Gate
+            - generic [ref=e9]: The show book
+        - group [ref=e135]:
+          - generic "Menu" [active] [ref=e136] [cursor=pointer]
+          - navigation "Mobile navigation" [ref=e137]:
+            - link "Marketplace" [ref=e138] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Community" [ref=e139] [cursor=pointer]:
+              - /url: /community
+            - link "Shows" [ref=e140] [cursor=pointer]:
+              - /url: /calendar
+            - link "Directory" [ref=e141] [cursor=pointer]:
+              - /url: /directory
+            - link "Jobs" [ref=e142] [cursor=pointer]:
+              - /url: /jobs
+            - link "Shop" [ref=e143] [cursor=pointer]:
+              - /url: /shop
+            - generic [ref=e144]:
+              - link "Search" [ref=e145] [cursor=pointer]:
+                - /url: /marketplace
+              - link "Member preview" [ref=e146] [cursor=pointer]:
+                - /url: /dashboard
+            - link "Post a listing" [ref=e147] [cursor=pointer]:
+              - /url: /marketplace/new
+    - main [ref=e22]:
+      - generic [ref=e23]:
+        - link "Back to the market board" [ref=e24] [cursor=pointer]:
+          - /url: /marketplace
+          - generic [ref=e25]: ←
+          - text: Back to the market board
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - paragraph [ref=e28]: Bring one to the board
+            - heading "A good listing starts with the useful bits." [level=1] [ref=e29]
+            - paragraph [ref=e30]: "Share the horse or pony as they actually are: the basics, the good context, and enough clarity for the right person to raise their hand."
+            - region [ref=e31]:
+              - paragraph [ref=e32]: Listing submission preview
+              - paragraph [ref=e33]: This is a static look at the future submission process. Nothing entered here is submitted, uploaded, checked, or saved yet.
+            - group "Static marketplace listing submission fields" [ref=e35]:
+              - group "Horse and listing" [ref=e37]:
+                - generic [ref=e39]:
+                  - generic [ref=e40]:
+                    - text: Horse name
+                    - textbox "Horse name" [disabled] [ref=e41]:
+                      - /placeholder: e.g. Good Company
+                  - generic [ref=e42]:
+                    - text: Listing title
+                    - textbox "Listing title" [disabled] [ref=e43]:
+                      - /placeholder: e.g. Junior hunter with a kind brain
+                  - generic [ref=e44]:
+                    - text: Listing type
+                    - combobox "Listing type" [disabled] [ref=e45]:
+                      - option "Choose listing type" [disabled] [selected]
+                      - option "For sale" [disabled]
+                      - option "For lease" [disabled]
+                      - option "Sale or lease" [disabled]
+                  - generic [ref=e46]:
+                    - text: Division
+                    - combobox "Division" [disabled] [ref=e47]:
+                      - option "Choose a division" [disabled] [selected]
+                      - option "Hunters" [disabled]
+                      - option "Jumpers" [disabled]
+                      - option "Equitation" [disabled]
+                      - option "Ponies" [disabled]
+              - group "Horse particulars" [ref=e48]:
+                - generic [ref=e50]:
+                  - generic [ref=e51]:
+                    - text: Age
+                    - textbox "Age" [disabled] [ref=e52]:
+                      - /placeholder: e.g. 10
+                  - generic [ref=e53]:
+                    - text: Height
+                    - textbox "Height" [disabled] [ref=e54]:
+                      - /placeholder: e.g. 16.1 hh
+                  - generic [ref=e55]:
+                    - text: Breed
+                    - textbox "Breed" [disabled] [ref=e56]:
+                      - /placeholder: e.g. Warmblood
+                  - generic [ref=e57]:
+                    - text: Sex
+                    - combobox "Sex" [disabled] [ref=e58]:
+                      - option "Choose" [disabled] [selected]
+                      - option "Mare" [disabled]
+                      - option "Gelding" [disabled]
+                      - option "Stallion" [disabled]
+              - group "The practical details" [ref=e59]:
+                - generic [ref=e61]:
+                  - generic [ref=e62]:
+                    - text: Location
+                    - textbox "Location" [disabled] [ref=e63]:
+                      - /placeholder: City, state, or circuit
+                  - generic [ref=e64]:
+                    - text: Price text
+                    - textbox "Price text" [disabled] [ref=e65]:
+                      - /placeholder: e.g. Low six figures
+                - generic [ref=e66]:
+                  - text: Description
+                  - textbox "Description" [disabled] [ref=e67]:
+                    - /placeholder: The show record, the ride, the details that make this one worth seeing in person.
+                  - paragraph [ref=e68]: A useful listing tells the truth about the horse, the fit, and the program around them.
+              - group "Image direction" [ref=e69]:
+                - generic [ref=e71]:
+                  - generic [ref=e72]:
+                    - text: Primary image
+                    - button "Primary image" [disabled] [ref=e73]
+                    - paragraph [ref=e74]: A ring-side portrait or quiet barn moment will have a better day here than a blurry screenshot.
+                  - generic [ref=e75]:
+                    - text: Image alt text
+                    - textbox "Image alt text" [disabled] [ref=e76]:
+                      - /placeholder: Describe the horse, action, and setting
+                  - generic [ref=e77]:
+                    - text: Image focal position
+                    - combobox "Image focal position" [disabled] [ref=e78]:
+                      - option "Choose a focal point" [disabled] [selected]
+                      - option "Center" [disabled]
+                      - option "Top" [disabled]
+                      - option "Right" [disabled]
+                      - option "Bottom" [disabled]
+                      - option "Left" [disabled]
+              - group "Placement and contact" [ref=e79]:
+                - generic [ref=e81]:
+                  - checkbox "I am interested in featured placement. Featured placement will be reviewed when submission tools are connected." [disabled] [ref=e82]
+                  - generic [ref=e83]:
+                    - generic [ref=e84]: I am interested in featured placement.
+                    - generic [ref=e85]: Featured placement will be reviewed when submission tools are connected.
+                - generic [ref=e86]:
+                  - generic [ref=e87]:
+                    - text: Seller name
+                    - textbox "Seller name" [disabled] [ref=e88]:
+                      - /placeholder: Your name or barn name
+                  - generic [ref=e89]:
+                    - text: Seller email
+                    - textbox "Seller email" [disabled] [ref=e90]:
+                      - /placeholder: you@example.com
+                  - generic [ref=e91]:
+                    - text: Seller phone
+                    - textbox "Seller phone" [disabled] [ref=e92]:
+                      - /placeholder: (555) 555-5555
+                  - generic [ref=e93]:
+                    - text: Preferred contact method
+                    - combobox "Preferred contact method" [disabled] [ref=e94]:
+                      - option "Choose a contact method" [disabled] [selected]
+                      - option "Email" [disabled]
+                      - option "Phone" [disabled]
+                      - option "Text" [disabled]
+              - button "Submissions are not connected yet" [disabled] [ref=e95]
+          - complementary [ref=e96]:
+            - paragraph [ref=e97]: Before it goes on the board
+            - heading "A clear listing makes a better match." [level=2] [ref=e98]
+            - generic [ref=e99]:
+              - generic [ref=e100]:
+                - term [ref=e101]: Approval process
+                - definition [ref=e102]: Future listings will be reviewed for clear, credible details before appearing on the market board.
+              - generic [ref=e103]:
+                - term [ref=e104]: Required information
+                - definition [ref=e105]: A name, useful facts, location, price guidance, an honest description, and a well-chosen primary image.
+              - generic [ref=e106]:
+                - term [ref=e107]: Safety expectations
+                - definition [ref=e108]: Represent the horse accurately, protect personal details, and keep early conversations thoughtful and verifiable.
+              - generic [ref=e109]:
+                - term [ref=e110]: Listing expiration
+                - definition [ref=e111]: Listings will eventually have a clear, time-bound run so the board stays current instead of collecting ghosts.
+              - generic [ref=e112]:
+                - term [ref=e113]: Featured placement
+                - definition [ref=e114]: Featured consideration will be handled separately, with placement chosen for relevance and presentation.
+    - contentinfo [ref=e115]:
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - paragraph [ref=e118]: At The In Gate
+          - paragraph [ref=e119]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=e120]:
+          - link "Marketplace" [ref=e121] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=e122] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=e123] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=e124] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e125] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=e126] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=e127]:
+          - paragraph [ref=e128]: In the loop
+          - paragraph [ref=e129]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=e130] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=e131]:
+        - paragraph [ref=e132]: © 2026 At The In Gate
+        - paragraph [ref=e133]: Built for the people who know the difference.
+  - alert [ref=e134]

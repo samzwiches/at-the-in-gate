@@ -1,0 +1,13 @@
+import Link from "next/link";
+import ListingArchiveButton from "@/components/marketplace/ListingArchiveButton";
+import ListingSoldButton from "@/components/marketplace/ListingSoldButton";
+import EmptyState from "@/components/ui/EmptyState";
+import PageContainer from "@/components/layout/PageContainer";
+import { requireUser } from "@/lib/auth/require-user";
+import { getListingsForOwner } from "@/lib/supabase/listings";
+
+export default async function MyMarketplaceListingsPage() {
+  const user = await requireUser("/marketplace/my-listings");
+  const listings = await getListingsForOwner(user.id);
+  return <main className="bg-[#f4efe5] py-12 sm:py-16"><PageContainer><div className="mx-auto max-w-4xl"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[#7b2430]">My market board</p><h1 className="mt-4 font-serif text-5xl tracking-[-0.045em] text-[#242721] sm:text-6xl">Your listings.</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-[#56584f]">Drafts, submissions, and listings you have already closed out.</p>{listings.length > 0 ? <div className="mt-8 space-y-4">{listings.map((listing) => <article key={listing.id} className="flex flex-col gap-4 border border-[#242721]/20 bg-[#f9f5ed] p-5 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7b2430]">{listing.status}</p><h2 className="mt-2 font-serif text-2xl text-[#242721]"><Link href={`/marketplace/${listing.slug}`} className="transition-colors hover:text-[#7b2430]">{listing.horse_name}</Link></h2><p className="mt-1 text-sm text-[#56584f]">{listing.division} · {listing.location}</p></div><div className="flex flex-wrap gap-3"><Link href={`/marketplace/${listing.slug}/edit`} className="inline-flex border border-[#2d4737] px-3 py-2 text-sm font-bold text-[#2d4737] transition-colors hover:border-[#7b2430] hover:text-[#7b2430]">Edit</Link>{listing.status === "published" ? <ListingSoldButton listingId={listing.id} /> : null}{listing.status !== "archived" ? <ListingArchiveButton listingId={listing.id} /> : null}</div></article>)}</div> : <div className="mt-8"><EmptyState eyebrow="Your board is clear" title="No listings are attached to this account." description="Start a listing when you have the details ready to share." action={<Link href="/marketplace/new" className="inline-flex border-b border-[#2d4737] pb-1 text-sm font-bold text-[#2d4737] transition-colors hover:border-[#7b2430] hover:text-[#7b2430]">Add a listing <span className="ml-2" aria-hidden="true">↗</span></Link>} /></div>}</div></PageContainer></main>;
+}

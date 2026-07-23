@@ -1,0 +1,232 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - banner [ref=f3e3]:
+      - generic [ref=f3e4]:
+        - link "At The In Gate home" [ref=f3e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f3e6]: A
+          - generic [ref=f3e7]:
+            - generic [ref=f3e8]: At The In Gate
+            - generic [ref=f3e9]: The show book
+        - navigation "Main navigation" [ref=f3e10]:
+          - link "Marketplace" [ref=f3e11] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f3e12] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f3e13] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=f3e14] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f3e15] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f3e16] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f3e17]:
+          - link "Search" [ref=f3e18] [cursor=pointer]:
+            - /url: /marketplace
+          - group [ref=f3e19]:
+            - generic "My account" [ref=f3e20] [cursor=pointer]
+          - link "Post a listing" [ref=f3e21] [cursor=pointer]:
+            - /url: /marketplace/new
+    - main [ref=f3e23]:
+      - generic [ref=f3e25]:
+        - navigation "Breadcrumb" [ref=f3e26]:
+          - link "Marketplace" [ref=f3e28] [cursor=pointer]:
+            - /url: /marketplace
+          - generic [ref=f3e29]:
+            - generic [ref=f3e30]: /
+            - link "QA Media Pony" [ref=f3e31] [cursor=pointer]:
+              - /url: /marketplace/qa-listing-media-1784684415995-m7avpr
+          - generic [ref=f3e32]:
+            - generic [ref=f3e33]: /
+            - generic [ref=f3e34]: Edit
+        - generic [ref=f3e35]:
+          - paragraph [ref=f3e36]: Edit listing
+          - heading "Keep the useful details current." [level=1] [ref=f3e37]
+          - paragraph [ref=f3e38]: Changes sent for review return the listing to the moderation queue. Save a draft if you are still working through the details.
+        - generic [ref=f3e39]:
+          - generic [ref=f3e40]:
+            - generic [ref=f3e41]:
+              - text: Horse or pony name
+              - textbox "Horse or pony name" [ref=f3e42]: QA Media Pony
+            - generic [ref=f3e43]:
+              - text: Listing type
+              - combobox "Listing type" [ref=f3e44]:
+                - option "Choose one" [disabled]
+                - option "For sale" [selected]
+                - option "Lease"
+                - option "Sale or lease"
+            - generic [ref=f3e45]:
+              - text: Division
+              - textbox "Division" [ref=f3e46]:
+                - /placeholder: Children's hunter, equitation, jumper
+                - text: Hunters
+            - generic [ref=f3e47]:
+              - text: Location
+              - textbox "Location" [ref=f3e48]:
+                - /placeholder: City, state
+                - text: QA Barn, NY
+            - generic [ref=f3e49]:
+              - text: Price or terms
+              - textbox "Price or terms" [ref=f3e50]:
+                - /placeholder: $45,000 or lease terms
+                - text: $1
+            - generic [ref=f3e51]:
+              - text: Age (optional)
+              - spinbutton "Age (optional)" [ref=f3e52]
+            - generic [ref=f3e53]:
+              - text: Height (optional)
+              - textbox "Height (optional)" [ref=f3e54]:
+                - /placeholder: 13.2 hh
+            - generic [ref=f3e55]:
+              - text: Breed (optional)
+              - textbox "Breed (optional)" [ref=f3e56]
+            - generic [ref=f3e57]:
+              - text: Sex (optional)
+              - textbox "Sex (optional)" [ref=f3e58]:
+                - /placeholder: Mare, gelding, stallion
+          - generic [ref=f3e59]:
+            - text: The useful details
+            - textbox "The useful details" [ref=f3e60]: Temporary verification listing for media ownership and rendering.
+          - region [ref=f3e61]:
+            - generic [ref=f3e62]:
+              - generic [ref=f3e63]:
+                - paragraph [ref=f3e64]: Photos and video
+                - heading "Let the horse do some talking." [level=2] [ref=f3e65]
+              - paragraph [ref=f3e66]: "Photos: JPG, PNG, WebP · up to 6 MB"
+            - generic [ref=f3e67]:
+              - generic [ref=f3e68]:
+                - generic [ref=f3e69]:
+                  - heading "Photos" [level=3] [ref=f3e70]
+                  - paragraph [ref=f3e71]: Tap the most important point in each image to guide card and hero crops. The gallery always keeps the full photograph.
+                - paragraph [ref=f3e72]: At least one photo is required for review.
+              - generic [ref=f3e73]:
+                - generic [ref=f3e74] [cursor=pointer]:
+                  - button "Choose photos" [ref=f3e75]
+                  - text: Choose photos
+                - paragraph [ref=f3e76]: Or drop them here. Filenames are never used as storage paths.
+              - generic [ref=f3e77]:
+                - article [ref=f3e78]:
+                  - generic [ref=f3e79]:
+                    - button "Set focal point for Second QA crop" [ref=f3e80]:
+                      - img "Second QA crop" [ref=f3e81]
+                    - generic [ref=f3e85]: Primary
+                  - generic [ref=f3e86]:
+                    - paragraph [ref=f3e87]: Tap the image to move the crop target.
+                    - generic [ref=f3e88]:
+                      - text: Alt text
+                      - textbox "Alt text" [ref=f3e89]: Second QA crop
+                    - generic [ref=f3e90]:
+                      - button "Make primary" [disabled] [ref=f3e91]
+                      - button "Move left" [disabled] [ref=f3e92]
+                      - button "Move right" [ref=f3e93]
+                      - button "Remove" [ref=f3e94]
+                - article [ref=f3e95]:
+                  - button "Set focal point for Updated QA crop framing" [ref=f3e97]:
+                    - img "Updated QA crop framing" [ref=f3e98]
+                  - generic [ref=f3e102]:
+                    - paragraph [ref=f3e103]: Tap the image to move the crop target.
+                    - generic [ref=f3e104]:
+                      - text: Alt text
+                      - textbox "Alt text" [ref=f3e105]: Updated QA crop framing
+                    - generic [ref=f3e106]:
+                      - button "Make primary" [ref=f3e107]
+                      - button "Move left" [ref=f3e108]
+                      - button "Move right" [disabled] [ref=f3e109]
+                      - button "Remove" [ref=f3e110]
+            - generic [ref=f3e111]:
+              - generic [ref=f3e112]:
+                - heading "Video" [level=3] [ref=f3e113]
+                - paragraph [ref=f3e114]: Bring a YouTube or Vimeo link for a round that says more than a paragraph. Video is optional, and it never autoplays.
+              - generic [ref=f3e115]:
+                - generic [ref=f3e116]:
+                  - text: YouTube or Vimeo URL
+                  - textbox "YouTube or Vimeo URL" [ref=f3e117]:
+                    - /placeholder: https://…
+                - generic [ref=f3e118]:
+                  - text: Video title (optional)
+                  - textbox "Video title (optional)" [ref=f3e119]:
+                    - /placeholder: Pony Finals warm-up
+                - button "Add video" [ref=f3e120]
+              - article [ref=f3e122]:
+                - iframe [ref=f3e124]:
+                  - generic [ref=f4e1]:
+                    - generic "YouTube Video Player" [ref=f4e3]
+                    - generic [ref=f4e5]:
+                      - generic:
+                        - generic:
+                          - button "Play video" [ref=f4e10] [cursor=pointer]
+                          - button "Hide player controls" [ref=f4e12] [cursor=pointer]
+                          - generic [ref=f4e14]:
+                            - generic [ref=f4e19]:
+                              - generic [ref=f4e20]:
+                                - link "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)" [ref=f4e21] [cursor=pointer]:
+                                  - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                                - link "Rick Astley" [ref=f4e22] [cursor=pointer]:
+                                  - /url: /channel/UCuAXFkgsw1L7xaCfnd5JJOw
+                              - generic [ref=f4e24]:
+                                - button [ref=f4e25] [cursor=pointer]
+                                - generic [ref=f4e27]:
+                                  - generic: Rick Astley
+                                  - generic: 4.52M subscribers
+                            - generic [ref=f4e28]:
+                              - button "Copy link" [ref=f4e31] [cursor=pointer]
+                              - link "Watch on YouTube" [ref=f4e42] [cursor=pointer]:
+                                - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                                - generic [ref=f4e43]: Watch on
+                - generic [ref=f3e125]:
+                  - paragraph [ref=f3e126]: YouTube
+                  - generic [ref=f3e127]:
+                    - text: Video title
+                    - textbox "Video title" [ref=f3e128]: Updated QA YouTube ride
+                  - generic [ref=f3e129]:
+                    - text: Video URL
+                    - textbox "Video URL" [ref=f3e130]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                  - link "Open source video" [ref=f3e131] [cursor=pointer]:
+                    - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                    - text: Open source video
+                    - generic [ref=f3e132]: ↗
+                  - generic [ref=f3e133]:
+                    - button "Move up" [disabled] [ref=f3e134]
+                    - button "Move down" [disabled] [ref=f3e135]
+                    - button "Remove" [ref=f3e136]
+          - generic [ref=f3e137]:
+            - button "Update draft" [ref=f3e138]
+            - button "Send changes for review" [ref=f3e139]
+        - link "Back to listing" [ref=f3e140] [cursor=pointer]:
+          - /url: /marketplace/qa-listing-media-1784684415995-m7avpr
+    - contentinfo [ref=f3e141]:
+      - generic [ref=f3e142]:
+        - generic [ref=f3e143]:
+          - paragraph [ref=f3e144]: At The In Gate
+          - paragraph [ref=f3e145]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - navigation "Footer navigation" [ref=f3e146]:
+          - link "Marketplace" [ref=f3e147] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f3e148] [cursor=pointer]:
+            - /url: /community
+          - link "Membership" [ref=f3e149] [cursor=pointer]:
+            - /url: /membership
+          - link "Events" [ref=f3e150] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=f3e151] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f3e152] [cursor=pointer]:
+            - /url: /jobs
+          - link "About" [ref=f3e153] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=f3e154] [cursor=pointer]:
+            - /url: /contact
+          - link "Privacy" [ref=f3e155] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=f3e156] [cursor=pointer]:
+            - /url: /terms
+        - generic [ref=f3e157]:
+          - paragraph [ref=f3e158]: In the loop
+          - paragraph [ref=f3e159]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f3e160] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f3e161]:
+        - paragraph [ref=f3e162]: © 2026 At The In Gate
+        - paragraph [ref=f3e163]: Built for the people who know the difference.
+  - alert [ref=f3e164]

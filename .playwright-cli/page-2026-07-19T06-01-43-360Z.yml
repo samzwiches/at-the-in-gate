@@ -1,0 +1,107 @@
+- generic [active] [ref=f13e1]:
+  - generic [ref=f13e2]:
+    - banner [ref=f13e3]:
+      - generic [ref=f13e4]:
+        - link "At The In Gate home" [ref=f13e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f13e6]: A
+          - generic [ref=f13e7]:
+            - generic [ref=f13e8]: At The In Gate
+            - generic [ref=f13e9]: The show book
+        - group [ref=f13e10]:
+          - generic "Menu" [ref=f13e11] [cursor=pointer]
+    - main [ref=f13e13]:
+      - generic [ref=f13e14]:
+        - generic [ref=f13e15]:
+          - paragraph [ref=f13e16]: The show circuit
+          - heading "Know where everyone is headed." [level=1] [ref=f13e17]
+          - paragraph [ref=f13e18]: A clean view of the horse shows, finals, clinics, and the dates you should probably write down before someone else books the hotel.
+        - generic [ref=f13e19]:
+          - generic [ref=f13e20]:
+            - generic [ref=f13e21]: All circuits
+            - generic [ref=f13e22]: Northeast
+            - generic [ref=f13e23]: Southeast
+            - generic [ref=f13e24]: Kentucky
+            - generic [ref=f13e25]: Midwest
+            - generic [ref=f13e26]: Championships
+          - generic [ref=f13e27]:
+            - generic [ref=f13e28]: Month
+            - generic [ref=f13e29]: List
+        - generic [ref=f13e30]:
+          - generic [ref=f13e32]:
+            - paragraph [ref=f13e33]: Summer 2026
+            - heading "Dates worth circling." [level=2] [ref=f13e34]
+            - paragraph [ref=f13e35]: A static preview of the calendar views and filtering that will eventually keep the circuit in one place.
+          - generic [ref=f13e36]:
+            - article [ref=f13e37]:
+              - generic [ref=f13e38]:
+                - generic [ref=f13e39]:
+                  - generic [ref=f13e40]: "22"
+                  - generic [ref=f13e41]: JUL
+                - generic [ref=f13e42]: Kentucky
+              - heading "Kentucky Summer Horse Show" [level=2] [ref=f13e43]
+              - paragraph [ref=f13e44]: Lexington, KY
+              - paragraph [ref=f13e45]: Hunters · Jumpers · Equitation
+            - article [ref=f13e46]:
+              - generic [ref=f13e47]:
+                - generic [ref=f13e48]:
+                  - generic [ref=f13e49]: "30"
+                  - generic [ref=f13e50]: JUL
+                - generic [ref=f13e51]: Northeast
+              - heading "Vermont Summer Festival" [level=2] [ref=f13e52]
+              - paragraph [ref=f13e53]: East Dorset, VT
+              - paragraph [ref=f13e54]: Week III · Hunter Derby
+            - article [ref=f13e55]:
+              - generic [ref=f13e56]:
+                - generic [ref=f13e57]:
+                  - generic [ref=f13e58]: "06"
+                  - generic [ref=f13e59]: AUG
+                - generic [ref=f13e60]: Championships
+              - heading "USEF Pony Finals" [level=2] [ref=f13e61]
+              - paragraph [ref=f13e62]: Lexington, KY
+              - paragraph [ref=f13e63]: The pony people’s Super Bowl
+            - article [ref=f13e64]:
+              - generic [ref=f13e65]:
+                - generic [ref=f13e66]:
+                  - generic [ref=f13e67]: "13"
+                  - generic [ref=f13e68]: AUG
+                - generic [ref=f13e69]: Midwest
+              - heading "Traverse City Horse Shows" [level=2] [ref=f13e70]
+              - paragraph [ref=f13e71]: Williamsburg, MI
+              - paragraph [ref=f13e72]: Hunter Prix · Grand Prix
+            - article [ref=f13e73]:
+              - generic [ref=f13e74]:
+                - generic [ref=f13e75]:
+                  - generic [ref=f13e76]: "20"
+                  - generic [ref=f13e77]: AUG
+                - generic [ref=f13e78]: Midwest
+              - heading "Wilmington Summer Classic" [level=2] [ref=f13e79]
+              - paragraph [ref=f13e80]: Wilmington, OH
+              - paragraph [ref=f13e81]: Junior/Amateur Finals
+    - contentinfo [ref=f13e82]:
+      - generic [ref=f13e83]:
+        - generic [ref=f13e84]:
+          - paragraph [ref=f13e85]: At The In Gate
+          - paragraph [ref=f13e86]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f13e87]:
+          - link "Marketplace" [ref=f13e88] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f13e89] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f13e90] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f13e91] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f13e92] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f13e93] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f13e94]:
+          - paragraph [ref=f13e95]: In the loop
+          - paragraph [ref=f13e96]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f13e97] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f13e98]:
+        - paragraph [ref=f13e99]: © 2026 At The In Gate
+        - paragraph [ref=f13e100]: Built for the people who know the difference.
+  - alert [ref=f13e101]

@@ -1,0 +1,113 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "At The In Gate home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: A
+          - generic [ref=e7]:
+            - generic [ref=e8]: At The In Gate
+            - generic [ref=e9]: The show book
+        - navigation "Main navigation" [ref=e10]:
+          - link "Marketplace" [ref=e11] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=e12] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=e13] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=e14] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e15] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=e16] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=e17]:
+          - link "Search" [ref=e18] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Sign in" [ref=e19] [cursor=pointer]:
+            - /url: /sign-in
+          - link "Post a listing" [ref=e20] [cursor=pointer]:
+            - /url: /marketplace/new
+    - main [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - paragraph [ref=e28]: The good people list
+            - heading "The people who make the whole thing go." [level=1] [ref=e29]
+            - paragraph [ref=e30]: A clear place to find the trainers, barns, shippers, photographers, and veterinarians working in the hunter-jumper world.
+          - generic [ref=e31]:
+            - link "Add a directory listing" [ref=e32] [cursor=pointer]:
+              - /url: /directory/new
+              - text: Add a directory listing
+              - generic [ref=e33]: ↗
+            - link "Manage my directory entries" [ref=e34] [cursor=pointer]:
+              - /url: /directory/mine
+            - link "Explore services" [ref=e35] [cursor=pointer]:
+              - /url: "#directory-entries"
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: Explore services
+          - navigation "Directory categories" [ref=e39]:
+            - link "All" [ref=e40] [cursor=pointer]:
+              - /url: /directory
+            - link "Trainers" [ref=e41] [cursor=pointer]:
+              - /url: /directory/category/trainers
+            - link "Barns" [ref=e42] [cursor=pointer]:
+              - /url: /directory/category/barns
+            - link "Shippers" [ref=e43] [cursor=pointer]:
+              - /url: /directory/category/shippers
+            - link "Photographers" [ref=e44] [cursor=pointer]:
+              - /url: /directory/category/photographers
+            - link "Veterinarians" [ref=e45] [cursor=pointer]:
+              - /url: /directory/category/veterinarians
+        - region [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - paragraph [ref=e49]: Approved listings
+              - heading "The current book." [level=2] [ref=e50]
+            - paragraph [ref=e51]: 0 listings
+          - generic [ref=e53]:
+            - paragraph [ref=e54]: The book is open
+            - heading "No approved directory listings yet." [level=3] [ref=e55]
+            - paragraph [ref=e56]: The first published entry will appear here after it has been reviewed.
+            - link "Add a directory listing" [ref=e58] [cursor=pointer]:
+              - /url: /directory/new
+              - text: Add a directory listing
+              - generic [ref=e59]: ↗
+    - contentinfo [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - paragraph [ref=e64]: At The In Gate
+            - paragraph [ref=e65]: A better place to find your people, your next pony, and the note everyone is talking about.
+          - navigation "Footer navigation" [ref=e66]:
+            - link "Marketplace" [ref=e67] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Community" [ref=e68] [cursor=pointer]:
+              - /url: /community
+            - link "Membership" [ref=e69] [cursor=pointer]:
+              - /url: /membership
+            - link "Events" [ref=e70] [cursor=pointer]:
+              - /url: /events
+            - link "Directory" [ref=e71] [cursor=pointer]:
+              - /url: /directory
+            - link "Jobs" [ref=e72] [cursor=pointer]:
+              - /url: /jobs
+            - link "Shop" [ref=e73] [cursor=pointer]:
+              - /url: /shop
+            - link "About" [ref=e74] [cursor=pointer]:
+              - /url: /about
+            - link "Contact" [ref=e75] [cursor=pointer]:
+              - /url: /contact
+            - link "Privacy" [ref=e76] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms" [ref=e77] [cursor=pointer]:
+              - /url: /terms
+          - generic [ref=e78]:
+            - paragraph [ref=e79]: In the loop
+            - paragraph [ref=e80]: The good stuff from the horse world, without the 47-text group thread.
+            - link "Join the conversation" [ref=e81] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e82]:
+          - paragraph [ref=e83]: © 2026 At The In Gate
+          - paragraph [ref=e84]: Built for the people who know the difference.
+  - alert [ref=e85]

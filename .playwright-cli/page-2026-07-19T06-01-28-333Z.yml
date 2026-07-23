@@ -1,0 +1,98 @@
+- generic [active] [ref=f11e1]:
+  - generic [ref=f11e2]:
+    - banner [ref=f11e3]:
+      - generic [ref=f11e4]:
+        - link "At The In Gate home" [ref=f11e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f11e6]: A
+          - generic [ref=f11e7]:
+            - generic [ref=f11e8]: At The In Gate
+            - generic [ref=f11e9]: The show book
+        - group [ref=f11e10]:
+          - generic "Menu" [ref=f11e11] [cursor=pointer]
+    - main [ref=f11e13]:
+      - generic [ref=f11e14]:
+        - generic [ref=f11e15]: Static administrator preview · No permissions, moderation, or member data are live
+        - generic [ref=f11e16]:
+          - paragraph [ref=f11e17]: The in gate office
+          - heading "The good order of things." [level=1] [ref=f11e18]
+          - paragraph [ref=f11e19]: A static preview of the staff workspace for keeping listings sharp, conversations useful, and the front door feeling well looked after.
+        - generic [ref=f11e20]:
+          - article [ref=f11e21]:
+            - paragraph [ref=f11e22]: Pending listings
+            - paragraph [ref=f11e23]: "12"
+            - paragraph [ref=f11e24]: Review before noon
+          - article [ref=f11e25]:
+            - paragraph [ref=f11e26]: Reported posts
+            - paragraph [ref=f11e27]: "3"
+            - paragraph [ref=f11e28]: Two need a second look
+          - article [ref=f11e29]:
+            - paragraph [ref=f11e30]: New members
+            - paragraph [ref=f11e31]: "47"
+            - paragraph [ref=f11e32]: This week
+          - article [ref=f11e33]:
+            - paragraph [ref=f11e34]: Featured stories
+            - paragraph [ref=f11e35]: "4"
+            - paragraph [ref=f11e36]: Scheduled this month
+        - generic [ref=f11e37]:
+          - generic [ref=f11e38]:
+            - generic [ref=f11e39]:
+              - heading "Moderation queue" [level=2] [ref=f11e40]
+              - generic [ref=f11e41]: Review all ↗
+            - article [ref=f11e42]:
+              - generic [ref=f11e43]: "01"
+              - generic [ref=f11e44]:
+                - paragraph [ref=f11e45]: Listing
+                - heading "Copperfield listing photo set" [level=3] [ref=f11e46]
+                - paragraph [ref=f11e47]: Needs final image review
+              - generic [ref=f11e48]: Preview only
+            - article [ref=f11e49]:
+              - generic [ref=f11e50]: "02"
+              - generic [ref=f11e51]:
+                - paragraph [ref=f11e52]: Post
+                - heading "Question about a local trainer" [level=3] [ref=f11e53]
+                - paragraph [ref=f11e54]: Reported for naming a non-member
+              - generic [ref=f11e55]: Preview only
+            - article [ref=f11e56]:
+              - generic [ref=f11e57]: "03"
+              - generic [ref=f11e58]:
+                - paragraph [ref=f11e59]: Profile
+                - heading "Blue Line Horse Transport" [level=3] [ref=f11e60]
+                - paragraph [ref=f11e61]: Awaiting service-area details
+              - generic [ref=f11e62]: Preview only
+          - complementary [ref=f11e63]:
+            - generic [ref=f11e64]:
+              - paragraph [ref=f11e65]: Featured content
+              - heading "Pony Finals field notes" [level=2] [ref=f11e66]
+              - paragraph [ref=f11e67]: Scheduled as the next editorial feature. Publishing is not connected in this static shell.
+            - generic [ref=f11e68]:
+              - paragraph [ref=f11e69]: Site pulse
+              - paragraph [ref=f11e70]: 126 new conversations
+              - paragraph [ref=f11e71]: A friendly, tightly-run front door is the whole point. This is the future moderation overview.
+    - contentinfo [ref=f11e72]:
+      - generic [ref=f11e73]:
+        - generic [ref=f11e74]:
+          - paragraph [ref=f11e75]: At The In Gate
+          - paragraph [ref=f11e76]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f11e77]:
+          - link "Marketplace" [ref=f11e78] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f11e79] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f11e80] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f11e81] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f11e82] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f11e83] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f11e84]:
+          - paragraph [ref=f11e85]: In the loop
+          - paragraph [ref=f11e86]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f11e87] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f11e88]:
+        - paragraph [ref=f11e89]: © 2026 At The In Gate
+        - paragraph [ref=f11e90]: Built for the people who know the difference.
+  - alert [ref=f11e91]

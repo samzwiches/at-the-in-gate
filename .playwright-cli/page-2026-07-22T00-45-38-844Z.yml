@@ -1,0 +1,76 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "At The In Gate home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: A
+          - generic [ref=e7]:
+            - generic [ref=e8]: At The In Gate
+            - generic [ref=e9]: The show book
+        - navigation "Main navigation" [ref=e10]:
+          - link "Marketplace" [ref=e11] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [active] [ref=e12] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=e13] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=e14] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e15] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=e16] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=e17]:
+          - link "Search" [ref=e18] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Sign in" [ref=e19] [cursor=pointer]:
+            - /url: /sign-in
+          - link "Post a listing" [ref=e20] [cursor=pointer]:
+            - /url: /marketplace/new
+    - main [ref=e64]:
+      - generic [ref=e66]:
+        - paragraph [ref=e67]: Member access
+        - heading "Meet us at the in gate." [level=1] [ref=e68]
+        - paragraph [ref=e69]: Come in with Google, then head back to the horses, the show book, and the conversations between the rings.
+        - generic [ref=e71]:
+          - button "Continue with Google" [ref=e72]:
+            - generic [ref=e73]: G
+            - text: Continue with Google
+          - paragraph [ref=e74]: Google handles the sign-in step. We only receive the member session needed to open your account.
+        - paragraph [ref=e75]: By continuing, you agree to keep the community thoughtful, accurate, and useful for the people behind the horses.
+    - contentinfo [ref=e40]:
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - paragraph [ref=e43]: At The In Gate
+          - paragraph [ref=e44]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - navigation "Footer navigation" [ref=e45]:
+          - link "Marketplace" [ref=e46] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=e47] [cursor=pointer]:
+            - /url: /community
+          - link "Membership" [ref=e48] [cursor=pointer]:
+            - /url: /membership
+          - link "Events" [ref=e49] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=e50] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e51] [cursor=pointer]:
+            - /url: /jobs
+          - link "About" [ref=e52] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e53] [cursor=pointer]:
+            - /url: /contact
+          - link "Privacy" [ref=e54] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e55] [cursor=pointer]:
+            - /url: /terms
+        - generic [ref=e56]:
+          - paragraph [ref=e57]: In the loop
+          - paragraph [ref=e58]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=e59] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: © 2026 At The In Gate
+        - paragraph [ref=e62]: Built for the people who know the difference.
+  - alert [ref=e63]: Meet us at the in gate.

@@ -1,0 +1,21 @@
+"use client";
+
+import { useActionState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { createShippingRoute, updateShippingRoute } from "@/app/shippers/actions";
+import FormFeedback from "@/components/ui/FormFeedback";
+import { initialFormActionState } from "@/lib/form-state";
+import type { RelationshipPickerOption } from "@/lib/relationships";
+
+type RouteValues = { id: string; directory_entry_id: string; title: string; origin: string; destination: string; availability_note: string | null; description: string; image_path: string | null; };
+const inputClassName = "mt-2 w-full border border-[#242721]/25 bg-[#f9f5ed] px-3.5 py-3 text-sm text-[#242721] outline-none transition-colors placeholder:text-[#777a70] focus:border-[#2d4737]";
+const labelClassName = "text-sm font-semibold text-[#2d4737]";
+
+export default function ShippingRouteForm({ route, shipperEntries }: { route?: RouteValues; shipperEntries: RelationshipPickerOption[] }) {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  const action = route ? updateShippingRoute : createShippingRoute;
+  const [state, formAction, pending] = useActionState(action, initialFormActionState);
+  useEffect(() => { if (state.status === "success") { if (!route) formRef.current?.reset(); router.refresh(); } }, [router, route, state.status]);
+  return <form ref={formRef} action={formAction} className="mt-8 border border-[#242721]/20 bg-[#e7e1d5] p-5 sm:p-7">{route ? <input type="hidden" name="routeId" value={route.id} /> : null}<div className="grid gap-5 sm:grid-cols-2"><label className={labelClassName}>Shipper directory listing<select name="directoryEntryId" required defaultValue={route?.directory_entry_id ?? ""} className={inputClassName}><option value="" disabled>Choose your published shipper listing</option>{shipperEntries.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label><label className={labelClassName}>Route title<input name="title" required maxLength={180} defaultValue={route?.title} placeholder="Kentucky to Northeast circuit" className={inputClassName} /></label><label className={labelClassName}>Origin<input name="origin" required maxLength={180} defaultValue={route?.origin} placeholder="Lexington, Kentucky" className={inputClassName} /></label><label className={labelClassName}>Destination<input name="destination" required maxLength={180} defaultValue={route?.destination} placeholder="Northeast circuit" className={inputClassName} /></label></div><label className={`mt-5 block ${labelClassName}`}>Route description<textarea name="description" required maxLength={10000} rows={8} defaultValue={route?.description} className={inputClassName} /></label><div className="mt-5 grid gap-5 sm:grid-cols-2"><label className={labelClassName}>Availability note <span className="font-normal text-[#686a61]">(optional)</span><input name="availabilityNote" maxLength={500} defaultValue={route?.availability_note ?? ""} placeholder="Regular weekly route; contact for dates" className={inputClassName} /></label><label className={labelClassName}>Image path <span className="font-normal text-[#686a61]">(optional)</span><input name="imagePath" maxLength={500} defaultValue={route?.image_path ?? ""} placeholder="/images/shipping/your-rig.jpg" className={inputClassName} /></label></div><p className="mt-4 text-sm leading-6 text-[#56584f]">Routes stay attached to the shipper’s directory listing, so contact details and coverage are kept in one place.</p><div className="mt-6 flex flex-wrap gap-3 border-t border-[#242721]/15 pt-5"><button type="submit" name="intent" value="draft" disabled={pending} className="border border-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#2d4737] disabled:cursor-not-allowed disabled:opacity-70">Save draft</button><button type="submit" name="intent" value="submit" disabled={pending} className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#f9f5ed] transition-colors hover:bg-[#7b2430] disabled:cursor-not-allowed disabled:opacity-70">{pending ? "Saving…" : route ? "Send changes for review" : "Send for review"}</button></div><FormFeedback state={state} /></form>;
+}

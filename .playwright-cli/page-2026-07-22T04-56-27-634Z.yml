@@ -1,0 +1,241 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "At The In Gate home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: A
+          - generic [ref=e7]:
+            - generic [ref=e8]: At The In Gate
+            - generic [ref=e9]: The show book
+        - group [ref=e10]:
+          - generic "Menu" [ref=e11] [cursor=pointer]
+    - main [ref=e13]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - paragraph [ref=e17]: Horse people, in the know
+          - heading "The hunter-jumper world, all in one place." [level=1] [ref=e18]
+          - paragraph [ref=e19]: Horses, ponies, professionals, horse shows, jobs, and the conversations happening between the rings.
+          - generic [ref=e20]:
+            - link "Browse listings ↗" [ref=e21] [cursor=pointer]:
+              - /url: /marketplace
+              - text: Browse listings
+              - generic [ref=e22]: ↗
+            - link "Join community ↗" [ref=e23] [cursor=pointer]:
+              - /url: /community
+              - text: Join community
+              - generic [ref=e24]: ↗
+          - paragraph [ref=e25]: Marketplace · Events · Community
+        - generic [ref=e28]:
+          - generic [ref=e30]:
+            - paragraph [ref=e31]: At the in gate
+            - generic [ref=e32]: FIELD NOTES
+          - generic [ref=e33]:
+            - paragraph [ref=e34]: Where the good rounds lead.
+            - paragraph [ref=e35]: A better way to keep up with the listings, people, and showgrounds shaping the season—without the endless group-chat scroll.
+          - generic [ref=e36]:
+            - paragraph [ref=e37]: From the in gate
+            - paragraph [ref=e38]: Hunter · Jumper · Eq · Pony
+      - generic [ref=e40]:
+        - paragraph [ref=e42]: Start here
+        - generic [ref=e43]:
+          - link "01 ↗ Marketplace Horses, ponies, tack, and the next right fit." [ref=e44] [cursor=pointer]:
+            - /url: /marketplace
+            - generic [ref=e45]:
+              - generic [ref=e46]: "01"
+              - generic [ref=e47]: ↗
+            - generic [ref=e48]:
+              - heading "Marketplace" [level=2] [ref=e49]
+              - paragraph [ref=e50]: Horses, ponies, tack, and the next right fit.
+          - link "02 ↗ Community The notes, questions, and opinions between the rings." [ref=e51] [cursor=pointer]:
+            - /url: /community
+            - generic [ref=e52]:
+              - generic [ref=e53]: "02"
+              - generic [ref=e54]: ↗
+            - generic [ref=e55]:
+              - heading "Community" [level=2] [ref=e56]
+              - paragraph [ref=e57]: The notes, questions, and opinions between the rings.
+          - link "03 ↗ Shows Find approved dates and add the ones worth knowing." [ref=e58] [cursor=pointer]:
+            - /url: /events
+            - generic [ref=e59]:
+              - generic [ref=e60]: "03"
+              - generic [ref=e61]: ↗
+            - generic [ref=e62]:
+              - heading "Shows" [level=2] [ref=e63]
+              - paragraph [ref=e64]: Find approved dates and add the ones worth knowing.
+          - link "04 ↗ Directory A place for the people and programs the horse world relies on." [ref=e65] [cursor=pointer]:
+            - /url: /directory
+            - generic [ref=e66]:
+              - generic [ref=e67]: "04"
+              - generic [ref=e68]: ↗
+            - generic [ref=e69]:
+              - heading "Directory" [level=2] [ref=e70]
+              - paragraph [ref=e71]: A place for the people and programs the horse world relies on.
+          - link "05 ↗ Jobs Barn roles, show help, and career moves worth making." [ref=e72] [cursor=pointer]:
+            - /url: /jobs
+            - generic [ref=e73]:
+              - generic [ref=e74]: "05"
+              - generic [ref=e75]: ↗
+            - generic [ref=e76]:
+              - heading "Jobs" [level=2] [ref=e77]
+              - paragraph [ref=e78]: Barn roles, show help, and career moves worth making.
+          - link "06 ↗ Shop Ring-side resources and useful finds, carefully edited." [ref=e79] [cursor=pointer]:
+            - /url: /shop
+            - generic [ref=e80]:
+              - generic [ref=e81]: "06"
+              - generic [ref=e82]: ↗
+            - generic [ref=e83]:
+              - heading "Shop" [level=2] [ref=e84]
+              - paragraph [ref=e85]: Ring-side resources and useful finds, carefully edited.
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: The market board
+            - heading "A few good ones to know about." [level=2] [ref=e91]
+            - paragraph [ref=e92]: Thoughtful listings for the next chapter—not a black hole of blurry screenshots.
+          - link "See all listings ↗" [ref=e93] [cursor=pointer]:
+            - /url: /marketplace
+            - text: See all listings
+            - generic [ref=e94]: ↗
+        - generic [ref=e95]:
+          - article [ref=e96]:
+            - generic [ref=e97]:
+              - img "It's just practice!" [ref=e98]
+              - generic [ref=e100]: Lease
+            - generic [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - heading "Blue Moon's Prince Charming" [level=3] [ref=e105]
+                  - paragraph [ref=e106]: 8 yr German Riding Pony Cross Gelding · 14.2
+                - generic [ref=e107]: $45,000
+              - generic [ref=e108]:
+                - paragraph [ref=e109]: Ready Green Large Pony
+                - paragraph [ref=e110]: Apopka, Fl
+              - link "View listing" [ref=e111] [cursor=pointer]:
+                - /url: /marketplace/blue-moon-s-prince-charming
+                - text: View listing
+                - generic [ref=e112]: ↗
+          - article [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]: CO
+              - generic [ref=e116]: For sale
+            - generic [ref=e118]:
+              - generic [ref=e119]:
+                - generic [ref=e120]:
+                  - heading "Copperfield" [level=3] [ref=e121]
+                  - paragraph [ref=e122]: 10 yr Welsh Cross Gelding · 14.1 hh
+                - generic [ref=e123]: Low five figures
+              - generic [ref=e124]:
+                - paragraph [ref=e125]: Children's Pony Hunter
+                - paragraph [ref=e126]: Lexington, Kentucky
+              - link "View listing" [ref=e127] [cursor=pointer]:
+                - /url: /marketplace/copperfield-braided-pony
+                - text: View listing
+                - generic [ref=e128]: ↗
+          - article [ref=e129]:
+            - generic [ref=e130]:
+              - generic [ref=e131]: GO
+              - generic [ref=e132]: Sale or lease
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - heading "Good Company" [level=3] [ref=e137]
+                  - paragraph [ref=e138]: 11 yr Welsh Cross Gelding · 14.2 hh
+                - generic [ref=e139]: Inquire
+              - generic [ref=e140]:
+                - paragraph [ref=e141]: Children's Equitation
+                - paragraph [ref=e142]: Wellington, Florida
+              - link "View listing" [ref=e143] [cursor=pointer]:
+                - /url: /marketplace/good-company-equitation
+                - text: View listing
+                - generic [ref=e144]: ↗
+      - generic [ref=e147]:
+        - generic [ref=e148]:
+          - generic [ref=e149]:
+            - paragraph [ref=e150]: From the rail
+            - heading "The conversations people actually have." [level=2] [ref=e151]
+            - paragraph [ref=e152]: Smart questions, small victories, field notes, and just enough light gossip.
+          - link "Visit community ↗" [ref=e153] [cursor=pointer]:
+            - /url: /community
+            - text: Visit community
+            - generic [ref=e154]: ↗
+        - generic [ref=e155]:
+          - link "Open the Barn Aisle community space" [ref=e156] [cursor=pointer]:
+            - /url: /community/barn-aisle
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - paragraph [ref=e159]: Community space
+                - generic [ref=e160]: 01 ↗
+              - heading "Barn Aisle" [level=3] [ref=e161]
+              - paragraph [ref=e162]: The practical notes, small wins, and daily things that keep a barn moving.
+            - generic [ref=e163]:
+              - generic [ref=e164]: Members only
+              - generic [ref=e165]: Open space
+          - link "Open the Hunter and Equitation community space" [ref=e166] [cursor=pointer]:
+            - /url: /community/hunter-and-equitation
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - paragraph [ref=e169]: Community space
+                - generic [ref=e170]: 02 ↗
+              - heading "Hunter and Equitation" [level=3] [ref=e171]
+              - paragraph [ref=e172]: Rounds, lessons, divisions, and the quiet details that make the picture work.
+            - generic [ref=e173]:
+              - generic [ref=e174]: Members only
+              - generic [ref=e175]: Open space
+          - link "Open the Pony Parents community space" [ref=e176] [cursor=pointer]:
+            - /url: /community/pony-parents
+            - generic [ref=e177]:
+              - generic [ref=e178]:
+                - paragraph [ref=e179]: Community space
+                - generic [ref=e180]: 03 ↗
+              - heading "Pony Parents" [level=3] [ref=e181]
+              - paragraph [ref=e182]: Packing lists, pep talks, growth spurts, and the pony-ring logistics nobody warns you about.
+            - generic [ref=e183]:
+              - generic [ref=e184]: Members only
+              - generic [ref=e185]: Open space
+      - generic [ref=e187]:
+        - generic [ref=e188]:
+          - paragraph [ref=e189]: Your spot at the rail
+          - heading "The best horse-world intel has always been shared. Let's give it a proper home." [level=2] [ref=e190]
+        - link "Join At The In Gate ↗" [ref=e191] [cursor=pointer]:
+          - /url: /membership
+          - text: Join At The In Gate
+          - generic [ref=e192]: ↗
+    - contentinfo [ref=e193]:
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - paragraph [ref=e197]: At The In Gate
+            - paragraph [ref=e198]: A better place to find your people, your next pony, and the note everyone is talking about.
+          - navigation "Footer navigation" [ref=e199]:
+            - link "Marketplace" [ref=e200] [cursor=pointer]:
+              - /url: /marketplace
+            - link "Community" [ref=e201] [cursor=pointer]:
+              - /url: /community
+            - link "Membership" [ref=e202] [cursor=pointer]:
+              - /url: /membership
+            - link "Events" [ref=e203] [cursor=pointer]:
+              - /url: /events
+            - link "Directory" [ref=e204] [cursor=pointer]:
+              - /url: /directory
+            - link "Jobs" [ref=e205] [cursor=pointer]:
+              - /url: /jobs
+            - link "Shop" [ref=e206] [cursor=pointer]:
+              - /url: /shop
+            - link "About" [ref=e207] [cursor=pointer]:
+              - /url: /about
+            - link "Contact" [ref=e208] [cursor=pointer]:
+              - /url: /contact
+            - link "Privacy" [ref=e209] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms" [ref=e210] [cursor=pointer]:
+              - /url: /terms
+          - generic [ref=e211]:
+            - paragraph [ref=e212]: In the loop
+            - paragraph [ref=e213]: The good stuff from the horse world, without the 47-text group thread.
+            - link "Join the conversation" [ref=e214] [cursor=pointer]:
+              - /url: /community
+        - generic [ref=e215]:
+          - paragraph [ref=e216]: © 2026 At The In Gate
+          - paragraph [ref=e217]: Built for the people who know the difference.
+  - alert [ref=e218]

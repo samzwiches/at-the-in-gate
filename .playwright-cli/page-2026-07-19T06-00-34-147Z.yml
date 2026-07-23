@@ -1,0 +1,103 @@
+- generic [active] [ref=f4e1]:
+  - generic [ref=f4e2]:
+    - banner [ref=f4e3]:
+      - generic [ref=f4e4]:
+        - link "At The In Gate home" [ref=f4e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f4e6]: A
+          - generic [ref=f4e7]:
+            - generic [ref=f4e8]: At The In Gate
+            - generic [ref=f4e9]: The show book
+        - group [ref=f4e10]:
+          - generic "Menu" [ref=f4e11] [cursor=pointer]
+    - main [ref=f4e13]:
+      - generic [ref=f4e14]:
+        - generic [ref=f4e15]:
+          - paragraph [ref=f4e16]: The good people list
+          - heading "The people who make the whole thing go." [level=1] [ref=f4e17]
+          - paragraph [ref=f4e18]: A better place to start when you need a trainer, a shipper, a barn, a photographer, or someone who knows what the horse is actually saying.
+        - generic [ref=f4e19]:
+          - generic [ref=f4e20]: All
+          - generic [ref=f4e21]: Trainers
+          - generic [ref=f4e22]: Barns
+          - generic [ref=f4e23]: Shippers
+          - generic [ref=f4e24]: Photographers
+          - generic [ref=f4e25]: Veterinarians
+        - generic [ref=f4e26]:
+          - generic [ref=f4e28]:
+            - paragraph [ref=f4e29]: Featured directory
+            - heading "Start with a good reference." [level=2] [ref=f4e30]
+            - paragraph [ref=f4e31]: These are realistic placeholder profiles for a future member-reviewed directory, not live endorsements.
+          - generic [ref=f4e32]:
+            - article [ref=f4e33]:
+              - generic [ref=f4e34]:
+                - paragraph [ref=f4e35]: Trainer
+                - generic [ref=f4e36]: "01"
+              - generic [ref=f4e37]:
+                - heading "Marlowe Equestrian" [level=2] [ref=f4e38]
+                - paragraph [ref=f4e39]: Hunters · Equitation
+                - paragraph [ref=f4e40]: Hunter, jumper, and equitation training with a thoughtful eye for the long game.
+                - paragraph [ref=f4e41]: Aiken, SC
+            - article [ref=f4e42]:
+              - generic [ref=f4e43]:
+                - paragraph [ref=f4e44]: Shipper
+                - generic [ref=f4e45]: "02"
+              - generic [ref=f4e46]:
+                - heading "Blue Line Horse Transport" [level=2] [ref=f4e47]
+                - paragraph [ref=f4e48]: Horse transport
+                - paragraph [ref=f4e49]: Reliable coast-to-coast shipping for horses who travel like professionals.
+                - paragraph [ref=f4e50]: East Coast + Midwest
+            - article [ref=f4e51]:
+              - generic [ref=f4e52]:
+                - paragraph [ref=f4e53]: Barn
+                - generic [ref=f4e54]: "03"
+              - generic [ref=f4e55]:
+                - heading "Hawthorn Hill" [level=2] [ref=f4e56]
+                - paragraph [ref=f4e57]: Hunters · Jumpers
+                - paragraph [ref=f4e58]: A hunter-jumper program with room for serious goals and good barn days.
+                - paragraph [ref=f4e59]: Wellington, FL
+            - article [ref=f4e60]:
+              - generic [ref=f4e61]:
+                - paragraph [ref=f4e62]: Photographer
+                - generic [ref=f4e63]: "04"
+              - generic [ref=f4e64]:
+                - heading "Briar Lane Media" [level=2] [ref=f4e65]
+                - paragraph [ref=f4e66]: Equestrian photography
+                - paragraph [ref=f4e67]: Show-day portraits and ring-side images that catch the part you almost missed.
+                - paragraph [ref=f4e68]: Northeast circuit
+            - article [ref=f4e69]:
+              - generic [ref=f4e70]:
+                - paragraph [ref=f4e71]: Veterinarian
+                - generic [ref=f4e72]: "05"
+              - generic [ref=f4e73]:
+                - heading "Northfield Sport Horse" [level=2] [ref=f4e74]
+                - paragraph [ref=f4e75]: Sport horse medicine
+                - paragraph [ref=f4e76]: Sports medicine and practical pre-purchase support for the horses doing the work.
+                - paragraph [ref=f4e77]: Lexington, KY
+    - contentinfo [ref=f4e78]:
+      - generic [ref=f4e79]:
+        - generic [ref=f4e80]:
+          - paragraph [ref=f4e81]: At The In Gate
+          - paragraph [ref=f4e82]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f4e83]:
+          - link "Marketplace" [ref=f4e84] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f4e85] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f4e86] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f4e87] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f4e88] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f4e89] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f4e90]:
+          - paragraph [ref=f4e91]: In the loop
+          - paragraph [ref=f4e92]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f4e93] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f4e94]:
+        - paragraph [ref=f4e95]: © 2026 At The In Gate
+        - paragraph [ref=f4e96]: Built for the people who know the difference.
+  - alert [ref=f4e97]

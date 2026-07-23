@@ -1,0 +1,14 @@
+[     640ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[     710ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[     800ms] [WARNING] Image with src "/images/editorial/morning-at-the-in-gate.jpg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[     887ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[     905ms] [LOG] [Fast Refresh] done in 119ms @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   12278ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   12289ms] [LOG] [Fast Refresh] done in 112ms @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   52587ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   52592ms] [LOG] [Fast Refresh] done in 105ms @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   57271ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   57290ms] [LOG] [Fast Refresh] done in 121ms @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   59395ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477
+[   59425ms] [LOG] [Fast Refresh] done in 131ms @ http://localhost:3000/_next/static/chunks/09v2_next_dist_15xnk52._.js:2477

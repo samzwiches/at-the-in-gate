@@ -1,0 +1,101 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e2]:
+    - banner [ref=f5e3]:
+      - generic [ref=f5e4]:
+        - link "At The In Gate home" [ref=f5e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f5e6]: A
+          - generic [ref=f5e7]:
+            - generic [ref=f5e8]: At The In Gate
+            - generic [ref=f5e9]: The show book
+        - group [ref=f5e10]:
+          - generic "Menu" [ref=f5e11] [cursor=pointer]
+    - main [ref=f5e13]:
+      - generic [ref=f5e14]:
+        - generic [ref=f5e15]:
+          - generic [ref=f5e16]:
+            - paragraph [ref=f5e17]: Barn calls
+            - heading "Good work, good programs, clear expectations." [level=1] [ref=f5e18]
+            - paragraph [ref=f5e19]: The roles that keep barns and horse shows moving, written for the people who understand what the work really looks like.
+          - link "Post a job ↗" [ref=f5e20] [cursor=pointer]:
+            - /url: /dashboard
+            - text: Post a job
+            - generic [ref=f5e21]: ↗
+        - generic [ref=f5e22]:
+          - generic [ref=f5e23]: All locations
+          - generic [ref=f5e24]: Full-time
+          - generic [ref=f5e25]: Part-time
+          - generic [ref=f5e26]: Housing available
+          - generic [ref=f5e27]: Show travel
+        - generic [ref=f5e28]:
+          - article [ref=f5e29]:
+            - generic [ref=f5e30]:
+              - generic [ref=f5e31]: "01"
+              - generic [ref=f5e32]:
+                - heading "Hunter/Jumper Groom" [level=2] [ref=f5e33]
+                - paragraph [ref=f5e34]: Red Oak Farm
+                - paragraph [ref=f5e35]: Join a four-horse show string for the winter circuit, with travel and housing included.
+            - generic [ref=f5e36]:
+              - paragraph [ref=f5e37]: Thermal, CA
+              - paragraph [ref=f5e38]: Full-time · On-site
+            - generic [ref=f5e39]: View static preview ↗
+          - article [ref=f5e40]:
+            - generic [ref=f5e41]:
+              - generic [ref=f5e42]: "02"
+              - generic [ref=f5e43]:
+                - heading "Assistant Trainer" [level=2] [ref=f5e44]
+                - paragraph [ref=f5e45]: Kinsley Sporthorses
+                - paragraph [ref=f5e46]: A hands-on role for someone who enjoys teaching, riding, and keeping the barn moving.
+            - generic [ref=f5e47]:
+              - paragraph [ref=f5e48]: Bedminster, NJ
+              - paragraph [ref=f5e49]: Full-time · Housing available
+            - generic [ref=f5e50]: View static preview ↗
+          - article [ref=f5e51]:
+            - generic [ref=f5e52]:
+              - generic [ref=f5e53]: "03"
+              - generic [ref=f5e54]:
+                - heading "Show Barn Manager" [level=2] [ref=f5e55]
+                - paragraph [ref=f5e56]: River Run Equestrian
+                - paragraph [ref=f5e57]: Lead the daily rhythm of a busy hunter-jumper operation with a sharp, kind eye for details.
+            - generic [ref=f5e58]:
+              - paragraph [ref=f5e59]: Ocala, FL
+              - paragraph [ref=f5e60]: Full-time · Year-round
+            - generic [ref=f5e61]: View static preview ↗
+          - article [ref=f5e62]:
+            - generic [ref=f5e63]:
+              - generic [ref=f5e64]: "04"
+              - generic [ref=f5e65]:
+                - heading "Weekend Show Help" [level=2] [ref=f5e66]
+                - paragraph [ref=f5e67]: Marlowe Equestrian
+                - paragraph [ref=f5e68]: An organized extra set of hands for braids, tack, errands, and the occasional fast coffee run.
+            - generic [ref=f5e69]:
+              - paragraph [ref=f5e70]: Aiken, SC
+              - paragraph [ref=f5e71]: Part-time · Travel required
+            - generic [ref=f5e72]: View static preview ↗
+    - contentinfo [ref=f5e73]:
+      - generic [ref=f5e74]:
+        - generic [ref=f5e75]:
+          - paragraph [ref=f5e76]: At The In Gate
+          - paragraph [ref=f5e77]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f5e78]:
+          - link "Marketplace" [ref=f5e79] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f5e80] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f5e81] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f5e82] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f5e83] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f5e84] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f5e85]:
+          - paragraph [ref=f5e86]: In the loop
+          - paragraph [ref=f5e87]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f5e88] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f5e89]:
+        - paragraph [ref=f5e90]: © 2026 At The In Gate
+        - paragraph [ref=f5e91]: Built for the people who know the difference.
+  - alert [ref=f5e92]

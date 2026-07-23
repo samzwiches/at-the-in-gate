@@ -1,0 +1,118 @@
+- generic [active] [ref=f12e1]:
+  - generic [ref=f12e2]:
+    - banner [ref=f12e3]:
+      - generic [ref=f12e4]:
+        - link "At The In Gate home" [ref=f12e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f12e6]: A
+          - generic [ref=f12e7]:
+            - generic [ref=f12e8]: At The In Gate
+            - generic [ref=f12e9]: The show book
+        - group [ref=f12e10]:
+          - generic "Menu" [ref=f12e11] [cursor=pointer]
+    - main [ref=f12e13]:
+      - generic [ref=f12e14]:
+        - generic [ref=f12e15]:
+          - generic [ref=f12e16]:
+            - paragraph [ref=f12e17]: From the rail
+            - heading "The conversation between the rings." [level=1] [ref=f12e18]
+            - paragraph [ref=f12e19]: Questions worth asking, rounds worth mentioning, and a place for horse-world knowledge that does not disappear into a group chat.
+          - link "Post a note ↗" [ref=f12e20] [cursor=pointer]:
+            - /url: /dashboard
+            - text: Post a note
+            - generic [ref=f12e21]: ↗
+        - generic [ref=f12e22]:
+          - generic [ref=f12e23]: All posts
+          - generic [ref=f12e24]: The Warm-Up Ring
+          - generic [ref=f12e25]: Pony Parents
+          - generic [ref=f12e26]: Barn Office
+          - generic [ref=f12e27]: Show Circuit
+          - generic [ref=f12e28]: Horse Shopping
+        - generic [ref=f12e29]:
+          - generic [ref=f12e30]:
+            - article [ref=f12e31]:
+              - generic [ref=f12e32]:
+                - paragraph [ref=f12e33]: Pony Parents
+                - generic [ref=f12e34]: "01"
+              - heading "What is actually worth packing for a three-day pony final?" [level=2] [ref=f12e35]
+              - paragraph [ref=f12e36]: "Beyond the garment bag and the emergency braiding kit: the things you will be relieved to have by Saturday afternoon."
+              - generic [ref=f12e37]:
+                - generic [ref=f12e38]: Molly R.
+                - generic [ref=f12e39]: 28 replies · 42 min ago
+            - article [ref=f12e40]:
+              - generic [ref=f12e41]:
+                - paragraph [ref=f12e42]: The Warm-Up Ring
+                - generic [ref=f12e43]: "02"
+              - heading "A quiet round at WEF that everyone should have seen." [level=2] [ref=f12e44]
+              - paragraph [ref=f12e45]: Not every good round happens under a spotlight. Tell us about the ones that stayed with you anyway.
+              - generic [ref=f12e46]:
+                - generic [ref=f12e47]: Samantha K.
+                - generic [ref=f12e48]: 14 replies · 1 hr ago
+            - article [ref=f12e49]:
+              - generic [ref=f12e50]:
+                - paragraph [ref=f12e51]: Barn Office
+                - generic [ref=f12e52]: "03"
+              - 'heading "Trainers: your most diplomatic way to talk about show bills?" [level=2] [ref=f12e53]'
+              - paragraph [ref=f12e54]: A practical exchange for everyone trying to make the numbers make sense without making it awkward.
+              - generic [ref=f12e55]:
+                - generic [ref=f12e56]: Caroline D.
+                - generic [ref=f12e57]: 36 replies · 2 hrs ago
+            - article [ref=f12e58]:
+              - generic [ref=f12e59]:
+                - paragraph [ref=f12e60]: Horse Shopping
+                - generic [ref=f12e61]: "04"
+              - heading "When did you know the pony was the one?" [level=2] [ref=f12e62]
+              - paragraph [ref=f12e63]: The gut feelings, the trial-day surprises, and the small details that ended up meaning everything.
+              - generic [ref=f12e64]:
+                - generic [ref=f12e65]: Jamie P.
+                - generic [ref=f12e66]: 19 replies · 4 hrs ago
+          - complementary [ref=f12e67]:
+            - generic [ref=f12e68]:
+              - paragraph [ref=f12e69]: Popular right now
+              - list [ref=f12e70]:
+                - listitem [ref=f12e71]:
+                  - generic [ref=f12e72]: "01"
+                  - generic [ref=f12e73]: Pony Finals packing list
+                - listitem [ref=f12e74]:
+                  - generic [ref=f12e75]: "02"
+                  - generic [ref=f12e76]: Summer circuit housing
+                - listitem [ref=f12e77]:
+                  - generic [ref=f12e78]: "03"
+                  - generic [ref=f12e79]: First children’s hunter lease
+                - listitem [ref=f12e80]:
+                  - generic [ref=f12e81]: "04"
+                  - generic [ref=f12e82]: Show bill survival guide
+                - listitem [ref=f12e83]:
+                  - generic [ref=f12e84]: "05"
+                  - generic [ref=f12e85]: Best road-trip podcasts for grooms
+            - generic [ref=f12e86]:
+              - paragraph [ref=f12e87]: A good barn rule
+              - heading "Be useful. Be kind. Don’t make it weird." [level=2] [ref=f12e88]
+              - paragraph [ref=f12e89]: Community guidelines will keep this place candid, helpful, and fundamentally horse-person friendly.
+    - contentinfo [ref=f12e90]:
+      - generic [ref=f12e91]:
+        - generic [ref=f12e92]:
+          - paragraph [ref=f12e93]: At The In Gate
+          - paragraph [ref=f12e94]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f12e95]:
+          - link "Marketplace" [ref=f12e96] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f12e97] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f12e98] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f12e99] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f12e100] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f12e101] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f12e102]:
+          - paragraph [ref=f12e103]: In the loop
+          - paragraph [ref=f12e104]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f12e105] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f12e106]:
+        - paragraph [ref=f12e107]: © 2026 At The In Gate
+        - paragraph [ref=f12e108]: Built for the people who know the difference.
+  - alert [ref=f12e109]

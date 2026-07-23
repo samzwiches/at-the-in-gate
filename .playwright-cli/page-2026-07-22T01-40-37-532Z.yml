@@ -1,0 +1,141 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "At The In Gate home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]: A
+          - generic [ref=e7]:
+            - generic [ref=e8]: At The In Gate
+            - generic [ref=e9]: The show book
+        - navigation "Main navigation" [ref=e10]:
+          - link "Marketplace" [ref=e11] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=e12] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=e13] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=e14] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e15] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=e16] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=e17]:
+          - link "Search" [ref=e18] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Sign in" [ref=e19] [cursor=pointer]:
+            - /url: /sign-in
+          - link "Post a listing" [ref=e20] [cursor=pointer]:
+            - /url: /marketplace/new
+    - main [ref=e22]:
+      - generic [ref=e24]:
+        - navigation "Breadcrumb" [ref=e25]:
+          - link "Marketplace" [ref=e27] [cursor=pointer]:
+            - /url: /marketplace
+          - generic [ref=e28]:
+            - generic [ref=e29]: /
+            - generic [ref=e30]: QA Media Pony
+        - article [ref=e31]:
+          - img "Second QA crop" [ref=e33]
+          - generic [ref=e36]:
+            - paragraph [ref=e37]: For sale
+            - heading "QA Media Pony" [level=1] [ref=e38]
+            - paragraph [ref=e39]: $1
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - paragraph [ref=e42]: Division
+                - paragraph [ref=e43]: Hunters
+              - generic [ref=e44]:
+                - paragraph [ref=e45]: Location
+                - paragraph [ref=e46]: QA Barn, NY
+              - generic [ref=e47]:
+                - paragraph [ref=e48]: Terms
+                - paragraph [ref=e49]: For sale
+              - generic [ref=e50]:
+                - paragraph [ref=e51]: Details
+                - paragraph [ref=e52]: Details available on request
+            - paragraph [ref=e53]: Temporary verification listing for media ownership and rendering.
+        - region [ref=e54]:
+          - generic [ref=e55]:
+            - paragraph [ref=e56]: Photo gallery
+            - heading "A closer look." [level=2] [ref=e57]
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - img "Second QA crop" [ref=e60]
+              - generic [ref=e61]: Primary
+            - img "Updated QA crop framing" [ref=e63]
+        - region [ref=e64]:
+          - generic [ref=e65]:
+            - paragraph [ref=e66]: Video
+            - heading "See them go." [level=2] [ref=e67]
+          - article [ref=e69]:
+            - iframe [ref=e71]:
+              - generic [ref=f1e1]:
+                - generic "YouTube Video Player" [ref=f1e3]
+                - generic [ref=f1e5]:
+                  - generic:
+                    - generic:
+                      - button "Play video" [ref=f1e10] [cursor=pointer]
+                      - button "Hide player controls" [ref=f1e12] [cursor=pointer]
+                      - generic [ref=f1e14]:
+                        - generic [ref=f1e19]:
+                          - generic [ref=f1e20]:
+                            - link "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)" [ref=f1e21] [cursor=pointer]:
+                              - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                            - link "Rick Astley" [ref=f1e22] [cursor=pointer]:
+                              - /url: /channel/UCuAXFkgsw1L7xaCfnd5JJOw
+                          - generic [ref=f1e24]:
+                            - button [ref=f1e25] [cursor=pointer]
+                            - generic [ref=f1e27]:
+                              - generic: Rick Astley
+                              - generic: 4.52M subscribers
+                        - generic [ref=f1e28]:
+                          - button "Copy link" [ref=f1e31] [cursor=pointer]
+                          - link "Watch on YouTube" [ref=f1e42] [cursor=pointer]:
+                            - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                            - generic [ref=f1e43]: Watch on
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: YouTube
+              - heading "Updated QA YouTube ride" [level=3] [ref=e74]
+              - link "Watch on YouTube" [ref=e75] [cursor=pointer]:
+                - /url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+                - text: Watch on YouTube
+                - generic [ref=e76]: ↗
+        - link "Back to the market board" [ref=e77] [cursor=pointer]:
+          - /url: /marketplace
+    - contentinfo [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: At The In Gate
+          - paragraph [ref=e82]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - navigation "Footer navigation" [ref=e83]:
+          - link "Marketplace" [ref=e84] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=e85] [cursor=pointer]:
+            - /url: /community
+          - link "Membership" [ref=e86] [cursor=pointer]:
+            - /url: /membership
+          - link "Events" [ref=e87] [cursor=pointer]:
+            - /url: /events
+          - link "Directory" [ref=e88] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=e89] [cursor=pointer]:
+            - /url: /jobs
+          - link "About" [ref=e90] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e91] [cursor=pointer]:
+            - /url: /contact
+          - link "Privacy" [ref=e92] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e93] [cursor=pointer]:
+            - /url: /terms
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: In the loop
+          - paragraph [ref=e96]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=e97] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=e98]:
+        - paragraph [ref=e99]: © 2026 At The In Gate
+        - paragraph [ref=e100]: Built for the people who know the difference.
+  - alert [ref=e101]

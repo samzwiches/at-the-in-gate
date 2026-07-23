@@ -1,0 +1,183 @@
+- generic [active] [ref=f16e1]:
+  - generic [ref=f16e2]:
+    - banner [ref=f16e3]:
+      - generic [ref=f16e4]:
+        - link "At The In Gate home" [ref=f16e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f16e6]: A
+          - generic [ref=f16e7]:
+            - generic [ref=f16e8]: At The In Gate
+            - generic [ref=f16e9]: The show book
+        - group [ref=f16e10]:
+          - generic "Menu" [ref=f16e11] [cursor=pointer]
+    - main [ref=f16e13]:
+      - generic [ref=f16e14]:
+        - generic [ref=f16e15]:
+          - paragraph [ref=f16e16]: The market board
+          - heading "Find the one worth looking twice at." [level=1] [ref=f16e17]
+          - paragraph [ref=f16e18]: Thoughtful horses and ponies for sale or lease, with the useful details up front and the blurry screenshot energy kept elsewhere.
+        - region "Marketplace search" [ref=f16e19]:
+          - generic [ref=f16e20]:
+            - generic [ref=f16e21]:
+              - generic [ref=f16e22]: ⌕
+              - text: Search by name, division, location, or very specific dream pony
+            - generic [ref=f16e23]: All listings · ▾
+            - link "Search listings ↗" [ref=f16e24] [cursor=pointer]:
+              - /url: /marketplace
+              - text: Search listings
+              - generic [ref=f16e25]: ↗
+        - generic [ref=f16e26]:
+          - complementary [ref=f16e27]:
+            - generic [ref=f16e28]:
+              - paragraph [ref=f16e29]: Filter your search
+              - generic [ref=f16e30]: Reset
+            - generic [ref=f16e31]:
+              - paragraph [ref=f16e32]: Division
+              - generic [ref=f16e33]:
+                - generic [ref=f16e34]: Hunters
+                - generic [ref=f16e35]: Jumpers
+                - generic [ref=f16e36]: Equitation
+                - generic [ref=f16e37]: Ponies
+            - generic [ref=f16e38]:
+              - paragraph [ref=f16e39]: Listing type
+              - generic [ref=f16e40]:
+                - generic [ref=f16e41]: For sale
+                - generic [ref=f16e42]: For lease
+                - generic [ref=f16e43]: Wanted
+            - generic [ref=f16e44]:
+              - paragraph [ref=f16e45]: Location
+              - generic [ref=f16e46]:
+                - generic [ref=f16e47]: Northeast
+                - generic [ref=f16e48]: Southeast
+                - generic [ref=f16e49]: Midwest
+                - generic [ref=f16e50]: West Coast
+            - generic [ref=f16e51]:
+              - paragraph [ref=f16e52]: Experience
+              - generic [ref=f16e53]:
+                - generic [ref=f16e54]: First pony
+                - generic [ref=f16e55]: Children's
+                - generic [ref=f16e56]: Junior/Amateur
+                - generic [ref=f16e57]: Professional
+          - generic [ref=f16e58]:
+            - generic [ref=f16e59]:
+              - paragraph [ref=f16e60]: 48 listings that might make you open another tab.
+              - generic [ref=f16e61]: "Sort: recently added ▾"
+            - generic [ref=f16e62]:
+              - article [ref=f16e63]:
+                - generic [ref=f16e64]:
+                  - generic [ref=f16e66]: For sale
+                  - generic [ref=f16e67]: CP
+                - generic [ref=f16e68]:
+                  - generic [ref=f16e69]:
+                    - generic [ref=f16e70]:
+                      - heading "Copperfield" [level=2] [ref=f16e71]
+                      - paragraph [ref=f16e72]: 2015 Welsh Cross gelding · 13.1½ hh
+                    - generic [ref=f16e73]: $65,000
+                  - generic [ref=f16e74]:
+                    - paragraph [ref=f16e75]: Children's Pony Hunter
+                    - paragraph [ref=f16e76]: Ocala, Florida
+              - article [ref=f16e77]:
+                - generic [ref=f16e78]:
+                  - generic [ref=f16e80]: For sale
+                  - generic [ref=f16e81]: GC
+                - generic [ref=f16e82]:
+                  - generic [ref=f16e83]:
+                    - generic [ref=f16e84]:
+                      - heading "Good Company" [level=2] [ref=f16e85]
+                      - paragraph [ref=f16e86]: 2016 Warmblood gelding · 16.2 hh
+                    - generic [ref=f16e87]: $125,000
+                  - generic [ref=f16e88]:
+                    - paragraph [ref=f16e89]: 3’–3’3” Equitation
+                    - paragraph [ref=f16e90]: Lexington, Kentucky
+              - article [ref=f16e91]:
+                - generic [ref=f16e92]:
+                  - generic [ref=f16e94]: Lease
+                  - generic [ref=f16e95]: QS
+                - generic [ref=f16e96]:
+                  - generic [ref=f16e97]:
+                    - generic [ref=f16e98]:
+                      - heading "Quite the Story" [level=2] [ref=f16e99]
+                      - paragraph [ref=f16e100]: 2018 Connemara mare · 14.0 hh
+                    - generic [ref=f16e101]: Lease option
+                  - generic [ref=f16e102]:
+                    - paragraph [ref=f16e103]: Large Green Pony Hunter
+                    - paragraph [ref=f16e104]: Aiken, South Carolina
+              - article [ref=f16e105]:
+                - generic [ref=f16e106]:
+                  - generic [ref=f16e108]: For sale
+                  - generic [ref=f16e109]: LS
+                - generic [ref=f16e110]:
+                  - generic [ref=f16e111]:
+                    - generic [ref=f16e112]:
+                      - heading "Larkspur" [level=2] [ref=f16e113]
+                      - paragraph [ref=f16e114]: 2017 Oldenburg mare · 16.1 hh
+                    - generic [ref=f16e115]: $92,500
+                  - generic [ref=f16e116]:
+                    - paragraph [ref=f16e117]: Low Junior Jumper
+                    - paragraph [ref=f16e118]: Wellington, Florida
+              - article [ref=f16e119]:
+                - generic [ref=f16e120]:
+                  - generic [ref=f16e122]: For sale
+                  - generic [ref=f16e123]: TP
+                - generic [ref=f16e124]:
+                  - generic [ref=f16e125]:
+                    - generic [ref=f16e126]:
+                      - heading "Tea Party" [level=2] [ref=f16e127]
+                      - paragraph [ref=f16e128]: 2014 Welsh pony mare · 12.2 hh
+                    - generic [ref=f16e129]: $48,000
+                  - generic [ref=f16e130]:
+                    - paragraph [ref=f16e131]: Small Pony Hunter
+                    - paragraph [ref=f16e132]: Upperville, Virginia
+              - article [ref=f16e133]:
+                - generic [ref=f16e134]:
+                  - generic [ref=f16e136]: For sale
+                  - generic [ref=f16e137]: NS
+                - generic [ref=f16e138]:
+                  - generic [ref=f16e139]:
+                    - generic [ref=f16e140]:
+                      - heading "North Star" [level=2] [ref=f16e141]
+                      - paragraph [ref=f16e142]: 2015 Dutch Warmblood gelding · 16.3 hh
+                    - generic [ref=f16e143]: $78,000
+                  - generic [ref=f16e144]:
+                    - paragraph [ref=f16e145]: Adult Hunter
+                    - paragraph [ref=f16e146]: San Diego, California
+        - generic [ref=f16e147]:
+          - generic [ref=f16e149]:
+            - paragraph [ref=f16e150]: A useful blank slate
+            - heading "The no-perfect-match preview." [level=2] [ref=f16e151]
+            - paragraph [ref=f16e152]: When a saved search comes up empty, it should still feel like the beginning of something useful.
+          - generic [ref=f16e153]:
+            - paragraph [ref=f16e154]: Saved searches, eventually
+            - heading "No ponies match “perfectly brave, secretly fancy, and under budget.”" [level=3] [ref=f16e155]
+            - paragraph [ref=f16e156]: This static preview is where matching saved-search alerts will live when the marketplace grows into real data.
+            - link "View saved searches ↗" [ref=f16e158] [cursor=pointer]:
+              - /url: /dashboard
+              - text: View saved searches
+              - generic [ref=f16e159]: ↗
+    - contentinfo [ref=f16e160]:
+      - generic [ref=f16e161]:
+        - generic [ref=f16e162]:
+          - paragraph [ref=f16e163]: At The In Gate
+          - paragraph [ref=f16e164]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f16e165]:
+          - link "Marketplace" [ref=f16e166] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f16e167] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f16e168] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f16e169] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f16e170] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f16e171] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f16e172]:
+          - paragraph [ref=f16e173]: In the loop
+          - paragraph [ref=f16e174]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f16e175] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f16e176]:
+        - paragraph [ref=f16e177]: © 2026 At The In Gate
+        - paragraph [ref=f16e178]: Built for the people who know the difference.
+  - alert [ref=f16e179]

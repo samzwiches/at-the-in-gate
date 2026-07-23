@@ -1,0 +1,70 @@
+- generic [active] [ref=f8e1]:
+  - generic [ref=f8e2]:
+    - banner [ref=f8e3]:
+      - generic [ref=f8e4]:
+        - link "At The In Gate home" [ref=f8e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f8e6]: A
+          - generic [ref=f8e7]:
+            - generic [ref=f8e8]: At The In Gate
+            - generic [ref=f8e9]: The show book
+        - group [ref=f8e10]:
+          - generic "Menu" [ref=f8e11] [cursor=pointer]
+    - main [ref=f8e13]:
+      - generic [ref=f8e14]:
+        - generic [ref=f8e15]:
+          - generic [ref=f8e16]:
+            - paragraph [ref=f8e17]: About At The In Gate
+            - heading "The horse world already has a front row. We're making it easier to find." [level=1] [ref=f8e18]
+          - paragraph [ref=f8e19]: At The In Gate is a community-first home for hunter, jumper, equitation, and pony people—a better place to find opportunities, share knowledge, and feel more connected to the world around the ring.
+        - generic [ref=f8e20]:
+          - generic [ref=f8e21]:
+            - paragraph [ref=f8e22]: Why this exists
+            - paragraph [ref=f8e23]: The best horse-world information has always traveled person to person.
+          - generic [ref=f8e25]:
+            - paragraph [ref=f8e26]: "You know the feeling: a promising pony is buried in a Facebook thread, a great job travels by text chain, a smart recommendation gets lost by Monday, and the show calendar is somehow still a puzzle. We are building the place that gathers those useful signals without sanding off the culture that makes horse people feel at home."
+            - paragraph [ref=f8e27]: Half show book, half group-chat wisdom, fully on your side.
+        - generic [ref=f8e28]:
+          - generic [ref=f8e30]:
+            - paragraph [ref=f8e31]: The difference
+            - heading "Built around a real community, not a generic classifieds model." [level=2] [ref=f8e32]
+          - generic [ref=f8e33]:
+            - article [ref=f8e34]:
+              - generic [ref=f8e35]: "01"
+              - heading "Useful over noisy" [level=2] [ref=f8e36]
+              - paragraph [ref=f8e37]: Information should help a person make a better next decision, not simply make more noise.
+            - article [ref=f8e38]:
+              - generic [ref=f8e39]: "02"
+              - heading "Community with standards" [level=2] [ref=f8e40]
+              - paragraph [ref=f8e41]: Warm, opinionated, and candid is welcome. Mean, murky, and unhelpful is not.
+            - article [ref=f8e42]:
+              - generic [ref=f8e43]: "03"
+              - heading "For the whole horse world" [level=2] [ref=f8e44]
+              - paragraph [ref=f8e45]: Riders, parents, trainers, grooms, shippers, barns, and the people who make the show happen.
+    - contentinfo [ref=f8e46]:
+      - generic [ref=f8e47]:
+        - generic [ref=f8e48]:
+          - paragraph [ref=f8e49]: At The In Gate
+          - paragraph [ref=f8e50]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f8e51]:
+          - link "Marketplace" [ref=f8e52] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f8e53] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f8e54] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f8e55] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f8e56] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f8e57] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f8e58]:
+          - paragraph [ref=f8e59]: In the loop
+          - paragraph [ref=f8e60]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f8e61] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f8e62]:
+        - paragraph [ref=f8e63]: © 2026 At The In Gate
+        - paragraph [ref=f8e64]: Built for the people who know the difference.
+  - alert [ref=f8e65]
