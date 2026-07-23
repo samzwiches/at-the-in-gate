@@ -12,7 +12,7 @@ export default async function ShippersPage() {
   return (
     <PageCanvas appearanceKey="shippers.page" tone="mist" className="py-12 sm:py-16">
       <PageContainer>
-        <PageHero mediaKey="shippers.hero">
+        <PageHero mediaKey="shippers.hero" className="bg-[#dce4e4]">
           <header className="max-w-3xl border-b border-[#242721]/20 pb-8">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[color:var(--section-eyebrow-color,#7b2430)]">Shipping and transportation</p>
             <h1 className="section-appearance-heading-font mt-4 text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">Plan the route before the trailer door closes.</h1>

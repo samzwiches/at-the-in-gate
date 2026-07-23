@@ -70,7 +70,7 @@ export default async function Home() {
 
   return (
     <PageCanvas appearanceKey="home.page" tone="cream" className="overflow-x-hidden font-sans text-[#242721]">
-      <section className={`site-page-hero border-b border-[#242721]/20 bg-[#f4efe5] ${hasHomeHeroEdge ? "isolate overflow-hidden" : ""}`} style={siteSectionAppearanceStyle(homeHeroAppearance)} {...homeHeroEdgeAttributes}>
+      <section className={`site-page-hero border-b border-[#242721]/20 bg-[#f4efe5] ${hasHomeHeroEdge ? "isolate overflow-hidden" : ""} ${homeHeroAppearance?.border_color ? "border" : ""}`} style={siteSectionAppearanceStyle(homeHeroAppearance)} {...homeHeroEdgeAttributes}>
         <div className="mx-auto grid max-w-[1440px] lg:grid-cols-[1.15fr_0.85fr]">
           <div className="px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.24em] text-[color:var(--section-eyebrow-color,#7b2430)]">Horse people, in the know</p>
@@ -83,9 +83,8 @@ export default async function Home() {
             <p className="mt-14 border-t border-[#242721]/20 pt-5 text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-[color:var(--section-metadata-color,#686a61)]">Marketplace · Events · Community</p>
           </div>
 
-          <div className="relative min-h-[440px] border-t border-[#242721]/20 bg-[#d9e0de] p-5 sm:p-8 lg:min-h-0 lg:border-l lg:border-t-0 lg:p-12">
-            <div className="absolute inset-0 m-5 border border-[#2d4737]/25 sm:m-8 lg:m-12" aria-hidden="true" />
-            <div className="relative flex h-full min-h-[400px] flex-col justify-between bg-[#355343] p-6 text-[#f9f4eb] sm:p-8" style={homeHeroSurfaceStyle}>
+          <div className="relative min-h-[440px] lg:min-h-0">
+            <div className="relative flex h-full min-h-[400px] flex-col justify-between p-6 text-[#f9f4eb] sm:p-8" style={homeHeroSurfaceStyle}>
               <SiteMedia mediaKey="home.hero" fallback={heroFallback} fallbackFocalPositionClassName="object-[50%_28%] lg:object-[50%_50%]" sizes="(max-width: 1023px) 100vw, 42vw" loading="eager" className="object-cover" />
               {(homeHeroMedia || heroFallback) && hasSiteMediaOverlay(heroOverlayTone, heroOverlayOpacity, heroOverlayColor) ? <div className="absolute inset-0" style={siteMediaOverlayStyle(heroOverlayTone, heroOverlayOpacity, heroOverlayColor)} aria-hidden="true" /> : null}
               <div className="relative flex items-start justify-between"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[color:var(--section-eyebrow-color,#d8bd85)]">At the in gate</p><span className="border border-[#d8bd85]/60 px-2 py-1 text-[0.6rem] font-bold tracking-[0.15em] text-[color:var(--section-metadata-color,#d8bd85)]">FIELD NOTES</span></div>

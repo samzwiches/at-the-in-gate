@@ -18,7 +18,7 @@ export default async function ServicesPage() {
   return (
     <PageCanvas appearanceKey="services.page" tone="warm" className="py-12 sm:py-16">
       <PageContainer>
-        <PageHero mediaKey="services.hero">
+        <PageHero mediaKey="services.hero" className="bg-[#f4efe5]">
           <header className="max-w-3xl border-b border-[#242721]/20 pb-8">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[color:var(--section-eyebrow-color,#7b2430)]">Services and professionals</p>
             <h1 className="section-appearance-heading-font mt-4 text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">The people who keep the week moving.</h1>
