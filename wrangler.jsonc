@@ -4,6 +4,10 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-24",
   "compatibility_flags": ["nodejs_compat"],
+  "keep_vars": true,
+  "secrets": {
+    "required": ["SUPABASE_SERVICE_ROLE_KEY"]
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
