@@ -7,7 +7,7 @@
   "keep_vars": true,
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://zvjgipbfzwouzfxaecro.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_y4KjKDrUA93JVFmFe-aGQQ_4zSxThs9",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "y4KjKDrUA93JVFmFe-aGQQ_4zSxThs9",
     "APP_URL": "https://at-the-in-gate.slduthie.workers.dev"
   },
   "assets": {
