@@ -5,8 +5,10 @@
   "compatibility_date": "2026-07-24",
   "compatibility_flags": ["nodejs_compat"],
   "keep_vars": true,
-  "secrets": {
-    "required": ["SUPABASE_SERVICE_ROLE_KEY"]
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://zvjgipbfzwouzfxaecro.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_y4KjKDrUA93JVFmFe-aGQQ_4zSxThs9",
+    "APP_URL": "https://at-the-in-gate.slduthie.workers.dev"
   },
   "assets": {
     "directory": ".open-next/assets",
