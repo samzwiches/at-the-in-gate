@@ -20,6 +20,11 @@ export type MembershipState = {
   plan: MembershipPlan | null;
 };
 
+export type SafeMembershipLookup = {
+  membership: MembershipState;
+  warning: string | null;
+};
+
 function emptyMembershipState(isAdmin = false): MembershipState {
   return {
     hasStripeCustomer: false,
@@ -172,4 +177,24 @@ export async function getMembershipForProfile(profileId: string): Promise<Member
     subscription: currentSubscription,
     plan: currentPlan,
   };
+}
+
+export async function getMembershipForProfileSafely(profileId: string): Promise<SafeMembershipLookup> {
+  try {
+    return {
+      membership: await getMembershipForProfile(profileId),
+      warning: null,
+    };
+  } catch (error) {
+    console.error("Membership lookup failed", {
+      profileId,
+      message: error instanceof Error ? error.message : "Unknown membership lookup error",
+    });
+
+    return {
+      membership: emptyMembershipState(),
+      warning:
+        "You are signed in, but membership and administrator records are temporarily unavailable. Public and personal database features can still load while the server connection is repaired.",
+    };
+  }
 }
