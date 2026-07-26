@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   title: "At The In Gate | The Hunter-Jumper World, All in One Place",
   description:
     "Horses, ponies, professionals, horse shows, jobs, and the conversations happening between the rings.",
+  icons: {
+    icon: [{ url: "/at-the-in-gate-mark.svg?v=2", type: "image/svg+xml" }],
+    shortcut: "/at-the-in-gate-mark.svg?v=2",
+    apple: "/at-the-in-gate-mark.svg?v=2",
+  },
 };
 
 export default function RootLayout({
