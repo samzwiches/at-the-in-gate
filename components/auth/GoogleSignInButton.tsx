@@ -9,9 +9,11 @@ type GoogleSignInButtonProps = {
 
 export default function GoogleSignInButton({ nextPath }: GoogleSignInButtonProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function continueWithGoogle() {
     setStatus("loading");
+    setErrorMessage(null);
 
     const callbackUrl = new URL("/auth/callback", window.location.origin);
     callbackUrl.searchParams.set("next", nextPath);
@@ -26,6 +28,8 @@ export default function GoogleSignInButton({ nextPath }: GoogleSignInButtonProps
     });
 
     if (error || !data.url) {
+      console.error("[auth/google] Sign-in could not start", error);
+      setErrorMessage(error?.message ?? "Supabase did not return a Google sign-in URL.");
       setStatus("error");
       return;
     }
@@ -46,7 +50,7 @@ export default function GoogleSignInButton({ nextPath }: GoogleSignInButtonProps
       </button>
       <p className="mt-4 text-xs leading-5 text-[#686a61]">Google handles the sign-in step. We only receive the member session needed to open your account.</p>
       {status === "loading" ? <p role="status" className="mt-4 border border-[#2d4737]/30 bg-[#e5eee7] px-4 py-3 text-sm leading-6 text-[#2d4737]">Taking you to Google now.</p> : null}
-      {status === "error" ? <p role="alert" className="mt-4 border border-[#7b2430]/40 bg-[#f1dedd] px-4 py-3 text-sm leading-6 text-[#7b2430]">Google sign-in could not start. Please try again.</p> : null}
+      {status === "error" ? <p role="alert" className="mt-4 border border-[#7b2430]/40 bg-[#f1dedd] px-4 py-3 text-sm leading-6 text-[#7b2430]">Google sign-in could not start: {errorMessage}</p> : null}
     </div>
   );
 }
