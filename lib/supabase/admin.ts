@@ -2,11 +2,23 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
 
-function getRequiredEnvironmentVariable(name: "NEXT_PUBLIC_SUPABASE_URL" | "SUPABASE_SERVICE_ROLE_KEY") {
-  const value = process.env[name];
+function getRequiredSupabaseUrl() {
+  const value = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
   if (!value) {
-    throw new Error(`${name} is required for trusted server-side billing work.`);
+    throw new Error("NEXT_PUBLIC_SUPABASE_URL is required for trusted server-side work.");
+  }
+
+  return value;
+}
+
+function getRequiredSupabaseServerKey() {
+  const value = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!value) {
+    throw new Error(
+      "A Supabase server secret is required. Configure SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY as a Cloudflare runtime secret."
+    );
   }
 
   return value;
@@ -17,14 +29,10 @@ function getRequiredEnvironmentVariable(name: "NEXT_PUBLIC_SUPABASE_URL" | "SUPA
  * synchronization. It must never be imported by a Client Component.
  */
 export function getAdminClient() {
-  return createClient<Database>(
-    getRequiredEnvironmentVariable("NEXT_PUBLIC_SUPABASE_URL"),
-    getRequiredEnvironmentVariable("SUPABASE_SERVICE_ROLE_KEY"),
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    }
-  );
+  return createClient<Database>(getRequiredSupabaseUrl(), getRequiredSupabaseServerKey(), {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 }
