@@ -9,9 +9,10 @@ type AccountMenuProps = {
   authenticated: boolean;
   isAdmin?: boolean;
   mobile?: boolean;
+  onNavigate?: () => void;
 };
 
-export default function AccountMenu({ authenticated, isAdmin = false, mobile = false }: AccountMenuProps) {
+export default function AccountMenu({ authenticated, isAdmin = false, mobile = false, onNavigate }: AccountMenuProps) {
   const router = useRouter();
   const [sessionAuthenticated, setSessionAuthenticated] = useState<boolean | null>(null);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -52,6 +53,7 @@ export default function AccountMenu({ authenticated, isAdmin = false, mobile = f
     }
 
     setSessionAuthenticated(false);
+    onNavigate?.();
     router.replace("/");
     router.refresh();
   }
@@ -60,6 +62,7 @@ export default function AccountMenu({ authenticated, isAdmin = false, mobile = f
     return (
       <Link
         href="/sign-in"
+        onClick={onNavigate}
         className={mobile
           ? "block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]"
           : "text-sm font-medium text-[#383a33] transition-colors hover:text-[#7b2430]"}
@@ -72,11 +75,11 @@ export default function AccountMenu({ authenticated, isAdmin = false, mobile = f
   if (mobile) {
     return (
       <div className="mt-1 border-t border-[#242721]/15 pt-1">
-        <Link href="/account" className="block px-3 py-2.5 text-sm font-semibold text-[#2d4737] hover:bg-[#e5ddd0]">My account</Link>
-        <Link href="/dashboard" className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">
+        <Link href="/account" onClick={onNavigate} className="block px-3 py-2.5 text-sm font-semibold text-[#2d4737] hover:bg-[#e5ddd0]">My account</Link>
+        <Link href="/dashboard" onClick={onNavigate} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">
           Dashboard
         </Link>
-        {isAdmin ? <Link href="/admin" className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Admin dashboard</Link> : null}
+        {isAdmin ? <Link href="/admin" onClick={onNavigate} className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Admin dashboard</Link> : null}
         <button type="button" onClick={() => void signOut()} disabled={isSigningOut} className="block w-full px-3 py-2.5 text-left text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0] disabled:cursor-not-allowed disabled:opacity-70">
           {isSigningOut ? "Signing out…" : "Sign out"}
         </button>
