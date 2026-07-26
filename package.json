@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "prepare:editor-swatches": "node scripts/ensure-editor-brand-swatches.mjs",
+    "dev": "bun run prepare:editor-swatches && next dev",
+    "build": "bun run prepare:editor-swatches && next build",
     "start": "next start",
     "lint": "eslint",
-    "cf:build": "opennextjs-cloudflare build",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:build": "bun run prepare:editor-swatches && opennextjs-cloudflare build",
+    "preview": "bun run prepare:editor-swatches && opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare deploy -- --keep-vars",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
