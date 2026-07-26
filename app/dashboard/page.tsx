@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/PageContainer";
 import { requireUser } from "@/lib/auth/require-user";
 import { getJobsForOwner } from "@/lib/supabase/jobs";
 import { getListingsForOwner, formatListingType } from "@/lib/supabase/listings";
-import { getMembershipForProfile } from "@/lib/membership/membership";
+import { getMembershipForProfileSafely } from "@/lib/membership/membership";
 
 const actions = [
   { label: "Open community", description: "Step into the member spaces at the rail.", href: "/community" },
@@ -21,11 +21,12 @@ const actions = [
 
 export default async function DashboardPage() {
   const user = await requireUser("/dashboard");
-  const [listings, jobs, membership] = await Promise.all([
+  const [listings, jobs, membershipLookup] = await Promise.all([
     getListingsForOwner(user.id),
     getJobsForOwner(user.id),
-    getMembershipForProfile(user.id),
+    getMembershipForProfileSafely(user.id),
   ]);
+  const { membership, warning: membershipWarning } = membershipLookup;
   const daybookActions = membership.isAdmin
     ? [...actions, { label: "Admin desk", description: "Review the staff-side in-gate preview.", href: "/admin" }]
     : actions;
@@ -37,6 +38,8 @@ export default async function DashboardPage() {
           <div className="max-w-3xl"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[#7b2430]">{membership.isAdmin ? "Administrator daybook" : "Member dashboard"}</p><h1 className="mt-4 font-serif text-5xl tracking-[-0.045em] text-[#242721] sm:text-6xl">Your daybook.</h1><p className="mt-4 text-lg leading-8 text-[#56584f]">Your active postings, current account routes, and a direct path back to the places you use.</p></div>
           <Link href="/membership" className="border border-[#2d4737] bg-[#f9f5ed] px-4 py-3 text-sm font-bold text-[#2d4737] transition-colors hover:bg-[#e7e1d5]">Manage membership <span aria-hidden="true">↗</span></Link>
         </header>
+
+        {membershipWarning ? <p role="status" className="mt-6 border border-[#b08d57]/45 bg-[#f8f0dc] px-4 py-3 text-sm leading-6 text-[#62543a]">{membershipWarning}</p> : null}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_0.75fr]">
           <div className="space-y-6">
