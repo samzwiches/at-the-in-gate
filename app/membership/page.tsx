@@ -6,7 +6,7 @@ import PageHero from "@/components/site-media/PageHero";
 import PageCanvas from "@/components/site-media/PageCanvas";
 import { getSafeNextPath } from "@/lib/auth/redirect";
 import { getAuthenticatedUser } from "@/lib/auth/require-user";
-import { getMembershipForProfile } from "@/lib/membership/membership";
+import { getMembershipForProfileSafely } from "@/lib/membership/membership";
 
 type MembershipPageProps = {
   searchParams: Promise<{ checkout?: string | string[]; next?: string | string[] }>;
@@ -32,7 +32,9 @@ export default async function MembershipPage({ searchParams }: MembershipPagePro
   const { checkout, next } = await searchParams;
   const user = await getAuthenticatedUser();
   const nextPath = getSafeNextPath(next, "/community");
-  const membership = user ? await getMembershipForProfile(user.id) : null;
+  const membershipLookup = user ? await getMembershipForProfileSafely(user.id) : null;
+  const membership = membershipLookup?.membership ?? null;
+  const membershipWarning = membershipLookup?.warning ?? null;
   const checkoutSucceeded = checkout === "success";
   const checkoutCancelled = checkout === "cancelled";
 
@@ -52,6 +54,7 @@ export default async function MembershipPage({ searchParams }: MembershipPagePro
             <p role="status" className="mt-7 border border-[#2d4737]/35 bg-[#e5eee7] px-4 py-3 text-sm leading-6 text-[#2d4737]">Thank you. Payment confirmation may take a moment while Stripe&apos;s webhook updates your membership. Refresh this page shortly if community access has not appeared yet.</p>
           ) : null}
           {checkoutCancelled ? <p role="status" className="mt-7 border border-[#b08d57]/45 bg-[#f8f0dc] px-4 py-3 text-sm leading-6 text-[#62543a]">Checkout was not completed. Nothing has changed, and you can return whenever you are ready.</p> : null}
+          {membershipWarning ? <p role="status" className="mt-7 border border-[#b08d57]/45 bg-[#f8f0dc] px-4 py-3 text-sm leading-6 text-[#62543a]">{membershipWarning}</p> : null}
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_0.8fr]">
             <section className="border border-[#242721]/20 bg-[#f9f5ed] p-5 sm:p-7">
@@ -71,6 +74,13 @@ export default async function MembershipPage({ searchParams }: MembershipPagePro
                   <h2 className="mt-3 font-serif text-3xl leading-tight">Sign in before you take your place at the rail.</h2>
                   <p className="mt-4 text-sm leading-6 text-[#e2ddcf]">Your membership is tied to your At The In Gate account, not a browser or a shared link.</p>
                   <Link href="/sign-in?next=%2Fmembership" className="mt-7 inline-flex border border-[#f9f4eb] px-5 py-3 text-sm font-bold text-[#f9f4eb] transition-colors hover:border-[#d8bd85] hover:text-[#d8bd85]">Sign in to subscribe</Link>
+                </>
+              ) : membershipWarning ? (
+                <>
+                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#d8bd85]">Account connected</p>
+                  <h2 className="mt-3 font-serif text-3xl leading-tight">Your sign-in worked.</h2>
+                  <p className="mt-4 text-sm leading-6 text-[#e2ddcf]">The membership database connection is not available to the server yet. Billing and administrator checks are paused until the Cloudflare runtime secret is restored.</p>
+                  <Link href="/dashboard" className="mt-7 inline-flex border border-[#f9f4eb] px-5 py-3 text-sm font-bold text-[#f9f4eb] transition-colors hover:border-[#d8bd85] hover:text-[#d8bd85]">Open my dashboard</Link>
                 </>
               ) : membership?.isAdmin ? (
                 <>
