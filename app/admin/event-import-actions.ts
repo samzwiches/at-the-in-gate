@@ -15,12 +15,34 @@ function outcome(status: FormActionState["status"], message: string): FormAction
   return { status, message };
 }
 
+const NORTHEAST_STATES = new Set(["CT", "DC", "DE", "MA", "MD", "ME", "NH", "NJ", "NY", "PA", "RI", "VA", "VT", "WV"]);
+const SOUTHEAST_STATES = new Set(["AL", "AR", "FL", "GA", "LA", "MS", "NC", "SC", "TN"]);
+const MIDWEST_STATES = new Set(["IA", "IL", "IN", "KS", "MI", "MN", "MO", "ND", "NE", "OH", "OK", "SD", "TX", "WI"]);
+const WEST_STATES = new Set(["AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NM", "NV", "OR", "UT", "WA", "WY"]);
+
 function eventCircuit(item: EventImport) {
-  if (item.affiliations.length) {
-    return item.affiliations.join(" · ");
+  const title = item.title.toLowerCase();
+  if (/championship|finals?\b|pony finals|medal final/.test(title)) {
+    return "Championships";
   }
 
-  return item.zone ? `Ryegate Zone ${item.zone}` : "Ryegate Show Services";
+  const state = item.state?.trim().toUpperCase() ?? "";
+  if (state === "KY") return "Kentucky";
+  if (state === "CAN" || state === "CANADA") return "Canada";
+  if (NORTHEAST_STATES.has(state)) return "Northeast";
+  if (SOUTHEAST_STATES.has(state)) return "Southeast";
+  if (MIDWEST_STATES.has(state)) return "Midwest";
+  if (WEST_STATES.has(state)) return "West";
+
+  const zone = item.zone?.toLowerCase() ?? "";
+  if (["1", "2", "3"].includes(zone)) return "Northeast";
+  if (zone === "4") return "Southeast";
+  if (zone === "5") return "Kentucky";
+  if (["6", "7"].includes(zone)) return "Midwest";
+  if (["8", "9", "10"].includes(zone)) return "West";
+  if (zone === "canada" || zone === "c") return "Canada";
+
+  return "Northeast";
 }
 
 function contactDetails(item: EventImport) {
