@@ -1,5 +1,6 @@
 import { setShowCrewJobStatus, updateShowCrewApplicationStatus } from "@/app/jobs/show-crew-actions";
-import type { ShowCrewApplicationWithApplicant, ShowCrewStatus } from "@/lib/supabase/show-crew";
+import ShowCrewFeedbackForm from "@/components/jobs/ShowCrewFeedbackForm";
+import type { ShowCrewApplicationWithApplicant, ShowCrewFeedbackWithContext, ShowCrewStatus } from "@/lib/supabase/show-crew";
 
 function applicantName(application: ShowCrewApplicationWithApplicant) {
   return application.applicant?.display_name || application.applicant?.username || "At The In Gate member";
@@ -14,12 +15,17 @@ export default function ShowCrewApplicationsPanel({
   jobSlug,
   crewStatus,
   applications,
+  feedback,
 }: {
   jobId: string;
   jobSlug: string;
   crewStatus: ShowCrewStatus;
   applications: ShowCrewApplicationWithApplicant[];
+  feedback: ShowCrewFeedbackWithContext | null;
 }) {
+  const acceptedApplication = applications.find((application) => application.status === "accepted") ?? null;
+  const acceptedWorkerName = acceptedApplication ? applicantName(acceptedApplication) : "the selected helper";
+
   return (
     <section className="mt-10 border border-[#242721]/20 bg-[#f9f5ed] p-5 sm:p-7">
       <div className="flex flex-col gap-4 border-b border-[#242721]/15 pb-5 sm:flex-row sm:items-end sm:justify-between">
@@ -70,14 +76,14 @@ export default function ShowCrewApplicationsPanel({
       )}
 
       <div className="mt-7 flex flex-wrap gap-3 border-t border-[#242721]/15 pt-5">
-        {crewStatus !== "completed" ? (
+        {acceptedApplication && crewStatus !== "completed" && crewStatus !== "cancelled" ? (
           <form action={setShowCrewJobStatus}>
             <input type="hidden" name="jobId" value={jobId} />
             <input type="hidden" name="jobSlug" value={jobSlug} />
             <button name="crewStatus" value="completed" className="border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#f9f5ed] transition-colors hover:bg-[#7b2430]">Mark work completed</button>
           </form>
         ) : null}
-        {crewStatus !== "cancelled" ? (
+        {crewStatus !== "cancelled" && crewStatus !== "completed" ? (
           <form action={setShowCrewJobStatus}>
             <input type="hidden" name="jobId" value={jobId} />
             <input type="hidden" name="jobSlug" value={jobSlug} />
@@ -92,6 +98,9 @@ export default function ShowCrewApplicationsPanel({
           </form>
         ) : null}
       </div>
+
+      {crewStatus === "completed" && acceptedApplication && !feedback ? <ShowCrewFeedbackForm jobId={jobId} jobSlug={jobSlug} applicationId={acceptedApplication.id} workerName={acceptedWorkerName} /> : null}
+      {feedback ? <div className="mt-7 border border-[#b08d57]/40 bg-[#efe8dc] p-5"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#7b2430]">Verified review published</p><p className="mt-3 text-sm tracking-[0.16em] text-[#b08d57]" aria-label={`${feedback.rating} out of 5 stars`}>{"★".repeat(feedback.rating)}{"☆".repeat(5 - feedback.rating)}</p><p className="mt-3 text-sm leading-7 text-[#56584f]">{feedback.body}</p></div> : null}
     </section>
   );
 }
