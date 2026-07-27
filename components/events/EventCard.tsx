@@ -1,6 +1,13 @@
 import Link from "next/link";
 import type { EventCard as EventCardType } from "@/lib/supabase/events";
-import { formatEventDates } from "@/lib/supabase/events";
+
+function formatEventDates(startDate: string, endDate: string) {
+  const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
+  const start = new Date(`${startDate}T12:00:00`);
+  const end = new Date(`${endDate}T12:00:00`);
+
+  return startDate === endDate ? formatter.format(start) : `${formatter.format(start)} to ${formatter.format(end)}`;
+}
 
 export default function EventCard({ event }: { event: EventCardType }) {
   return (
