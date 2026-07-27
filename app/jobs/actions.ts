@@ -185,7 +185,7 @@ export async function createJob(
   }
 
   const built = await buildJobPayload(formData);
-  if ("error" in built) return outcome("error", built.error);
+  if ("error" in built && built.error) return outcome("error", built.error);
 
   const moderationStatus = value(formData, "intent") === "draft" ? "draft" : "pending";
   const payload = { ...built.payload, moderation_status: moderationStatus };
@@ -251,7 +251,7 @@ export async function updateJob(
   }
 
   const built = await buildJobPayload(formData);
-  if ("error" in built) return outcome("error", built.error);
+  if ("error" in built && built.error) return outcome("error", built.error);
 
   const moderationStatus = value(formData, "intent") === "draft" ? "draft" : "pending";
   const updatePayload = {
