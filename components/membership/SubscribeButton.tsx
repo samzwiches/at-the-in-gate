@@ -19,9 +19,20 @@ export default function SubscribeButton({ authenticated }: SubscribeButtonProps)
     setStatus("loading");
     setMessage("");
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 15000);
+
     try {
-      const response = await fetch("/api/stripe/checkout", { method: "POST" });
-      const payload = (await response.json()) as { url?: string; error?: string };
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        signal: controller.signal,
+        headers: { Accept: "application/json" },
+      });
+
+      const contentType = response.headers.get("content-type") ?? "";
+      const payload = contentType.includes("application/json")
+        ? ((await response.json()) as { url?: string; error?: string })
+        : { error: "Membership Checkout returned an unexpected response." };
 
       if (response.status === 401) {
         window.location.assign("/sign-in?next=%2Fmembership");
@@ -29,15 +40,22 @@ export default function SubscribeButton({ authenticated }: SubscribeButtonProps)
       }
 
       if (!response.ok || !payload.url) {
-        setStatus("error");
-        setMessage(payload.error ?? "Membership Checkout could not start. Please try again.");
-        return;
+        throw new Error(payload.error ?? "Membership Checkout could not start. Please try again.");
       }
 
       window.location.assign(payload.url);
-    } catch {
+    } catch (error) {
       setStatus("error");
-      setMessage("Membership Checkout could not start. Please try again.");
+      setMessage(
+        error instanceof DOMException && error.name === "AbortError"
+          ? "Checkout took too long to respond. Please try again."
+          : error instanceof Error
+            ? error.message
+            : "Membership Checkout could not start. Please try again."
+      );
+    } finally {
+      window.clearTimeout(timeoutId);
+      setStatus((current) => (current === "loading" ? "idle" : current));
     }
   }
 
