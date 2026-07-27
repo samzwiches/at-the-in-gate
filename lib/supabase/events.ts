@@ -58,6 +58,21 @@ export async function getEventBySlug(slug: string) {
   return data as (Pick<EventRow, "id" | "slug" | "title" | "venue" | "city" | "state" | "start_date" | "end_date" | "circuit" | "description" | "website" | "contact_details" | "moderation_status" | "organizer_directory_entry_id" | "owner_id" | "created_at" | "updated_at">) | null;
 }
 
+export async function getEventById(id: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("events")
+    .select(eventDetailColumns)
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Could not load this event: ${error.message}`);
+  }
+
+  return data as (Pick<EventRow, "id" | "slug" | "title" | "venue" | "city" | "state" | "start_date" | "end_date" | "circuit" | "description" | "website" | "contact_details" | "moderation_status" | "organizer_directory_entry_id" | "owner_id" | "created_at" | "updated_at">) | null;
+}
+
 export function formatEventDates(startDate: string, endDate: string) {
   const formatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
   const start = new Date(`${startDate}T12:00:00`);
