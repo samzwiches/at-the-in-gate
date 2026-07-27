@@ -152,8 +152,10 @@ async function scrapeZone(zone: string): Promise<ImportedShow[]> {
 
   const html = await response.text();
   const $ = cheerio.load(html);
-  const heading = $("body").text();
-  const calendarYear = Number(heading.match(/\b(20\d{2})\b/)?.[1] ?? new Date().getUTCFullYear());
+  // Ryegate's schedule rows omit the year. The page contains an old 2003
+  // copyright value, so parsing the first four-digit year dates every show
+  // incorrectly. These zone calendars are the current season schedule.
+  const calendarYear = new Date().getUTCFullYear();
   const shows: ImportedShow[] = [];
   let pending: PendingShow | null = null;
 
