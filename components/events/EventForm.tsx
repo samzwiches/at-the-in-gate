@@ -27,7 +27,7 @@ export default function EventForm({ directoryEntries = [] }: { directoryEntries?
     <form ref={formRef} action={formAction} className="mt-8 border border-[#242721]/20 bg-[#e7e1d5] p-5 sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className={labelClassName}>Event title<input name="title" required maxLength={180} className={inputClassName} /></label>
-        <label className={labelClassName}>Circuit<select name="circuit" required defaultValue="" className={inputClassName}><option value="" disabled>Choose a circuit</option>{eventCircuits.map((circuit) => <option key={circuit.slug} value={circuit.label}>{circuit.label}</option>)}</select></label>
+        <label className={labelClassName}>Region<select name="circuit" required defaultValue="" className={inputClassName}><option value="" disabled>Choose a region</option>{eventCircuits.map((circuit) => <option key={circuit.slug} value={circuit.label}>{circuit.label}</option>)}</select></label>
         <label className={labelClassName}>Venue<input name="venue" required maxLength={180} className={inputClassName} /></label>
         <label className={labelClassName}>Organizer directory listing <span className="font-normal text-[#686a61]">(optional)</span><select name="organizerDirectoryEntryId" defaultValue="" className={inputClassName}><option value="">Keep organizer in the event copy</option>{directoryEntries.map((entry) => <option key={entry.id} value={entry.id}>{entry.name}{entry.category ? ` · ${entry.category}` : ""}</option>)}</select></label>
         <label className={labelClassName}>City<input name="city" required maxLength={100} className={inputClassName} /></label>
