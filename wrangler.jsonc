@@ -8,7 +8,10 @@
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://zvjgipbfzwouzfxaecro.supabase.co",
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_20dxpUalqmZ63WzWmwC7Vw__Eqn_y5J",
-    "APP_URL": "https://at-the-in-gate.slduthie.workers.dev"
+    "APP_URL": "https://attheingate.com",
+    "STRIPE_MEMBERSHIP_PRICE_ID": "price_1Txqf4AaRbKT06nhD3Hkbbjn",
+    "STRIPE_BARN_AISLE_MONTHLY_PRICE_ID": "price_1Txqf4AaRbKT06nhD3Hkbbjn",
+    "STRIPE_BARN_AISLE_ANNUAL_PRICE_ID": "price_1Txqg3AaRbKT06nhoavMy3HY"
   },
   "assets": {
     "directory": ".open-next/assets",
