@@ -1,9 +1,17 @@
 import "server-only";
 import Stripe from "stripe";
 
-function getRequiredEnvironmentVariable(
-  name: "STRIPE_SECRET_KEY" | "STRIPE_WEBHOOK_SECRET" | "STRIPE_MEMBERSHIP_PRICE_ID" | "APP_URL"
-) {
+export type MembershipBillingInterval = "monthly" | "annual";
+
+type StripeEnvironmentVariable =
+  | "STRIPE_SECRET_KEY"
+  | "STRIPE_WEBHOOK_SECRET"
+  | "STRIPE_MEMBERSHIP_PRICE_ID"
+  | "STRIPE_BARN_AISLE_MONTHLY_PRICE_ID"
+  | "STRIPE_BARN_AISLE_ANNUAL_PRICE_ID"
+  | "APP_URL";
+
+function getRequiredEnvironmentVariable(name: StripeEnvironmentVariable) {
   const value = process.env[name];
 
   if (!value) {
@@ -34,8 +42,21 @@ export function getStripeWebhookSecret() {
   return getRequiredEnvironmentVariable("STRIPE_WEBHOOK_SECRET");
 }
 
-export function getMembershipPriceId() {
-  return getRequiredEnvironmentVariable("STRIPE_MEMBERSHIP_PRICE_ID");
+export function getMembershipPriceId(interval: MembershipBillingInterval = "monthly") {
+  if (interval === "annual") {
+    return getRequiredEnvironmentVariable("STRIPE_BARN_AISLE_ANNUAL_PRICE_ID");
+  }
+
+  return (
+    process.env.STRIPE_BARN_AISLE_MONTHLY_PRICE_ID ??
+    getRequiredEnvironmentVariable("STRIPE_MEMBERSHIP_PRICE_ID")
+  );
+}
+
+export function getMembershipPriceIds() {
+  return Array.from(
+    new Set([getMembershipPriceId("monthly"), getMembershipPriceId("annual")])
+  );
 }
 
 export function getAppUrl() {
