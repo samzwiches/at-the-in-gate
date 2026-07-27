@@ -30,7 +30,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
           <header className="max-w-3xl">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-[color:var(--section-eyebrow-color,#7b2430)]">The show circuit</p>
             <h1 className="section-appearance-heading-font mt-4 text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">Know where everyone is headed.</h1>
-            <p className="section-appearance-body-font mt-5 text-lg leading-8 text-[color:var(--section-body-color,#56584f)]">Search approved horse shows by month, state, circuit, venue, or name, then keep the season moving.</p>
+            <p className="section-appearance-body-font mt-5 text-lg leading-8 text-[color:var(--section-body-color,#56584f)]">Search approved horse shows by month, state, region, venue, or name, then keep the season moving.</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link href="#show-calendar" className="inline-flex border border-[#2d4737] bg-[#2d4737] px-4 py-2.5 text-sm font-bold text-[color:var(--section-button-color,#f9f4eb)] transition-colors hover:border-[#7b2430] hover:bg-[#7b2430]">Browse the schedule</Link>
               <Link href="/events/new" className="inline-flex border border-[#2d4737] px-4 py-2.5 text-sm font-bold text-[#2d4737] transition-colors hover:border-[#7b2430] hover:text-[#7b2430]">Submit a show <span className="ml-2" aria-hidden="true">↗</span></Link>
