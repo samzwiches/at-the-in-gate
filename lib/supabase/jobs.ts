@@ -1,7 +1,7 @@
 import "server-only";
+import { getAuthenticatedUser } from "@/lib/auth/require-user";
 import type { Database } from "@/lib/database.types";
-import type { ShowCrewJobFields, ShowCrewPayType } from "@/lib/supabase/show-crew";
-import { createClient } from "@/lib/supabase/server";
+import { getShowCrewAdminClient, type ShowCrewJobFields, type ShowCrewPayType } from "@/lib/supabase/show-crew";
 
 type JobRow = Database["public"]["Tables"]["jobs"]["Row"] & ShowCrewJobFields;
 
@@ -78,7 +78,7 @@ function hideExpiredOpenRequests(jobs: JobCard[]) {
 }
 
 export async function getPublishedJobs() {
-  const supabase = await createClient();
+  const supabase = getShowCrewAdminClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -93,7 +93,7 @@ export async function getPublishedJobs() {
 }
 
 export async function getPublishedJobsForCategory(category: string) {
-  const supabase = await createClient();
+  const supabase = getShowCrewAdminClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -110,7 +110,7 @@ export async function getPublishedJobsForCategory(category: string) {
 }
 
 export async function getPublishedShowCrewJobsForEvent(eventId: string) {
-  const supabase = await createClient();
+  const supabase = getShowCrewAdminClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -129,7 +129,10 @@ export async function getPublishedShowCrewJobsForEvent(eventId: string) {
 }
 
 export async function getJobBySlug(slug: string) {
-  const supabase = await createClient();
+  const [supabase, user] = await Promise.all([
+    Promise.resolve(getShowCrewAdminClient()),
+    getAuthenticatedUser(),
+  ]);
   const { data, error } = await supabase
     .from("jobs")
     .select(jobDetailColumns)
@@ -140,11 +143,14 @@ export async function getJobBySlug(slug: string) {
     throw new Error(`Could not load this job: ${error.message}`);
   }
 
-  return data as unknown as JobDetail | null;
+  const job = data as unknown as JobDetail | null;
+  if (!job) return null;
+  if (job.moderation_status === "published" || job.owner_id === user?.id) return job;
+  return null;
 }
 
 export async function getJobsForOwner(ownerId: string) {
-  const supabase = await createClient();
+  const supabase = getShowCrewAdminClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
