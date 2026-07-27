@@ -1,6 +1,16 @@
 alter table public.profiles
   add column if not exists founding_member boolean not null default false;
 
+revoke update on public.profiles from authenticated;
+grant update (
+  username,
+  display_name,
+  bio,
+  location,
+  avatar_path,
+  is_public
+) on public.profiles to authenticated;
+
 update public.profiles as profile
 set founding_member = true
 where exists (
