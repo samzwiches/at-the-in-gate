@@ -147,4 +147,14 @@ execute function public.set_updated_at();
 alter table public.show_crew_feedback enable row level security;
 
 revoke all on table public.show_crew_feedback from anon, authenticated;
+grant select on table public.show_crew_feedback to anon, authenticated;
 grant all on table public.show_crew_feedback to service_role;
+
+drop policy if exists "Verified Show Crew feedback is publicly readable"
+on public.show_crew_feedback;
+
+create policy "Verified Show Crew feedback is publicly readable"
+on public.show_crew_feedback
+for select
+to anon, authenticated
+using (true);
