@@ -92,6 +92,8 @@ create index if not exists show_crew_applications_applicant_status_idx
 create index if not exists show_crew_applications_job_status_idx
   on public.show_crew_applications (job_id, status, created_at asc);
 
+drop trigger if exists set_show_crew_applications_updated_at on public.show_crew_applications;
+
 create trigger set_show_crew_applications_updated_at
 before update on public.show_crew_applications
 for each row
@@ -134,6 +136,8 @@ create index if not exists show_crew_feedback_worker_created_idx
 
 create index if not exists show_crew_feedback_job_created_idx
   on public.show_crew_feedback (job_id, created_at desc);
+
+drop trigger if exists set_show_crew_feedback_updated_at on public.show_crew_feedback;
 
 create trigger set_show_crew_feedback_updated_at
 before update on public.show_crew_feedback
