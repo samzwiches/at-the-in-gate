@@ -6,17 +6,19 @@ type SubscribeButtonProps = {
   authenticated: boolean;
 };
 
+type MembershipBillingInterval = "monthly" | "annual";
+
 export default function SubscribeButton({ authenticated }: SubscribeButtonProps) {
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [loadingInterval, setLoadingInterval] = useState<MembershipBillingInterval | null>(null);
   const [message, setMessage] = useState("");
 
-  async function beginCheckout() {
+  async function beginCheckout(interval: MembershipBillingInterval) {
     if (!authenticated) {
       window.location.assign("/sign-in?next=%2Fmembership");
       return;
     }
 
-    setStatus("loading");
+    setLoadingInterval(interval);
     setMessage("");
 
     const controller = new AbortController();
@@ -26,7 +28,11 @@ export default function SubscribeButton({ authenticated }: SubscribeButtonProps)
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
         signal: controller.signal,
-        headers: { Accept: "application/json" },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ interval }),
       });
 
       const contentType = response.headers.get("content-type") ?? "";
@@ -45,7 +51,6 @@ export default function SubscribeButton({ authenticated }: SubscribeButtonProps)
 
       window.location.assign(payload.url);
     } catch (error) {
-      setStatus("error");
       setMessage(
         error instanceof DOMException && error.name === "AbortError"
           ? "Checkout took too long to respond. Please try again."
@@ -55,22 +60,34 @@ export default function SubscribeButton({ authenticated }: SubscribeButtonProps)
       );
     } finally {
       window.clearTimeout(timeoutId);
-      setStatus((current) => (current === "loading" ? "idle" : current));
+      setLoadingInterval(null);
     }
   }
 
+  const checkoutIsOpening = loadingInterval !== null;
+
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => void beginCheckout()}
-        disabled={status === "loading"}
-        className="inline-flex items-center justify-center gap-3 border border-[#2d4737] bg-[#2d4737] px-5 py-3 text-sm font-bold text-[#f9f4eb] transition-colors hover:border-[#7b2430] hover:bg-[#7b2430] disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {status === "loading" ? "Opening Checkout…" : authenticated ? "Subscribe to membership" : "Sign in to subscribe"}
-      </button>
-      {status === "loading" ? <p role="status" className="mt-3 text-sm text-[#56584f]">Opening the secure payment page.</p> : null}
-      {status === "error" ? <p role="alert" className="mt-3 border border-[#7b2430]/40 bg-[#f1dedd] px-4 py-3 text-sm leading-6 text-[#7b2430]">{message}</p> : null}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <button
+          type="button"
+          onClick={() => void beginCheckout("monthly")}
+          disabled={checkoutIsOpening}
+          className="inline-flex min-h-14 items-center justify-center border border-[#f9f4eb] px-5 py-3 text-sm font-bold text-[#f9f4eb] transition-colors hover:border-[#d8bd85] hover:text-[#d8bd85] disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {loadingInterval === "monthly" ? "Opening monthly Checkout…" : "Pay monthly"}
+        </button>
+        <button
+          type="button"
+          onClick={() => void beginCheckout("annual")}
+          disabled={checkoutIsOpening}
+          className="inline-flex min-h-14 items-center justify-center border border-[#d8bd85] bg-[#d8bd85] px-5 py-3 text-sm font-bold text-[#2d4737] transition-colors hover:border-[#f9f4eb] hover:bg-[#f9f4eb] disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {loadingInterval === "annual" ? "Opening annual Checkout…" : "Pay annually"}
+        </button>
+      </div>
+      {checkoutIsOpening ? <p role="status" className="mt-3 text-sm text-[#e2ddcf]">Opening the secure payment page.</p> : null}
+      {message ? <p role="alert" className="mt-3 border border-[#d8bd85]/60 bg-[#f1dedd] px-4 py-3 text-sm leading-6 text-[#7b2430]">{message}</p> : null}
     </div>
   );
 }
