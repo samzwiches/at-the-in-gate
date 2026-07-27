@@ -30,7 +30,7 @@ export default async function EditJobPage({ params }: EditJobPageProps) {
         <div className="mx-auto max-w-4xl">
           <Breadcrumbs items={[{ label: "Jobs", href: "/jobs" }, { label: job.title, href: `/jobs/${job.slug}` }, { label: "Edit" }]} />
           <header className="mt-8 border-b border-[#242721]/20 pb-8">
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text="#7b2430">Edit posting</p>
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-[#7b2430]">Edit posting</p>
             <h1 className="mt-3 font-serif text-5xl tracking-[-0.045em] text-[#242721] sm:text-6xl">Keep the details clear.</h1>
             <p className="mt-4 max-w-2xl text-lg leading-8 text-[#56584f]">Changes sent for review return the posting to the moderation queue. Save a draft while you are still arranging the pieces.</p>
           </header>
