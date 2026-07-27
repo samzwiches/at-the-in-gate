@@ -92,6 +92,123 @@ as $$
     );
 $$;
 
+create or replace function public.grant_founding_access(
+  p_email text,
+  p_months integer default 12,
+  p_note text default 'Founding member'
+)
+returns table (
+  profile_id uuid,
+  member_email text,
+  grant_type text,
+  ends_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_profile_id uuid;
+begin
+  if p_months < 1 or p_months > 120 then
+    raise exception 'Grant months must be between 1 and 120.';
+  end if;
+
+  select auth_user.id
+  into v_profile_id
+  from auth.users as auth_user
+  where lower(auth_user.email) = lower(trim(p_email))
+  limit 1;
+
+  if v_profile_id is null then
+    raise exception 'No At The In Gate account exists for email %.', p_email;
+  end if;
+
+  insert into public.membership_grants (
+    profile_id,
+    grant_type,
+    starts_at,
+    ends_at,
+    revoked_at,
+    note
+  )
+  values (
+    v_profile_id,
+    'founding',
+    now(),
+    now() + make_interval(months => p_months),
+    null,
+    nullif(trim(p_note), '')
+  )
+  on conflict (profile_id) do update
+  set
+    grant_type = 'founding',
+    starts_at = now(),
+    ends_at = now() + make_interval(months => p_months),
+    revoked_at = null,
+    note = nullif(trim(p_note), '');
+
+  return query
+  select
+    membership_grant.profile_id,
+    auth_user.email::text,
+    membership_grant.grant_type,
+    membership_grant.ends_at
+  from public.membership_grants as membership_grant
+  join auth.users as auth_user
+    on auth_user.id = membership_grant.profile_id
+  where membership_grant.profile_id = v_profile_id;
+end;
+$$;
+
+create or replace function public.revoke_complimentary_access(p_email text)
+returns table (
+  profile_id uuid,
+  member_email text,
+  revoked_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_profile_id uuid;
+begin
+  select auth_user.id
+  into v_profile_id
+  from auth.users as auth_user
+  where lower(auth_user.email) = lower(trim(p_email))
+  limit 1;
+
+  if v_profile_id is null then
+    raise exception 'No At The In Gate account exists for email %.', p_email;
+  end if;
+
+  update public.membership_grants
+  set revoked_at = now()
+  where membership_grants.profile_id = v_profile_id;
+
+  if not found then
+    raise exception 'No complimentary access grant exists for email %.', p_email;
+  end if;
+
+  return query
+  select
+    membership_grant.profile_id,
+    auth_user.email::text,
+    membership_grant.revoked_at
+  from public.membership_grants as membership_grant
+  join auth.users as auth_user
+    on auth_user.id = membership_grant.profile_id
+  where membership_grant.profile_id = v_profile_id;
+end;
+$$;
+
 revoke all on function private.has_active_membership(uuid) from public;
 grant usage on schema private to authenticated;
 grant execute on function private.has_active_membership(uuid) to authenticated;
+
+revoke all on function public.grant_founding_access(text, integer, text) from public;
+revoke all on function public.revoke_complimentary_access(text) from public;
+grant execute on function public.grant_founding_access(text, integer, text) to service_role;
+grant execute on function public.revoke_complimentary_access(text) to service_role;
