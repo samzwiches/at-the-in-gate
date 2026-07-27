@@ -6,10 +6,10 @@ type EventRow = Database["public"]["Tables"]["events"]["Row"];
 
 export type EventCard = Pick<
   EventRow,
-  "id" | "slug" | "title" | "venue" | "city" | "state" | "start_date" | "end_date" | "circuit" | "description" | "organizer_directory_entry_id"
+  "id" | "slug" | "title" | "venue" | "city" | "state" | "start_date" | "end_date" | "circuit" | "description" | "website" | "organizer_directory_entry_id"
 >;
 
-const eventCardColumns = "id, slug, title, venue, city, state, start_date, end_date, circuit, description, organizer_directory_entry_id";
+const eventCardColumns = "id, slug, title, venue, city, state, start_date, end_date, circuit, description, website, organizer_directory_entry_id";
 const eventDetailColumns = "id, slug, title, venue, city, state, start_date, end_date, circuit, description, website, contact_details, moderation_status, organizer_directory_entry_id, owner_id, created_at, updated_at";
 
 export async function getPublishedEvents() {
