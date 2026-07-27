@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import PageCanvas from "@/components/site-media/PageCanvas";
@@ -67,10 +68,16 @@ export default async function Home() {
   const hasHomeHeroEdge = "data-hero-edge-style" in homeHeroEdgeAttributes;
   const homeHeroHasSoftFade = homeHeroAppearance?.hero_edge_style === "soft-fade" || homeHeroAppearance?.hero_edge_style === "rounded-fade";
   const homeHeroSurfaceStyle = siteSectionSurfaceStyle(homeHeroAppearance);
+  const homeHeroStyle: CSSProperties & Record<`--section-${string}`, string | undefined> = {
+    ...(siteSectionAppearanceStyle(homeHeroAppearance) ?? {}),
+    "--section-primary-button-background": homeHeroAppearance?.surface_color ?? undefined,
+    "--section-primary-button-hover-background": homeHeroAppearance?.background_color ?? undefined,
+    "--section-secondary-button-accent": homeHeroAppearance?.border_color ?? undefined,
+  };
 
   return (
     <PageCanvas appearanceKey="home.page" tone="cream" className="overflow-x-hidden font-sans text-[#242721]">
-      <section className={`site-page-hero border-b border-[#242721]/20 bg-[#f4efe5] ${hasHomeHeroEdge ? "isolate overflow-hidden" : ""} ${homeHeroAppearance?.border_color ? "border" : ""}`} style={siteSectionAppearanceStyle(homeHeroAppearance)} {...homeHeroEdgeAttributes}>
+      <section className={`site-page-hero border-b border-[#242721]/20 bg-[#f4efe5] ${hasHomeHeroEdge ? "isolate overflow-hidden" : ""} ${homeHeroAppearance?.border_color ? "border" : ""}`} style={homeHeroStyle} {...homeHeroEdgeAttributes}>
         <div className="mx-auto grid max-w-[1440px] lg:grid-cols-[1.15fr_0.85fr]">
           <div className="px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.24em] text-[color:var(--section-eyebrow-color,#7b2430)]">Horse people, in the know</p>
