@@ -5,15 +5,15 @@ import { getSiteSectionAppearance } from "@/lib/supabase/site-section-appearance
 type PageCanvasTone = "cream" | "blue-gray" | "warm" | "shop" | "mist";
 
 type PageCanvasProps = {
-  appearanceKey: Extract<SiteSectionKey, `${string}.page`>;
+  appearanceKey?: Extract<SiteSectionKey, `${string}.page`>;
   tone: PageCanvasTone;
   className?: string;
   children: ReactNode;
 };
 
-/** Fixed page-canvas treatment that only accepts the approved page appearance key. */
+/** Page-canvas treatment with an optional approved appearance record. */
 export default async function PageCanvas({ appearanceKey, tone, className = "", children }: PageCanvasProps) {
-  const appearance = await getSiteSectionAppearance(appearanceKey);
+  const appearance = appearanceKey ? await getSiteSectionAppearance(appearanceKey) : null;
 
   return (
     <main className={`site-page-canvas site-page-canvas--${tone} ${className}`} style={sitePageAppearanceStyle(appearance)}>
