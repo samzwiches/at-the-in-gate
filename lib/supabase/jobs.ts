@@ -1,9 +1,15 @@
 import "server-only";
 import { getAuthenticatedUser } from "@/lib/auth/require-user";
 import type { Database } from "@/lib/database.types";
-import { getShowCrewAdminClient, type ShowCrewJobFields, type ShowCrewPayType } from "@/lib/supabase/show-crew";
+import { createClient } from "@/lib/supabase/server";
+import {
+  getShowCrewAdminClient,
+  type ShowCrewJobFields,
+  type ShowCrewPayType,
+} from "@/lib/supabase/show-crew";
 
 type JobRow = Database["public"]["Tables"]["jobs"]["Row"] & ShowCrewJobFields;
+type ShowCrewClient = ReturnType<typeof getShowCrewAdminClient>;
 
 export type JobCard = Pick<
   JobRow,
@@ -47,6 +53,10 @@ export type JobDetail = Pick<
 const jobCardColumns = "id, slug, title, employer, category, city, state, employment_type, housing_available, show_travel, description, moderation_status, directory_entry_id, job_kind, event_id, work_start_date, work_end_date, time_blocks, task_tags, horse_count, experience_level, transportation_available, pay_amount_cents, pay_type, is_urgent, crew_status";
 const jobDetailColumns = `${jobCardColumns}, application_contact, owner_id, created_at, updated_at`;
 
+async function getShowCrewReadClient(): Promise<ShowCrewClient> {
+  return (await createClient()) as unknown as ShowCrewClient;
+}
+
 export function formatEmploymentType(value: string) {
   return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -78,7 +88,7 @@ function hideExpiredOpenRequests(jobs: JobCard[]) {
 }
 
 export async function getPublishedJobs() {
-  const supabase = getShowCrewAdminClient();
+  const supabase = await getShowCrewReadClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -93,7 +103,7 @@ export async function getPublishedJobs() {
 }
 
 export async function getPublishedJobsForCategory(category: string) {
-  const supabase = getShowCrewAdminClient();
+  const supabase = await getShowCrewReadClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -110,7 +120,7 @@ export async function getPublishedJobsForCategory(category: string) {
 }
 
 export async function getPublishedShowCrewJobsForEvent(eventId: string) {
-  const supabase = getShowCrewAdminClient();
+  const supabase = await getShowCrewReadClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
@@ -130,7 +140,7 @@ export async function getPublishedShowCrewJobsForEvent(eventId: string) {
 
 export async function getJobBySlug(slug: string) {
   const [supabase, user] = await Promise.all([
-    Promise.resolve(getShowCrewAdminClient()),
+    getShowCrewReadClient(),
     getAuthenticatedUser(),
   ]);
   const { data, error } = await supabase
@@ -150,7 +160,7 @@ export async function getJobBySlug(slug: string) {
 }
 
 export async function getJobsForOwner(ownerId: string) {
-  const supabase = getShowCrewAdminClient();
+  const supabase = await getShowCrewReadClient();
   const { data, error } = await supabase
     .from("jobs")
     .select(jobCardColumns)
