@@ -101,3 +101,46 @@ alter table public.show_crew_applications enable row level security;
 
 revoke all on table public.show_crew_applications from anon, authenticated;
 grant all on table public.show_crew_applications to service_role;
+
+create table if not exists public.show_crew_feedback (
+  id uuid primary key default gen_random_uuid(),
+  application_id uuid not null unique references public.show_crew_applications(id) on delete cascade,
+  job_id uuid not null references public.jobs(id) on delete cascade,
+  reviewer_id uuid not null references public.profiles(id) on delete cascade,
+  worker_id uuid not null references public.profiles(id) on delete cascade,
+  rating smallint not null,
+  reliability_rating smallint not null,
+  communication_rating smallint not null,
+  horse_care_rating smallint not null,
+  would_hire_again boolean not null default true,
+  body text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  constraint show_crew_feedback_rating_check
+    check (rating between 1 and 5),
+  constraint show_crew_feedback_reliability_rating_check
+    check (reliability_rating between 1 and 5),
+  constraint show_crew_feedback_communication_rating_check
+    check (communication_rating between 1 and 5),
+  constraint show_crew_feedback_horse_care_rating_check
+    check (horse_care_rating between 1 and 5),
+  constraint show_crew_feedback_body_length_check
+    check (char_length(trim(body)) between 1 and 3000)
+);
+
+create index if not exists show_crew_feedback_worker_created_idx
+  on public.show_crew_feedback (worker_id, created_at desc);
+
+create index if not exists show_crew_feedback_job_created_idx
+  on public.show_crew_feedback (job_id, created_at desc);
+
+create trigger set_show_crew_feedback_updated_at
+before update on public.show_crew_feedback
+for each row
+execute function public.set_updated_at();
+
+alter table public.show_crew_feedback enable row level security;
+
+revoke all on table public.show_crew_feedback from anon, authenticated;
+grant all on table public.show_crew_feedback to service_role;
