@@ -284,6 +284,7 @@ export const SITE_SECTION_APPEARANCE_BRAND_SWATCHES = [
   { label: "Paddock moss", value: "#3e4a3f" },
   { label: "Paddock moss light", value: "#4a5342" },
   { label: "Faded rosette", value: "#8c5e58" },
+  { label: "Rosette plum", value: "#935148" },
   { label: "Parchment gold", value: "#e1cca3" },
   { label: "Charcoal", value: "#242721" },
   { label: "Hunter green", value: "#2d4737" },
