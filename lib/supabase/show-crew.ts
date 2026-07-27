@@ -78,22 +78,95 @@ type ShowCrewApplicationsTable = {
   ];
 };
 
+export type ShowCrewFeedbackRow = {
+  id: string;
+  application_id: string;
+  job_id: string;
+  reviewer_id: string;
+  worker_id: string;
+  rating: number;
+  reliability_rating: number;
+  communication_rating: number;
+  horse_care_rating: number;
+  would_hire_again: boolean;
+  body: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type ShowCrewFeedbackTable = {
+  Row: ShowCrewFeedbackRow;
+  Insert: {
+    id?: string;
+    application_id: string;
+    job_id: string;
+    reviewer_id: string;
+    worker_id: string;
+    rating: number;
+    reliability_rating: number;
+    communication_rating: number;
+    horse_care_rating: number;
+    would_hire_again?: boolean;
+    body: string;
+    created_at?: string;
+    updated_at?: string;
+  };
+  Update: Partial<ShowCrewFeedbackRow>;
+  Relationships: [
+    {
+      foreignKeyName: "show_crew_feedback_application_id_fkey";
+      columns: ["application_id"];
+      isOneToOne: true;
+      referencedRelation: "show_crew_applications";
+      referencedColumns: ["id"];
+    },
+    {
+      foreignKeyName: "show_crew_feedback_job_id_fkey";
+      columns: ["job_id"];
+      isOneToOne: false;
+      referencedRelation: "jobs";
+      referencedColumns: ["id"];
+    },
+    {
+      foreignKeyName: "show_crew_feedback_reviewer_id_fkey";
+      columns: ["reviewer_id"];
+      isOneToOne: false;
+      referencedRelation: "profiles";
+      referencedColumns: ["id"];
+    },
+    {
+      foreignKeyName: "show_crew_feedback_worker_id_fkey";
+      columns: ["worker_id"];
+      isOneToOne: false;
+      referencedRelation: "profiles";
+      referencedColumns: ["id"];
+    },
+  ];
+};
+
 type ShowCrewDatabase = Omit<Database, "public"> & {
   public: Omit<Database["public"], "Tables"> & {
     Tables: Omit<BaseTables, "jobs"> & {
       jobs: ShowCrewJobsTable;
       show_crew_applications: ShowCrewApplicationsTable;
+      show_crew_feedback: ShowCrewFeedbackTable;
     };
   };
 };
 
-export type ShowCrewApplicantSummary = Pick<
+export type ShowCrewPersonSummary = Pick<
   Database["public"]["Tables"]["profiles"]["Row"],
-  "id" | "display_name" | "username" | "location"
+  "id" | "display_name" | "username" | "location" | "is_public"
 >;
 
 export type ShowCrewApplicationWithApplicant = ShowCrewApplicationRow & {
-  applicant: ShowCrewApplicantSummary | null;
+  applicant: ShowCrewPersonSummary | null;
+};
+
+export type ShowCrewFeedbackWithContext = ShowCrewFeedbackRow & {
+  worker: ShowCrewPersonSummary | null;
+  reviewer: ShowCrewPersonSummary | null;
+  job: Pick<ShowCrewJobsTable["Row"], "id" | "slug" | "title" | "employer"> | null;
 };
 
 export function getShowCrewAdminClient() {
@@ -146,7 +219,7 @@ export async function getShowCrewApplicationsForOwner(jobId: string, ownerId: st
 
   const { data: profiles, error: profileError } = await client
     .from("profiles")
-    .select("id, display_name, username, location")
+    .select("id, display_name, username, location, is_public")
     .in("id", applicantIds);
 
   if (profileError) {
@@ -158,4 +231,60 @@ export async function getShowCrewApplicationsForOwner(jobId: string, ownerId: st
     ...application,
     applicant: profileById.get(application.applicant_id) ?? null,
   }));
+}
+
+async function hydrateFeedbackRows(rows: ShowCrewFeedbackRow[]) {
+  if (rows.length === 0) return [] as ShowCrewFeedbackWithContext[];
+
+  const client = getShowCrewAdminClient();
+  const profileIds = [...new Set(rows.flatMap((row) => [row.worker_id, row.reviewer_id]))];
+  const jobIds = [...new Set(rows.map((row) => row.job_id))];
+  const [{ data: profiles, error: profileError }, { data: jobs, error: jobError }] = await Promise.all([
+    client.from("profiles").select("id, display_name, username, location, is_public").in("id", profileIds),
+    client.from("jobs").select("id, slug, title, employer").in("id", jobIds),
+  ]);
+
+  if (profileError) throw new Error(`Could not load Show Crew review profiles: ${profileError.message}`);
+  if (jobError) throw new Error(`Could not load Show Crew review jobs: ${jobError.message}`);
+
+  const profileById = new Map((profiles ?? []).map((profile) => [profile.id, profile]));
+  const jobById = new Map((jobs ?? []).map((job) => [job.id, job]));
+
+  return rows.map((row) => ({
+    ...row,
+    worker: profileById.get(row.worker_id) ?? null,
+    reviewer: profileById.get(row.reviewer_id) ?? null,
+    job: jobById.get(row.job_id) ?? null,
+  }));
+}
+
+export async function getShowCrewFeedbackForJob(jobId: string) {
+  const client = getShowCrewAdminClient();
+  const { data, error } = await client
+    .from("show_crew_feedback")
+    .select("id, application_id, job_id, reviewer_id, worker_id, rating, reliability_rating, communication_rating, horse_care_rating, would_hire_again, body, created_at, updated_at")
+    .eq("job_id", jobId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Could not load this verified Show Crew review: ${error.message}`);
+  }
+
+  if (!data) return null;
+  const [feedback] = await hydrateFeedbackRows([data]);
+  return feedback ?? null;
+}
+
+export async function getShowCrewFeedbackFeed() {
+  const client = getShowCrewAdminClient();
+  const { data, error } = await client
+    .from("show_crew_feedback")
+    .select("id, application_id, job_id, reviewer_id, worker_id, rating, reliability_rating, communication_rating, horse_care_rating, would_hire_again, body, created_at, updated_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(`Could not load verified Show Crew reviews: ${error.message}`);
+  }
+
+  return hydrateFeedbackRows(data ?? []);
 }
