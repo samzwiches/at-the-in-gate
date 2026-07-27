@@ -8,6 +8,8 @@ export const eventCircuits: TaxonomyItem[] = [
   { slug: "southeast", label: "Southeast" },
   { slug: "kentucky", label: "Kentucky" },
   { slug: "midwest", label: "Midwest" },
+  { slug: "west", label: "West" },
+  { slug: "canada", label: "Canada" },
   { slug: "championships", label: "Championships" },
 ];
 
