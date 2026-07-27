@@ -55,8 +55,9 @@ export async function getEventImportsForModeration() {
     .select(
       "id, source, source_url, external_id, title, start_date, end_date, venue, city, state, zone, affiliations, contact_name, contact_phone, import_status, matched_event_id, first_seen_at, last_seen_at"
     )
+    .in("import_status", ["new", "reviewing"])
     .order("start_date", { ascending: true })
-    .limit(500);
+    .limit(25);
 
   if (error) {
     throw new Error(`Could not load imported events: ${error.message}`);
