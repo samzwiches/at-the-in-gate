@@ -1,4 +1,5 @@
 import "server-only";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
 import { getAdminClient } from "@/lib/supabase/admin";
 import type { MembershipBillingInterval } from "@/lib/stripe/server";
@@ -12,13 +13,45 @@ type BillingCustomer = Database["public"]["Tables"]["billing_customers"]["Row"];
 type MembershipPlan = Database["public"]["Tables"]["membership_plans"]["Row"];
 type MembershipSubscription = Database["public"]["Tables"]["membership_subscriptions"]["Row"];
 
+export type ComplimentaryMembershipGrant = {
+  id: string;
+  profile_id: string;
+  grant_type: "founding" | "complimentary" | "partner" | "moderator";
+  starts_at: string;
+  ends_at: string | null;
+  revoked_at: string | null;
+  note: string | null;
+  granted_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type DatabaseWithMembershipGrants = Database & {
+  public: Database["public"] & {
+    Tables: Database["public"]["Tables"] & {
+      membership_grants: {
+        Row: ComplimentaryMembershipGrant;
+        Insert: Omit<ComplimentaryMembershipGrant, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<ComplimentaryMembershipGrant>;
+        Relationships: [];
+      };
+    };
+  };
+};
+
 export type MembershipState = {
   hasStripeCustomer: boolean;
   isAdmin: boolean;
+  isComplimentary: boolean;
   isEntitled: boolean;
   billingCustomer: BillingCustomer | null;
   subscription: MembershipSubscription | null;
   plan: MembershipPlan | null;
+  grant: ComplimentaryMembershipGrant | null;
 };
 
 export type SafeMembershipLookup = {
@@ -26,19 +59,53 @@ export type SafeMembershipLookup = {
   warning: string | null;
 };
 
-function emptyMembershipState(isAdmin = false): MembershipState {
+function getGrantAdminClient() {
+  return getAdminClient() as unknown as SupabaseClient<DatabaseWithMembershipGrants>;
+}
+
+function emptyMembershipState(
+  isAdmin = false,
+  grant: ComplimentaryMembershipGrant | null = null
+): MembershipState {
   return {
     hasStripeCustomer: false,
     isAdmin,
-    isEntitled: hasMembershipAccess({ isAdmin, subscription: null }),
+    isComplimentary: Boolean(grant),
+    isEntitled: hasMembershipAccess({
+      isAdmin,
+      hasGrant: Boolean(grant),
+      subscription: null,
+    }),
     billingCustomer: null,
     subscription: null,
     plan: null,
+    grant,
   };
 }
 
 function throwMembershipQueryError(context: string, error: { message: string }) {
   throw new Error(`Could not ${context}: ${error.message}`);
+}
+
+export async function getActiveMembershipGrantForProfile(profileId: string) {
+  const admin = getGrantAdminClient();
+  const now = new Date().toISOString();
+  const { data, error } = await admin
+    .from("membership_grants")
+    .select(
+      "id, profile_id, grant_type, starts_at, ends_at, revoked_at, note, granted_by, created_at, updated_at"
+    )
+    .eq("profile_id", profileId)
+    .is("revoked_at", null)
+    .lte("starts_at", now)
+    .or(`ends_at.is.null,ends_at.gt.${now}`)
+    .maybeSingle();
+
+  if (error) {
+    throwMembershipQueryError("look up complimentary membership access", error);
+  }
+
+  return data;
 }
 
 export async function getBillingCustomerForProfile(profileId: string) {
@@ -103,22 +170,25 @@ export async function ensureInitialMembershipPlan(
 
 export async function getMembershipForProfile(profileId: string): Promise<MembershipState> {
   const admin = getAdminClient();
-  const { data: adminRole, error: adminRoleError } = await admin
-    .from("community_roles")
-    .select("profile_id")
-    .eq("profile_id", profileId)
-    .eq("role", "admin")
-    .maybeSingle();
+  const [adminRoleResult, grant] = await Promise.all([
+    admin
+      .from("community_roles")
+      .select("profile_id")
+      .eq("profile_id", profileId)
+      .eq("role", "admin")
+      .maybeSingle(),
+    getActiveMembershipGrantForProfile(profileId),
+  ]);
 
-  if (adminRoleError) {
-    throwMembershipQueryError("look up the administrator role", adminRoleError);
+  if (adminRoleResult.error) {
+    throwMembershipQueryError("look up the administrator role", adminRoleResult.error);
   }
 
-  const isAdmin = Boolean(adminRole);
+  const isAdmin = Boolean(adminRoleResult.data);
   const billingCustomer = await getBillingCustomerForProfile(profileId);
 
   if (!billingCustomer) {
-    return emptyMembershipState(isAdmin);
+    return emptyMembershipState(isAdmin, grant);
   }
 
   const { data: subscriptions, error: subscriptionsError } = await admin
@@ -176,13 +246,16 @@ export async function getMembershipForProfile(profileId: string): Promise<Member
   return {
     hasStripeCustomer: true,
     isAdmin,
+    isComplimentary: Boolean(grant),
     isEntitled: hasMembershipAccess({
       isAdmin,
+      hasGrant: Boolean(grant),
       subscription: entitledSubscription?.entitlementCandidate ?? null,
     }),
     billingCustomer,
     subscription: currentSubscription,
     plan: currentPlan,
+    grant,
   };
 }
 
