@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 
 export type JobKind = "standard" | "show_crew";
 export type ShowCrewStatus = "open" | "filled" | "completed" | "cancelled";
@@ -173,6 +174,10 @@ export function getShowCrewAdminClient() {
   return getAdminClient() as unknown as SupabaseClient<ShowCrewDatabase>;
 }
 
+async function getShowCrewReadClient() {
+  return (await createClient()) as unknown as SupabaseClient<ShowCrewDatabase>;
+}
+
 export async function getShowCrewApplicationForApplicant(jobId: string, applicantId: string) {
   const client = getShowCrewAdminClient();
   const { data, error } = await client
@@ -233,10 +238,12 @@ export async function getShowCrewApplicationsForOwner(jobId: string, ownerId: st
   }));
 }
 
-async function hydrateFeedbackRows(rows: ShowCrewFeedbackRow[]) {
+async function hydrateFeedbackRows(
+  rows: ShowCrewFeedbackRow[],
+  client: SupabaseClient<ShowCrewDatabase>
+) {
   if (rows.length === 0) return [] as ShowCrewFeedbackWithContext[];
 
-  const client = getShowCrewAdminClient();
   const profileIds = [...new Set(rows.flatMap((row) => [row.worker_id, row.reviewer_id]))];
   const jobIds = [...new Set(rows.map((row) => row.job_id))];
   const [{ data: profiles, error: profileError }, { data: jobs, error: jobError }] = await Promise.all([
@@ -259,7 +266,7 @@ async function hydrateFeedbackRows(rows: ShowCrewFeedbackRow[]) {
 }
 
 export async function getShowCrewFeedbackForJob(jobId: string) {
-  const client = getShowCrewAdminClient();
+  const client = await getShowCrewReadClient();
   const { data, error } = await client
     .from("show_crew_feedback")
     .select("id, application_id, job_id, reviewer_id, worker_id, rating, reliability_rating, communication_rating, horse_care_rating, would_hire_again, body, created_at, updated_at")
@@ -271,12 +278,12 @@ export async function getShowCrewFeedbackForJob(jobId: string) {
   }
 
   if (!data) return null;
-  const [feedback] = await hydrateFeedbackRows([data]);
+  const [feedback] = await hydrateFeedbackRows([data], client);
   return feedback ?? null;
 }
 
 export async function getShowCrewFeedbackFeed() {
-  const client = getShowCrewAdminClient();
+  const client = await getShowCrewReadClient();
   const { data, error } = await client
     .from("show_crew_feedback")
     .select("id, application_id, job_id, reviewer_id, worker_id, rating, reliability_rating, communication_rating, horse_care_rating, would_hire_again, body, created_at, updated_at")
@@ -286,5 +293,5 @@ export async function getShowCrewFeedbackFeed() {
     throw new Error(`Could not load verified Show Crew reviews: ${error.message}`);
   }
 
-  return hydrateFeedbackRows(data ?? []);
+  return hydrateFeedbackRows(data ?? [], client);
 }
