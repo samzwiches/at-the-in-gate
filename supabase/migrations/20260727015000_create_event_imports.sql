@@ -32,10 +32,37 @@ create table public.event_imports (
   constraint event_imports_url_check check (source_url ~ '^https?://')
 );
 
+create or replace function public.preserve_event_import_review_state()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  new.first_seen_at := old.first_seen_at;
+
+  if old.import_status <> 'new' then
+    new.import_status := old.import_status;
+  end if;
+
+  if old.matched_event_id is not null then
+    new.matched_event_id := old.matched_event_id;
+  end if;
+
+  return new;
+end;
+$$;
+
+create trigger preserve_event_import_review_state
+before update on public.event_imports
+for each row
+execute function public.preserve_event_import_review_state();
+
 create trigger set_event_imports_updated_at
 before update on public.event_imports
 for each row
 execute function public.set_updated_at();
+
+revoke all on function public.preserve_event_import_review_state() from public;
 
 create index event_imports_status_start_idx
   on public.event_imports (import_status, start_date asc);
