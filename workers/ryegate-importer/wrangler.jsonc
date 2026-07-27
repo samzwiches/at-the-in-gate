@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "at-the-in-gate-ryegate-importer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "triggers": {
+    "crons": ["0 7 * * *"]
+  },
+  "vars": {
+    "SUPABASE_URL": "https://zvjgipbfzwouzfxaecro.supabase.co"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
