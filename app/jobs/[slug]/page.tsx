@@ -10,7 +10,7 @@ import { getAuthenticatedUser } from "@/lib/auth/require-user";
 import { getDirectoryEntryById } from "@/lib/supabase/directory";
 import { formatEventDates, getEventById } from "@/lib/supabase/events";
 import { formatEmploymentType, formatExperienceLevel, formatShowCrewPay, getJobBySlug } from "@/lib/supabase/jobs";
-import { getShowCrewApplicationForApplicant, getShowCrewApplicationsForOwner } from "@/lib/supabase/show-crew";
+import { getShowCrewApplicationForApplicant, getShowCrewApplicationsForOwner, getShowCrewFeedbackForJob } from "@/lib/supabase/show-crew";
 import { jobCategories } from "@/lib/taxonomy";
 
 type JobDetailPageProps = { params: Promise<{ slug: string }> };
@@ -29,6 +29,11 @@ function applicationStatusMessage(status: string) {
   return "Your application is with the poster.";
 }
 
+function publicPersonName(person: { is_public: boolean; display_name: string | null; username: string | null } | null) {
+  if (!person?.is_public) return "At The In Gate member";
+  return person.display_name || person.username || "At The In Gate member";
+}
+
 export default async function JobDetailPage({ params }: JobDetailPageProps) {
   const { slug } = await params;
   const [job, user] = await Promise.all([getJobBySlug(slug), getAuthenticatedUser()]);
@@ -37,11 +42,12 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
   const isShowCrew = job.job_kind === "show_crew";
   const isOwner = user?.id === job.owner_id;
   const category = jobCategories.find((item) => item.label === job.category);
-  const [employerDirectory, event, currentApplication, ownerApplications] = await Promise.all([
+  const [employerDirectory, event, currentApplication, ownerApplications, feedback] = await Promise.all([
     job.directory_entry_id ? getDirectoryEntryById(job.directory_entry_id) : Promise.resolve(null),
     isShowCrew && job.event_id ? getEventById(job.event_id) : Promise.resolve(null),
     isShowCrew && user && !isOwner ? getShowCrewApplicationForApplicant(job.id, user.id) : Promise.resolve(null),
     isShowCrew && user && isOwner ? getShowCrewApplicationsForOwner(job.id, user.id) : Promise.resolve([]),
+    isShowCrew ? getShowCrewFeedbackForJob(job.id) : Promise.resolve(null),
   ]);
 
   const categoryHref = category ? `/jobs/category/${category.slug}` : "/jobs";
@@ -85,9 +91,11 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
             {canSeePrivateContact ? <div className="mt-8 border-t border-[#242721]/15 pt-6"><p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#7b2430]">{isShowCrew ? "Private contact" : "Apply or ask a question"}</p><p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-[#50564e]">{job.application_contact}</p></div> : null}
           </article>
 
+          {feedback ? <section className="mt-8 border border-[#b08d57]/40 bg-[#efe8dc] p-5 sm:p-7"><div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-[#7b2430]">Verified Show Crew review</p><h2 className="mt-2 font-serif text-3xl text-[#242721]">{publicPersonName(feedback.worker)}</h2></div><span className="border border-[#b08d57] px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[#7b2430]">Completed connection</span></div><p className="mt-4 text-sm tracking-[0.16em] text-[#b08d57]" aria-label={`${feedback.rating} out of 5 stars`}>{"★".repeat(feedback.rating)}{"☆".repeat(5 - feedback.rating)}</p><p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-[#56584f]">{feedback.body}</p><div className="mt-5 grid gap-px border border-[#242721]/15 sm:grid-cols-3"><p className="bg-[#f9f5ed] p-3 text-xs text-[#56584f]">Reliability <strong className="block text-[#2d4737]">{feedback.reliability_rating}/5</strong></p><p className="bg-[#f9f5ed] p-3 text-xs text-[#56584f]">Communication <strong className="block text-[#2d4737]">{feedback.communication_rating}/5</strong></p><p className="bg-[#f9f5ed] p-3 text-xs text-[#56584f]">Horse care <strong className="block text-[#2d4737]">{feedback.horse_care_rating}/5</strong></p></div><p className="mt-4 text-xs font-semibold text-[#2d4737]">{feedback.would_hire_again ? "Would hire again" : "Would not hire again"}</p></section> : null}
+
           {employerDirectory ? <section className="mt-8"><RelatedEntityCard eyebrow="Employer directory listing" title={employerDirectory.name} detail={`${employerDirectory.city}, ${employerDirectory.state}`} href={`/directory/${employerDirectory.slug}`} /></section> : null}
 
-          {isShowCrew && isOwner ? <ShowCrewApplicationsPanel jobId={job.id} jobSlug={job.slug} crewStatus={job.crew_status} applications={ownerApplications} /> : null}
+          {isShowCrew && isOwner ? <ShowCrewApplicationsPanel jobId={job.id} jobSlug={job.slug} crewStatus={job.crew_status} applications={ownerApplications} feedback={feedback} /> : null}
 
           {isShowCrew && !isOwner ? (
             <section className="mt-10">
