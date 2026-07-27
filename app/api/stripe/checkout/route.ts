@@ -20,7 +20,13 @@ export async function POST() {
     }
 
     return Response.json({ url: checkout.url }, { headers: { "Cache-Control": "no-store" } });
-  } catch {
+  } catch (error) {
+    console.error("Membership checkout session creation failed", {
+      userId: user.id,
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return Response.json(
       { error: "Membership Checkout is unavailable right now. Please try again shortly." },
       { status: 500, headers: { "Cache-Control": "no-store" } }
