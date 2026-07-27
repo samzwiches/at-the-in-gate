@@ -15,6 +15,7 @@ export type EntitlementCandidate = MembershipSubscription & {
 
 export type MembershipAccessCandidate = {
   isAdmin: boolean;
+  hasGrant: boolean;
   subscription: EntitlementCandidate | null;
 };
 
@@ -28,7 +29,7 @@ function toTimestamp(value: string | null) {
 }
 
 /**
- * Mirrors private.has_active_membership for server-rendered authorization.
+ * Mirrors private.has_active_membership for Stripe-backed authorization.
  * Only active/trialing subscriptions are entitled, with the cancellation
  * boundary and configured past-due grace period applied deliberately.
  */
@@ -61,9 +62,13 @@ export function hasMembershipEntitlement(candidate: EntitlementCandidate, now = 
 
 /**
  * Mirrors private.has_active_membership for server-rendered authorization.
- * An administrator role is an intentional access entitlement; otherwise the
- * same subscription rules used by the database apply.
+ * Administrators and active complimentary grants are intentional access
+ * entitlements; otherwise the normal Stripe subscription rules apply.
  */
 export function hasMembershipAccess(candidate: MembershipAccessCandidate, now = new Date()) {
-  return candidate.isAdmin || (candidate.subscription ? hasMembershipEntitlement(candidate.subscription, now) : false);
+  return (
+    candidate.isAdmin ||
+    candidate.hasGrant ||
+    (candidate.subscription ? hasMembershipEntitlement(candidate.subscription, now) : false)
+  );
 }
