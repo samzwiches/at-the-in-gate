@@ -1,6 +1,7 @@
 import "server-only";
 import type { Database } from "@/lib/database.types";
 import { getAdminClient } from "@/lib/supabase/admin";
+import type { MembershipBillingInterval } from "@/lib/stripe/server";
 import {
   hasMembershipAccess,
   hasMembershipEntitlement,
@@ -71,14 +72,20 @@ export async function getMembershipPlanByStripePriceId(stripePriceId: string) {
   return data;
 }
 
-export async function ensureInitialMembershipPlan(stripePriceId: string) {
+export async function ensureInitialMembershipPlan(
+  stripePriceId: string,
+  interval: MembershipBillingInterval = "monthly"
+) {
   const admin = getAdminClient();
+  const isAnnual = interval === "annual";
   const { data, error } = await admin
     .from("membership_plans")
     .upsert(
       {
-        slug: "member",
-        name: "At The In Gate Membership",
+        slug: isAnnual ? "member-annual" : "member",
+        name: isAnnual
+          ? "At The In Gate Annual Membership"
+          : "At The In Gate Monthly Membership",
         stripe_price_id: stripePriceId,
         is_active: true,
       },
