@@ -24,7 +24,7 @@ export type SiteMediaSlot = {
   mediaKey: string;
   pageKey: string;
   placement: "hero" | "section-background" | "footer-background";
-  group: "Home" | "Marketplace" | "Community" | "Events" | "Directory" | "Jobs" | "Membership" | "Shop" | "About" | "Contact" | "Services" | "Shippers" | "Footer";
+  group: "Home" | "Marketplace" | "Community" | "Events" | "Directory" | "Reviews" | "Jobs" | "Membership" | "Shop" | "About" | "Contact" | "Services" | "Shippers" | "Footer";
   label: string;
   guidance: string;
   previewAspectRatio: string;
@@ -108,6 +108,18 @@ export const SITE_MEDIA_SLOTS: readonly SiteMediaSlot[] = [
     group: "Directory",
     label: "Directory heading",
     guidance: "The people-and-programs introduction above category controls.",
+    previewAspectRatio: "16 / 7",
+    presentation: "full-bleed-hero",
+    appearanceKey: "directory.hero",
+    fallback: null,
+  },
+  {
+    mediaKey: "reviews.hero",
+    pageKey: "reviews",
+    placement: "hero",
+    group: "Reviews",
+    label: "Reviews heading",
+    guidance: "The references-and-reviews introduction above the published review cards.",
     previewAspectRatio: "16 / 7",
     presentation: "full-bleed-hero",
     appearanceKey: "directory.hero",
@@ -211,7 +223,7 @@ export const SITE_MEDIA_SLOTS: readonly SiteMediaSlot[] = [
   },
 ] as const;
 
-export const SITE_MEDIA_GROUPS = ["Home", "Marketplace", "Community", "Events", "Directory", "Jobs", "Membership", "Shop", "About", "Contact", "Services", "Shippers", "Footer"] as const;
+export const SITE_MEDIA_GROUPS = ["Home", "Marketplace", "Community", "Events", "Directory", "Reviews", "Jobs", "Membership", "Shop", "About", "Contact", "Services", "Shippers", "Footer"] as const;
 
 export const SITE_MEDIA_PAGE_PATHS: Record<string, string[]> = {
   home: ["/"],
@@ -219,6 +231,7 @@ export const SITE_MEDIA_PAGE_PATHS: Record<string, string[]> = {
   community: ["/community"],
   events: ["/events"],
   directory: ["/directory"],
+  reviews: ["/reviews"],
   jobs: ["/jobs"],
   membership: ["/membership"],
   shop: ["/shop"],
