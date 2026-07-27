@@ -8,7 +8,12 @@ import {
   getMembershipPlanByStripePriceId,
 } from "@/lib/membership/membership";
 import { getAdminClient } from "@/lib/supabase/admin";
-import { getMembershipPriceId, getStripeClient } from "@/lib/stripe/server";
+import {
+  getMembershipPriceId,
+  getMembershipPriceIds,
+  getStripeClient,
+  type MembershipBillingInterval,
+} from "@/lib/stripe/server";
 
 type BillingCustomer = Database["public"]["Tables"]["billing_customers"]["Row"];
 type SyncSubscriptionArgs = Database["public"]["Functions"]["sync_membership_subscription"]["Args"];
@@ -92,24 +97,35 @@ export async function getOrCreateStripeCustomer(profileId: string, email: string
   throwBillingError("store the Stripe customer", error);
 }
 
-export async function createMembershipCheckoutSession(profileId: string, email: string | null, appUrl: string) {
+export async function createMembershipCheckoutSession(
+  profileId: string,
+  email: string | null,
+  appUrl: string,
+  interval: MembershipBillingInterval = "monthly"
+) {
   const membership = await getMembershipForProfile(profileId);
 
   if (membership.isEntitled) {
     return { url: null, alreadyEntitled: true };
   }
 
-  const priceId = getMembershipPriceId();
-  await ensureInitialMembershipPlan(priceId);
+  const priceId = getMembershipPriceId(interval);
+  await ensureInitialMembershipPlan(priceId, interval);
   const customer = await getOrCreateStripeCustomer(profileId, email);
   const checkout = await getStripeClient().checkout.sessions.create({
     mode: "subscription",
     customer: customer.stripe_customer_id,
     client_reference_id: profileId,
     line_items: [{ price: priceId, quantity: 1 }],
-    metadata: { supabase_profile_id: profileId },
+    metadata: {
+      supabase_profile_id: profileId,
+      membership_billing_interval: interval,
+    },
     subscription_data: {
-      metadata: { supabase_profile_id: profileId },
+      metadata: {
+        supabase_profile_id: profileId,
+        membership_billing_interval: interval,
+      },
     },
     success_url: `${appUrl}/membership?checkout=success`,
     cancel_url: `${appUrl}/membership?checkout=cancelled`,
@@ -221,7 +237,10 @@ export async function syncMembershipSubscriptionFromStripe(
     return { outcome: "ignored" as const, reason: "subscription_has_no_customer" };
   }
 
-  const membershipPrice = subscription.items.data.find((item) => item.price?.id === getMembershipPriceId());
+  const membershipPriceIds = new Set(getMembershipPriceIds());
+  const membershipPrice = subscription.items.data.find((item) =>
+    membershipPriceIds.has(item.price?.id ?? "")
+  );
   const stripePriceId = membershipPrice?.price.id;
 
   if (!membershipPrice || !stripePriceId) {
