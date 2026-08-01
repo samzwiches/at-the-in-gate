@@ -3,6 +3,7 @@ import PageContainer from "@/components/layout/PageContainer";
 import PageHero from "@/components/site-media/PageHero";
 import PageCanvas from "@/components/site-media/PageCanvas";
 import { getCommunitySpacesWithActivity } from "@/lib/community/queries";
+import { getPublishedKidsCreationCount } from "@/lib/kids/queries";
 import { requireActiveMembership } from "@/lib/membership/require-active-membership";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,7 +18,10 @@ function activityCopy(count: number) {
 export default async function CommunityPage() {
   await requireActiveMembership("/community");
   const supabase = await createClient();
-  const spaces = await getCommunitySpacesWithActivity(supabase);
+  const [spaces, kidsCreationCount] = await Promise.all([
+    getCommunitySpacesWithActivity(supabase),
+    getPublishedKidsCreationCount(supabase),
+  ]);
 
   return (
     <PageCanvas appearanceKey="community.page" tone="blue-gray" className="py-12 sm:py-16">
@@ -28,6 +32,25 @@ export default async function CommunityPage() {
             <h1 className="section-appearance-heading-font mt-4 max-w-4xl text-5xl tracking-[-0.045em] text-[color:var(--section-heading-color,#242721)] sm:text-6xl">The good horse-world conversations have a home.</h1>
             <p className="section-appearance-body-font mt-5 max-w-3xl text-lg leading-8 text-[color:var(--section-body-color,#56584f)]">Choose a room for the practical notes, show-week questions, and small victories that are better shared with people who get it.</p>
           </PageHero>
+
+          <Link
+            href="/kids"
+            className="group mt-10 grid overflow-hidden border border-[#242721]/20 bg-[#f6efe2] transition-colors hover:bg-[#fffaf0] lg:grid-cols-[1.2fr_0.8fr]"
+          >
+            <div className="p-6 sm:p-8">
+              <p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-[#7b2430]">Pony Kids Club · Featured room</p>
+              <h2 className="mt-3 font-serif text-4xl tracking-[-0.035em] text-[#242721]">The Pony Pages.</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#56584f]">Parent-managed stories, drawings, comics, poems, show memories, and pony wisdom from the next generation at the rail.</p>
+              <p className="mt-6 text-xs font-bold uppercase tracking-[0.13em] text-[#2d4737]">{kidsCreationCount} approved {kidsCreationCount === 1 ? "creation" : "creations"}</p>
+            </div>
+            <div className="flex min-h-48 items-end justify-between bg-[#2d4737] p-6 text-[#f9f4eb] sm:p-8">
+              <div>
+                <p className="text-sm leading-6 text-[#e4e1d8]">No comments. No direct messages. Every piece is reviewed before it appears.</p>
+                <p className="mt-4 font-serif text-2xl text-[#d8bd85]">Open the pages</p>
+              </div>
+              <span className="text-3xl transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden="true">↗</span>
+            </div>
+          </Link>
 
           <section className="mt-10" aria-labelledby="community-spaces-title">
             <div className="flex flex-col gap-3 border-b border-[#242721]/20 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-[#7b2430]">Member spaces</p><h2 id="community-spaces-title" className="mt-2 font-serif text-3xl tracking-[-0.03em] text-[#242721]">Find the right patch of aisle.</h2></div><p className="text-sm text-[#56584f]">{spaces.length} active spaces</p></div>
