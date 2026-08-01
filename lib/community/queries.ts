@@ -3,19 +3,16 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/database.types";
 import {
   communityReactionTypes,
+  type CommunityAuthorIdentity,
   type CommunityCommentView,
   type CommunityPostView,
   type CommunityReactionSummary,
   type CommunityReactionType,
   type CommunitySpaceWithActivity,
 } from "@/lib/community/types";
+import { getMemberProfileClient, getProfileAvatarUrl } from "@/lib/members/profile";
 
 type CommunityClient = SupabaseClient<Database>;
-
-type VisibleIdentity = {
-  id: string;
-  display_name: string | null;
-};
 
 function throwCommunityQueryError(context: string, error: { message: string }) {
   throw new Error(`Could not ${context}: ${error.message}`);
@@ -28,11 +25,20 @@ function emptyReactionSummary(): CommunityReactionSummary {
   };
 }
 
+function emptyAuthorIdentity(name: string): CommunityAuthorIdentity {
+  return {
+    authorName: name,
+    authorUsername: null,
+    authorAvatarUrl: null,
+    authorIsFounding: false,
+  };
+}
+
 function isReactionType(value: string): value is CommunityReactionType {
   return (communityReactionTypes as readonly string[]).includes(value);
 }
 
-async function getVisibleIdentityNames(
+async function getVisibleIdentities(
   supabase: CommunityClient,
   authorIds: string[],
   viewerId: string
@@ -40,32 +46,43 @@ async function getVisibleIdentityNames(
   const uniqueIds = [...new Set(authorIds)];
 
   if (uniqueIds.length === 0) {
-    return new Map<string, string>();
+    return new Map<string, CommunityAuthorIdentity>();
   }
 
-  const { data, error } = await supabase
+  const profiles = getMemberProfileClient(supabase);
+  const { data, error } = await profiles
     .from("profiles")
-    .select("id, display_name")
+    .select("id, username, display_name, avatar_path, updated_at, founding_member")
     .in("id", uniqueIds);
 
   if (error) {
     throwCommunityQueryError("load community author identities", error);
   }
 
-  const identities = new Map(
-    ((data ?? []) as VisibleIdentity[]).map((identity) => [identity.id, identity.display_name])
+  const identities = new Map<string, CommunityAuthorIdentity>(
+    (data ?? []).map((profile) => {
+      const displayName = profile.display_name?.trim();
+      return [
+        profile.id,
+        {
+          authorName: displayName || (profile.username ? `@${profile.username}` : profile.id === viewerId ? "You" : "A member"),
+          authorUsername: profile.username,
+          authorAvatarUrl: getProfileAvatarUrl({
+            id: profile.id,
+            avatar_path: profile.avatar_path,
+            updated_at: profile.updated_at,
+          }),
+          authorIsFounding: profile.founding_member,
+        },
+      ];
+    })
   );
 
   return new Map(
-    uniqueIds.map((authorId) => {
-      const displayName = identities.get(authorId)?.trim();
-
-      if (displayName) {
-        return [authorId, displayName];
-      }
-
-      return [authorId, authorId === viewerId ? "You" : "A member"];
-    })
+    uniqueIds.map((authorId) => [
+      authorId,
+      identities.get(authorId) ?? emptyAuthorIdentity(authorId === viewerId ? "You" : "A member"),
+    ])
   );
 }
 
@@ -163,8 +180,8 @@ export async function getCommunityPostsForSpace(
 
   const postRows = posts ?? [];
   const postIds = postRows.map((post) => post.id);
-  const [identityNames, commentResult, reactionResult] = await Promise.all([
-    getVisibleIdentityNames(supabase, postRows.map((post) => post.author_id), viewerId),
+  const [identities, commentResult, reactionResult] = await Promise.all([
+    getVisibleIdentities(supabase, postRows.map((post) => post.author_id), viewerId),
     postIds.length > 0
       ? supabase
           .from("community_comments")
@@ -197,7 +214,7 @@ export async function getCommunityPostsForSpace(
 
   return postRows.map((post) => ({
     ...post,
-    authorName: identityNames.get(post.author_id) ?? "A member",
+    ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")),
     commentCount: commentCounts.get(post.id) ?? 0,
     reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary(),
   })) as CommunityPostView[];
@@ -218,8 +235,8 @@ export async function getCommunityPostById(supabase: CommunityClient, postId: st
     return null;
   }
 
-  const [identityNames, commentsResult, reactionsResult] = await Promise.all([
-    getVisibleIdentityNames(supabase, [post.author_id], viewerId),
+  const [identities, commentsResult, reactionsResult] = await Promise.all([
+    getVisibleIdentities(supabase, [post.author_id], viewerId),
     supabase
       .from("community_comments")
       .select("id")
@@ -244,7 +261,7 @@ export async function getCommunityPostById(supabase: CommunityClient, postId: st
 
   return {
     ...post,
-    authorName: identityNames.get(post.author_id) ?? "A member",
+    ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")),
     commentCount: commentsResult.data?.length ?? 0,
     reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary(),
   } as CommunityPostView;
@@ -267,8 +284,8 @@ export async function getCommunityCommentsForPost(
 
   const commentRows = comments ?? [];
   const commentIds = commentRows.map((comment) => comment.id);
-  const [identityNames, reactionsResult] = await Promise.all([
-    getVisibleIdentityNames(supabase, commentRows.map((comment) => comment.author_id), viewerId),
+  const [identities, reactionsResult] = await Promise.all([
+    getVisibleIdentities(supabase, commentRows.map((comment) => comment.author_id), viewerId),
     commentIds.length > 0
       ? supabase
           .from("community_reactions")
@@ -285,7 +302,7 @@ export async function getCommunityCommentsForPost(
 
   return commentRows.map((comment) => ({
     ...comment,
-    authorName: identityNames.get(comment.author_id) ?? "A member",
+    ...(identities.get(comment.author_id) ?? emptyAuthorIdentity("A member")),
     reactions: reactionSummaries.get(comment.id) ?? emptyReactionSummary(),
   })) as CommunityCommentView[];
 }

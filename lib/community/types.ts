@@ -30,6 +30,13 @@ export type CommunityReactionSummary = {
   viewerReactionTypes: CommunityReactionType[];
 };
 
+export type CommunityAuthorIdentity = {
+  authorName: string;
+  authorUsername: string | null;
+  authorAvatarUrl: string | null;
+  authorIsFounding: boolean;
+};
+
 export type CommunityPostView = Pick<
   CommunityPostRow,
   | "id"
@@ -42,11 +49,11 @@ export type CommunityPostView = Pick<
   | "edited_at"
   | "deleted_at"
   | "created_at"
-> & {
-  authorName: string;
-  commentCount: number;
-  reactions: CommunityReactionSummary;
-};
+> &
+  CommunityAuthorIdentity & {
+    commentCount: number;
+    reactions: CommunityReactionSummary;
+  };
 
 export type CommunityCommentView = Pick<
   CommunityCommentRow,
@@ -59,7 +66,7 @@ export type CommunityCommentView = Pick<
   | "edited_at"
   | "deleted_at"
   | "created_at"
-> & {
-  authorName: string;
-  reactions: CommunityReactionSummary;
-};
+> &
+  CommunityAuthorIdentity & {
+    reactions: CommunityReactionSummary;
+  };

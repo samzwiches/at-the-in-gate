@@ -112,10 +112,11 @@ export default function AccountMenu({ authenticated, isAdmin = false, mobile = f
     return (
       <div className="mt-1 border-t border-[#242721]/15 pt-1">
         <Link href="/account" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-semibold text-[#2d4737] hover:bg-[#e5ddd0]">My account</Link>
-        <Link href="/dashboard" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">
-          Dashboard
-        </Link>
+        <Link href="/account/profile" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">My profile</Link>
+        <Link href="/dashboard" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">Dashboard</Link>
+        <Link href="/kids" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">The Pony Pages</Link>
         {isAdmin ? <Link href="/admin" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Admin dashboard</Link> : null}
+        {isAdmin ? <Link href="/admin/kids" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Review Pony Pages</Link> : null}
         <button type="button" onClick={() => void signOut()} disabled={isSigningOut} className="block w-full px-3 py-2.5 text-left text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0] disabled:cursor-not-allowed disabled:opacity-70">
           {isSigningOut ? "Signing out…" : "Sign out"}
         </button>
@@ -129,12 +130,13 @@ export default function AccountMenu({ authenticated, isAdmin = false, mobile = f
       <summary className="cursor-pointer list-none text-sm font-medium text-[#383a33] transition-colors hover:text-[#7b2430] marker:content-none">
         My account
       </summary>
-      <div className="absolute right-0 z-20 mt-3 w-40 border border-[#242721]/20 bg-[#f9f5ed] p-2 shadow-[4px_4px_0_0_rgba(45,71,55,0.14)]">
+      <div className="absolute right-0 z-20 mt-3 w-48 border border-[#242721]/20 bg-[#f9f5ed] p-2 shadow-[4px_4px_0_0_rgba(45,71,55,0.14)]">
         <Link href="/account" onClick={closeMenu} className="block px-3 py-2 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-[#2d4737] hover:bg-[#e5ddd0]">My account</Link>
-        <Link href="/dashboard" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">
-          Dashboard
-        </Link>
+        <Link href="/account/profile" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">My profile</Link>
+        <Link href="/dashboard" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">Dashboard</Link>
+        <Link href="/kids" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0]">The Pony Pages</Link>
         {isAdmin ? <Link href="/admin" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Admin dashboard</Link> : null}
+        {isAdmin ? <Link href="/admin/kids" onClick={closeMenu} className="block px-3 py-2.5 text-sm font-medium text-[#7b2430] hover:bg-[#e5ddd0]">Review Pony Pages</Link> : null}
         <button type="button" onClick={() => void signOut()} disabled={isSigningOut} className="block w-full px-3 py-2.5 text-left text-sm font-medium text-[#383a33] hover:bg-[#e5ddd0] disabled:cursor-not-allowed disabled:opacity-70">
           {isSigningOut ? "Signing out…" : "Sign out"}
         </button>
