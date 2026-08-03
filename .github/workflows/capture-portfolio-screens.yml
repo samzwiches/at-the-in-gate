@@ -3,13 +3,13 @@ name: Capture portfolio screens
 on:
   pull_request:
     branches: [main]
-  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   capture:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -18,37 +18,38 @@ jobs:
       APP_URL: http://127.0.0.1:3000
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - name: Install project and browser
+      - name: Install project and browser tools
         run: |
           bun install
           bun add --dev playwright@1.55.0
           bunx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y webp
       - name: Start the real application without the launch gate
         run: |
           sed -i 's/const COMING_SOON_MODE = true;/const COMING_SOON_MODE = false;/' middleware.ts
           node scripts/ensure-editor-brand-swatches.mjs
           bunx next dev --hostname 127.0.0.1 --port 3000 > /tmp/atig-next.log 2>&1 &
-          echo $! > /tmp/atig-next.pid
           for attempt in {1..60}; do
-            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
-              exit 0
-            fi
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then exit 0; fi
             sleep 2
           done
           cat /tmp/atig-next.log
           exit 1
       - name: Capture internal project pages
         run: |
+          rm -rf portfolio-screens
           mkdir -p portfolio-screens
           node <<'NODE'
           const { chromium } = require('playwright');
-
           const pages = [
             ['home', '/'],
             ['marketplace', '/marketplace'],
@@ -56,38 +57,29 @@ jobs:
             ['events', '/events'],
             ['directory', '/directory']
           ];
-
           (async () => {
             const browser = await chromium.launch({ headless: true });
-            const context = await browser.newContext({
-              viewport: { width: 1440, height: 1000 },
-              deviceScaleFactor: 1,
-              colorScheme: 'light'
-            });
-
+            const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, colorScheme: 'light' });
             for (const [name, route] of pages) {
               const page = await context.newPage();
-              const url = `http://127.0.0.1:3000${route}`;
-              console.log(`Capturing ${url}`);
-              await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
+              await page.goto(`http://127.0.0.1:3000${route}`, { waitUntil: 'networkidle', timeout: 90000 });
               await page.waitForTimeout(1500);
               await page.screenshot({ path: `portfolio-screens/at-the-in-gate-${name}.png`, fullPage: true });
               await page.close();
             }
-
             await browser.close();
-          })().catch((error) => {
-            console.error(error);
-            process.exit(1);
-          });
+          })().catch((error) => { console.error(error); process.exit(1); });
           NODE
-      - name: Show application log on failure
-        if: failure()
-        run: cat /tmp/atig-next.log || true
-      - name: Upload screenshots
-        uses: actions/upload-artifact@v4
-        with:
-          name: at-the-in-gate-portfolio-screens
-          path: portfolio-screens/*.png
-          if-no-files-found: error
-          retention-days: 7
+          for file in portfolio-screens/*.png; do
+            cwebp -quiet -q 72 -resize 1000 0 "$file" -o "${file%.png}.webp"
+          done
+          rm portfolio-screens/*.png
+      - name: Commit optimized portfolio screens
+        run: |
+          git checkout -- middleware.ts package.json bun.lock 2>/dev/null || true
+          rm .github/workflows/capture-portfolio-screens.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add portfolio-screens .github/workflows/capture-portfolio-screens.yml
+          git commit -m "Add portfolio screenshots"
+          git push origin HEAD:${{ github.head_ref }}
