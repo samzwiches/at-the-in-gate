@@ -21,16 +21,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Install project and browser
         run: |
-          npm ci
-          npm install --no-save playwright@1.55.0
-          npx playwright install --with-deps chromium
+          bun install
+          bun add --dev playwright@1.55.0
+          bunx playwright install --with-deps chromium
       - name: Start the real application
         run: |
           node scripts/ensure-editor-brand-swatches.mjs
-          npx next dev --hostname 127.0.0.1 --port 3000 > /tmp/atig-next.log 2>&1 &
+          bunx next dev --hostname 127.0.0.1 --port 3000 > /tmp/atig-next.log 2>&1 &
           echo $! > /tmp/atig-next.pid
           for attempt in {1..60}; do
             if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
