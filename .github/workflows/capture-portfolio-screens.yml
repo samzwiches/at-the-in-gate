@@ -23,7 +23,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Capture real deployed pages
         env:
-          SITE_BASE: https://attheingate.com
+          SITE_BASE: https://at-the-in-gate.slduthie.workers.dev
         run: |
           mkdir -p portfolio-screens
           node <<'NODE'
