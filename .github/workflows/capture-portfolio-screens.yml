@@ -29,8 +29,9 @@ jobs:
           bun install
           bun add --dev playwright@1.55.0
           bunx playwright install --with-deps chromium
-      - name: Start the real application
+      - name: Start the real application without the launch gate
         run: |
+          sed -i 's/const COMING_SOON_MODE = true;/const COMING_SOON_MODE = false;/' middleware.ts
           node scripts/ensure-editor-brand-swatches.mjs
           bunx next dev --hostname 127.0.0.1 --port 3000 > /tmp/atig-next.log 2>&1 &
           echo $! > /tmp/atig-next.pid
