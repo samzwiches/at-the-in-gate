@@ -11,19 +11,36 @@ permissions:
 jobs:
   capture:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://zvjgipbfzwouzfxaecro.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_20dxpUalqmZ63WzWmwC7Vw__Eqn_y5J
+      APP_URL: http://127.0.0.1:3000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install Playwright
+          cache: npm
+      - name: Install project and browser
         run: |
+          npm ci
           npm install --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Capture real deployed pages
-        env:
-          SITE_BASE: https://at-the-in-gate.slduthie.workers.dev
+      - name: Start the real application
+        run: |
+          node scripts/ensure-editor-brand-swatches.mjs
+          npx next dev --hostname 127.0.0.1 --port 3000 > /tmp/atig-next.log 2>&1 &
+          echo $! > /tmp/atig-next.pid
+          for attempt in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/atig-next.log
+          exit 1
+      - name: Capture internal project pages
         run: |
           mkdir -p portfolio-screens
           node <<'NODE'
@@ -47,10 +64,10 @@ jobs:
 
             for (const [name, route] of pages) {
               const page = await context.newPage();
-              const url = `${process.env.SITE_BASE}${route}`;
+              const url = `http://127.0.0.1:3000${route}`;
               console.log(`Capturing ${url}`);
-              await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-              await page.waitForTimeout(3500);
+              await page.goto(url, { waitUntil: 'networkidle', timeout: 90000 });
+              await page.waitForTimeout(1500);
               await page.screenshot({ path: `portfolio-screens/at-the-in-gate-${name}.png`, fullPage: true });
               await page.close();
             }
@@ -61,6 +78,9 @@ jobs:
             process.exit(1);
           });
           NODE
+      - name: Show application log on failure
+        if: failure()
+        run: cat /tmp/atig-next.log || true
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         with:
