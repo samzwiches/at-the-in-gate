@@ -36,10 +36,6 @@ export async function middleware(request: NextRequest) {
   const isPublicDomain = PUBLIC_HOSTS.has(hostname);
 
   const shouldBypassComingSoon =
-    pathname === "/sign-in" ||
-    pathname.startsWith("/sign-in/") ||
-    pathname === "/admin" ||
-    pathname.startsWith("/admin/") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/auth/") ||
     pathname.startsWith("/_next/") ||
