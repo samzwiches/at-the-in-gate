@@ -35,7 +35,27 @@ export async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname.toLowerCase();
   const isPublicDomain = PUBLIC_HOSTS.has(hostname);
 
+  const isMisroutedOAuthCallback =
+    isPublicDomain &&
+    pathname === "/" &&
+    (request.nextUrl.searchParams.has("code") ||
+      request.nextUrl.searchParams.has("error") ||
+      request.nextUrl.searchParams.has("error_code"));
+
+  if (isMisroutedOAuthCallback) {
+    const callbackUrl = request.nextUrl.clone();
+    callbackUrl.pathname = "/auth/callback";
+    if (!callbackUrl.searchParams.has("next")) {
+      callbackUrl.searchParams.set("next", "/admin");
+    }
+    return NextResponse.redirect(callbackUrl);
+  }
+
   const shouldBypassComingSoon =
+    pathname === "/sign-in" ||
+    pathname.startsWith("/sign-in/") ||
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
     pathname.startsWith("/api/") ||
     pathname.startsWith("/auth/") ||
     pathname.startsWith("/_next/") ||
