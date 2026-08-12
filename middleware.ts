@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/proxy";
 
 const COMING_SOON_MODE = true;
+const PUBLIC_HOSTS = new Set(["attheingate.com", "www.attheingate.com"]);
 
 const comingSoonHtml = `<!doctype html>
 <html lang="en">
@@ -31,6 +32,8 @@ const comingSoonHtml = `<!doctype html>
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const hostname = request.nextUrl.hostname.toLowerCase();
+  const isPublicDomain = PUBLIC_HOSTS.has(hostname);
 
   const shouldBypassComingSoon =
     pathname.startsWith("/api/") ||
@@ -38,7 +41,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/_next/") ||
     pathname === "/favicon.ico";
 
-  if (COMING_SOON_MODE && !shouldBypassComingSoon) {
+  if (COMING_SOON_MODE && isPublicDomain && !shouldBypassComingSoon) {
     return new NextResponse(comingSoonHtml, {
       status: 200,
       headers: {
