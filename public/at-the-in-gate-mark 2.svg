@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">At The In Gate</title>
+  <desc id="description">A stacked editorial wordmark reading At The In Gate.</desc>
+  <rect width="512" height="512" rx="72" fill="#fffdf8"/>
+  <g fill="#3f5145" font-family="Didot, 'Bodoni MT', 'Times New Roman', serif" text-anchor="middle">
+    <text x="256" y="132" font-size="108" font-weight="400" letter-spacing="-5">AT</text>
+    <text x="172" y="194" font-size="34" font-style="italic" letter-spacing="1">the</text>
+    <text x="256" y="292" font-size="116" font-weight="400" letter-spacing="-4">IN</text>
+    <text x="256" y="420" font-size="106" font-weight="400" letter-spacing="-4">GATE</text>
+  </g>
+</svg>

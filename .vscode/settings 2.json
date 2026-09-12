@@ -1,0 +1,19 @@
+{
+    "workbench.browser.openLocalhostLinks": false,
+    "chatgpt.openOnStartup": true,
+    "github.copilot.chat.claudeAgent.allowAutoPermissions": true,
+    "github.copilot.chat.alternateGeminiModelFPrompt.enabled": true,
+    "github.copilot.chat.alternateGptPrompt.enabled": true,
+    "github.copilot.chat.anthropic.contextEditing.mode": "clear-both",
+    "github.copilot.chat.anthropic.tools.websearch.enabled": true,
+    "github.copilot.chat.askAgent.model": "Codex",
+    "github.copilot.chat.completionsFetcher": "node-fetch",
+    "github.copilot.chat.exploreAgent.enabled": true,
+    "github.copilot.chat.gemini3GetChangedFilesTool.enabled": true,
+    "github.copilot.chat.githubMcpServer.enabled": true,
+    "github.copilot.chat.githubMcpServer.toolsets": [
+        "default",
+        ""
+    ],
+    "github.copilot.chat.gpt55ReadFileTool.enabled": false
+}

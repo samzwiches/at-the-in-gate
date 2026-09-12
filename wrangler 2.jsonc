@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "at-the-in-gate",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-07-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "keep_vars": true,
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://zvjgipbfzwouzfxaecro.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_20dxpUalqmZ63WzWmwC7Vw__Eqn_y5J",
+    "APP_URL": "https://attheingate.com",
+    "STRIPE_MEMBERSHIP_PRICE_ID": "price_1Txqf4AaRbKT06nhD3Hkbbjn",
+    "STRIPE_BARN_AISLE_MONTHLY_PRICE_ID": "price_1Txqf4AaRbKT06nhD3Hkbbjn",
+    "STRIPE_BARN_AISLE_ANNUAL_PRICE_ID": "price_1Txqg3AaRbKT06nhoavMy3HY"
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}

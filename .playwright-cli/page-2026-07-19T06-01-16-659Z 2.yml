@@ -1,0 +1,88 @@
+- generic [active] [ref=f9e1]:
+  - generic [ref=f9e2]:
+    - banner [ref=f9e3]:
+      - generic [ref=f9e4]:
+        - link "At The In Gate home" [ref=f9e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f9e6]: A
+          - generic [ref=f9e7]:
+            - generic [ref=f9e8]: At The In Gate
+            - generic [ref=f9e9]: The show book
+        - group [ref=f9e10]:
+          - generic "Menu" [ref=f9e11] [cursor=pointer]
+    - main [ref=f9e13]:
+      - generic [ref=f9e14]:
+        - generic [ref=f9e15]: Static member dashboard preview · No account or saved data is connected
+        - generic [ref=f9e16]:
+          - generic [ref=f9e17]:
+            - paragraph [ref=f9e18]: Your ring-side desk
+            - heading "Good morning, Avery." [level=1] [ref=f9e19]
+            - paragraph [ref=f9e20]: A static look at the personal home base members will eventually have.
+          - generic [ref=f9e21]: Profile 70% complete
+        - generic [ref=f9e22]:
+          - generic [ref=f9e23]:
+            - generic [ref=f9e24]:
+              - generic [ref=f9e25]:
+                - heading "Saved listings" [level=2] [ref=f9e26]
+                - generic [ref=f9e27]: View all ↗
+              - generic [ref=f9e28]:
+                - article [ref=f9e29]:
+                  - paragraph [ref=f9e30]: Children's Pony Hunter
+                  - heading "Copperfield" [level=3] [ref=f9e31]
+                  - paragraph [ref=f9e32]: Ocala, Florida · $65,000
+                - article [ref=f9e33]:
+                  - paragraph [ref=f9e34]: 3’–3’3” Equitation
+                  - heading "Good Company" [level=3] [ref=f9e35]
+                  - paragraph [ref=f9e36]: Lexington, Kentucky · $125,000
+            - generic [ref=f9e37]:
+              - heading "Recent activity" [level=2] [ref=f9e38]
+              - list [ref=f9e39]:
+                - listitem [ref=f9e40]:
+                  - generic [ref=f9e41]: "01"
+                  - generic [ref=f9e42]: Saved Copperfield to your pony search
+                - listitem [ref=f9e43]:
+                  - generic [ref=f9e44]: "02"
+                  - generic [ref=f9e45]: Marlowe Equestrian added to your directory list
+                - listitem [ref=f9e46]:
+                  - generic [ref=f9e47]: "03"
+                  - generic [ref=f9e48]: Kentucky Summer Horse Show begins in 3 days
+          - complementary [ref=f9e49]:
+            - generic [ref=f9e50]:
+              - paragraph [ref=f9e51]: Messages
+              - heading "Two notes waiting." [level=2] [ref=f9e52]
+              - paragraph [ref=f9e53]: This will become private in-platform messaging. For now, it is a static preview only.
+            - generic [ref=f9e54]:
+              - paragraph [ref=f9e55]: Next up
+              - generic [ref=f9e56]:
+                - paragraph [ref=f9e57]: Kentucky Summer Horse Show
+                - paragraph [ref=f9e58]: JUL 22 · Lexington, KY
+              - generic [ref=f9e59]:
+                - paragraph [ref=f9e60]: Vermont Summer Festival
+                - paragraph [ref=f9e61]: JUL 30 · East Dorset, VT
+    - contentinfo [ref=f9e62]:
+      - generic [ref=f9e63]:
+        - generic [ref=f9e64]:
+          - paragraph [ref=f9e65]: At The In Gate
+          - paragraph [ref=f9e66]: A better place to find your people, your next pony, and the note everyone is talking about.
+        - generic [ref=f9e67]:
+          - link "Marketplace" [ref=f9e68] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Community" [ref=f9e69] [cursor=pointer]:
+            - /url: /community
+          - link "Shows" [ref=f9e70] [cursor=pointer]:
+            - /url: /calendar
+          - link "Directory" [ref=f9e71] [cursor=pointer]:
+            - /url: /directory
+          - link "Jobs" [ref=f9e72] [cursor=pointer]:
+            - /url: /jobs
+          - link "Shop" [ref=f9e73] [cursor=pointer]:
+            - /url: /shop
+        - generic [ref=f9e74]:
+          - paragraph [ref=f9e75]: In the loop
+          - paragraph [ref=f9e76]: The good stuff from the horse world, without the 47-text group thread.
+          - link "Join the conversation" [ref=f9e77] [cursor=pointer]:
+            - /url: /community
+      - generic [ref=f9e78]:
+        - paragraph [ref=f9e79]: © 2026 At The In Gate
+        - paragraph [ref=f9e80]: Built for the people who know the difference.
+  - alert [ref=f9e81]
