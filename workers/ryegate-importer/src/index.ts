@@ -88,7 +88,8 @@ async function scrapeAndSync(env: Env) {
     throw new Error("Supabase importer secrets are not configured.");
   }
 
-  const results = await Promise.allSettled(ZONES.map((zone) => scrapeZone(zone)));
+  const currentYear = new Date().getUTCFullYear();
+  const results = await Promise.allSettled(ZONES.map((zone) => scrapeZone(zone, currentYear)));
   const imported: ImportedShow[] = [];
   const failures: Array<{ zone: string; error: string }> = [];
 
@@ -112,6 +113,21 @@ async function scrapeAndSync(env: Env) {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
+  // Queue rows two or more seasons in the future are impossible for Ryegate's
+  // current-season calendar and indicate a prior year-parsing bug. Remove only
+  // untouched staging rows so moderation decisions and published events are safe.
+  const impossibleFutureDate = `${currentYear + 2}-01-01`;
+  const { count: cleanedFutureRecords, error: cleanupError } = await supabase
+    .from("event_imports")
+    .delete({ count: "exact" })
+    .eq("source", "Ryegate Show Services")
+    .eq("import_status", "new")
+    .gte("start_date", impossibleFutureDate);
+
+  if (cleanupError) {
+    throw new Error(`Supabase future-date cleanup failed: ${cleanupError.message}`);
+  }
+
   let upserted = 0;
   for (const batch of chunk(deduplicated, 200)) {
     const { error } = await supabase
@@ -128,19 +144,21 @@ async function scrapeAndSync(env: Env) {
   return {
     ok: true,
     source: "Ryegate Show Services",
+    calendarYear: currentYear,
     zonesAttempted: ZONES.length,
     recordsParsed: imported.length,
     recordsUpserted: upserted,
+    cleanedFutureRecords: cleanedFutureRecords ?? 0,
     failures,
     ranAt: new Date().toISOString(),
   };
 }
 
-async function scrapeZone(zone: string): Promise<ImportedShow[]> {
+async function scrapeZone(zone: string, calendarYear: number): Promise<ImportedShow[]> {
   const sourceUrl = `${RYEGATE_BASE}?zone=${encodeURIComponent(zone)}`;
   const response = await fetch(sourceUrl, {
     headers: {
-      "user-agent": "AtTheInGate-CalendarImporter/1.0 (+https://at-the-in-gate.slduthie.workers.dev)",
+      "user-agent": "AtTheInGate-CalendarImporter/1.1 (+https://at-the-in-gate.slduthie.workers.dev)",
       accept: "text/html,application/xhtml+xml",
     },
     redirect: "follow",
@@ -152,10 +170,8 @@ async function scrapeZone(zone: string): Promise<ImportedShow[]> {
 
   const html = await response.text();
   const $ = cheerio.load(html);
-  // Ryegate's schedule rows omit the year. The page contains an old 2003
-  // copyright value, so parsing the first four-digit year dates every show
-  // incorrectly. These zone calendars are the current season schedule.
-  const calendarYear = new Date().getUTCFullYear();
+  // Ryegate schedule rows omit the year. Never infer a season year from page
+  // text because copyright and archive values can appear elsewhere in the HTML.
   const shows: ImportedShow[] = [];
   let pending: PendingShow | null = null;
 
@@ -256,6 +272,11 @@ function finalizeShow(
 }
 
 function parseDateRange(value: string, baseYear: number) {
+  const currentYear = new Date().getUTCFullYear();
+  if (baseYear < currentYear - 1 || baseYear > currentYear + 1) {
+    throw new Error(`Refusing implausible Ryegate calendar year: ${baseYear}`);
+  }
+
   const normalized = value.replace(/[–—]/g, "-").replace(/\s+/g, " ").trim();
   const match = normalized.match(/^([A-Za-z]{3,4})\s+(\d{1,2})\s*-\s*(?:([A-Za-z]{3,4})\s+)?(\d{1,2})$/);
   if (!match) {
