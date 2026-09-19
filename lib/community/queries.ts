@@ -19,290 +19,139 @@ function throwCommunityQueryError(context: string, error: { message: string }) {
 }
 
 function emptyReactionSummary(): CommunityReactionSummary {
-  return {
-    counts: { like: 0, helpful: 0, cheer: 0 },
-    viewerReactionTypes: [],
-  };
+  return { counts: { like: 0, helpful: 0, cheer: 0 }, viewerReactionTypes: [] };
 }
 
 function emptyAuthorIdentity(name: string): CommunityAuthorIdentity {
-  return {
-    authorName: name,
-    authorUsername: null,
-    authorAvatarUrl: null,
-    authorIsFounding: false,
-  };
+  return { authorName: name, authorUsername: null, authorAvatarUrl: null, authorIsFounding: false };
 }
 
 function isReactionType(value: string): value is CommunityReactionType {
   return (communityReactionTypes as readonly string[]).includes(value);
 }
 
-async function getVisibleIdentities(
-  supabase: CommunityClient,
-  authorIds: string[],
-  viewerId: string
-) {
+async function getVisibleIdentities(supabase: CommunityClient, authorIds: string[], viewerId: string) {
   const uniqueIds = [...new Set(authorIds)];
-
-  if (uniqueIds.length === 0) {
-    return new Map<string, CommunityAuthorIdentity>();
-  }
+  if (uniqueIds.length === 0) return new Map<string, CommunityAuthorIdentity>();
 
   const profiles = getMemberProfileClient(supabase);
-  const { data, error } = await profiles
-    .from("profiles")
-    .select("id, username, display_name, avatar_path, updated_at, founding_member")
-    .in("id", uniqueIds);
+  const { data, error } = await profiles.from("profiles").select("id, username, display_name, avatar_path, updated_at, founding_member").in("id", uniqueIds);
+  if (error) throwCommunityQueryError("load community author identities", error);
 
-  if (error) {
-    throwCommunityQueryError("load community author identities", error);
-  }
+  const identities = new Map<string, CommunityAuthorIdentity>((data ?? []).map((profile) => {
+    const displayName = profile.display_name?.trim();
+    return [profile.id, {
+      authorName: displayName || (profile.username ? `@${profile.username}` : profile.id === viewerId ? "You" : "A member"),
+      authorUsername: profile.username,
+      authorAvatarUrl: getProfileAvatarUrl({ id: profile.id, avatar_path: profile.avatar_path, updated_at: profile.updated_at }),
+      authorIsFounding: profile.founding_member,
+    }];
+  }));
 
-  const identities = new Map<string, CommunityAuthorIdentity>(
-    (data ?? []).map((profile) => {
-      const displayName = profile.display_name?.trim();
-      return [
-        profile.id,
-        {
-          authorName: displayName || (profile.username ? `@${profile.username}` : profile.id === viewerId ? "You" : "A member"),
-          authorUsername: profile.username,
-          authorAvatarUrl: getProfileAvatarUrl({
-            id: profile.id,
-            avatar_path: profile.avatar_path,
-            updated_at: profile.updated_at,
-          }),
-          authorIsFounding: profile.founding_member,
-        },
-      ];
-    })
-  );
-
-  return new Map(
-    uniqueIds.map((authorId) => [
-      authorId,
-      identities.get(authorId) ?? emptyAuthorIdentity(authorId === viewerId ? "You" : "A member"),
-    ])
-  );
+  return new Map(uniqueIds.map((authorId) => [authorId, identities.get(authorId) ?? emptyAuthorIdentity(authorId === viewerId ? "You" : "A member")]));
 }
 
-function buildReactionSummaries(
-  rows: Array<{
-    post_id: string | null;
-    comment_id: string | null;
-    profile_id: string;
-    reaction_type: string;
-  }>,
-  viewerId: string,
-  target: "post" | "comment"
-) {
+function buildReactionSummaries(rows: Array<{ post_id: string | null; comment_id: string | null; profile_id: string; reaction_type: string }>, viewerId: string, target: "post" | "comment") {
   const summaries = new Map<string, CommunityReactionSummary>();
-
   for (const row of rows) {
     const targetId = target === "post" ? row.post_id : row.comment_id;
-
-    if (!targetId || !isReactionType(row.reaction_type)) {
-      continue;
-    }
-
+    if (!targetId || !isReactionType(row.reaction_type)) continue;
     const summary = summaries.get(targetId) ?? emptyReactionSummary();
     summary.counts[row.reaction_type] += 1;
-
-    if (row.profile_id === viewerId) {
-      summary.viewerReactionTypes.push(row.reaction_type);
-    }
-
+    if (row.profile_id === viewerId) summary.viewerReactionTypes.push(row.reaction_type);
     summaries.set(targetId, summary);
   }
-
   return summaries;
 }
 
 export async function getCommunitySpacesWithActivity(supabase: CommunityClient) {
-  const { data: spaces, error: spacesError } = await supabase
-    .from("community_spaces")
-    .select("id, slug, title, description, sort_order")
-    .order("sort_order", { ascending: true });
-
-  if (spacesError) {
-    throwCommunityQueryError("load community spaces", spacesError);
-  }
-
-  const { data: posts, error: postsError } = await supabase
-    .from("community_posts")
-    .select("space_id")
-    .eq("moderation_status", "published")
-    .is("deleted_at", null);
-
-  if (postsError) {
-    throwCommunityQueryError("load community activity", postsError);
-  }
-
+  const { data: spaces, error: spacesError } = await supabase.from("community_spaces").select("id, slug, title, description, sort_order").order("sort_order", { ascending: true });
+  if (spacesError) throwCommunityQueryError("load community spaces", spacesError);
+  const { data: posts, error: postsError } = await supabase.from("community_posts").select("space_id").eq("moderation_status", "published").is("deleted_at", null);
+  if (postsError) throwCommunityQueryError("load community activity", postsError);
   const counts = new Map<string, number>();
   (posts ?? []).forEach((post) => counts.set(post.space_id, (counts.get(post.space_id) ?? 0) + 1));
-
-  return (spaces ?? []).map((space) => ({
-    ...space,
-    activityCount: counts.get(space.id) ?? 0,
-  })) as CommunitySpaceWithActivity[];
+  return (spaces ?? []).map((space) => ({ ...space, activityCount: counts.get(space.id) ?? 0 })) as CommunitySpaceWithActivity[];
 }
 
-export async function getCommunitySpaceBySlug(supabase: CommunityClient, slug: string) {
-  const { data, error } = await supabase
-    .from("community_spaces")
-    .select("id, slug, title, description, sort_order")
-    .eq("slug", slug)
-    .maybeSingle();
-
-  if (error) {
-    throwCommunityQueryError("load this community space", error);
-  }
-
-  return data;
-}
-
-export async function getCommunityPostsForSpace(
-  supabase: CommunityClient,
-  spaceId: string,
-  viewerId: string
-) {
-  const { data: posts, error: postsError } = await supabase
-    .from("community_posts")
-    .select("id, space_id, author_id, title, body, moderation_status, is_pinned, edited_at, deleted_at, created_at")
-    .eq("space_id", spaceId)
-    .eq("moderation_status", "published")
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false });
-
-  if (postsError) {
-    throwCommunityQueryError("load community posts", postsError);
-  }
-
+export async function getRecentCommunityPosts(supabase: CommunityClient, viewerId: string, limit = 8) {
+  const { data: posts, error: postsError } = await supabase.from("community_posts").select("id, space_id, author_id, title, body, moderation_status, is_pinned, edited_at, deleted_at, created_at").eq("moderation_status", "published").is("deleted_at", null).order("created_at", { ascending: false }).limit(limit);
+  if (postsError) throwCommunityQueryError("load recent community posts", postsError);
   const postRows = posts ?? [];
   const postIds = postRows.map((post) => post.id);
-  const [identities, commentResult, reactionResult] = await Promise.all([
+  const spaceIds = [...new Set(postRows.map((post) => post.space_id))];
+  const [identities, comments, reactions, spaces] = await Promise.all([
     getVisibleIdentities(supabase, postRows.map((post) => post.author_id), viewerId),
-    postIds.length > 0
-      ? supabase
-          .from("community_comments")
-          .select("post_id")
-          .in("post_id", postIds)
-          .eq("moderation_status", "published")
-          .is("deleted_at", null)
-      : Promise.resolve({ data: [], error: null }),
-    postIds.length > 0
-      ? supabase
-          .from("community_reactions")
-          .select("post_id, comment_id, profile_id, reaction_type")
-          .in("post_id", postIds)
-      : Promise.resolve({ data: [], error: null }),
+    postIds.length ? supabase.from("community_comments").select("post_id").in("post_id", postIds).eq("moderation_status", "published").is("deleted_at", null) : Promise.resolve({ data: [], error: null }),
+    postIds.length ? supabase.from("community_reactions").select("post_id, comment_id, profile_id, reaction_type").in("post_id", postIds) : Promise.resolve({ data: [], error: null }),
+    spaceIds.length ? supabase.from("community_spaces").select("id, slug, title").in("id", spaceIds) : Promise.resolve({ data: [], error: null }),
   ]);
-
-  if (commentResult.error) {
-    throwCommunityQueryError("load comment counts", commentResult.error);
-  }
-
-  if (reactionResult.error) {
-    throwCommunityQueryError("load reactions", reactionResult.error);
-  }
-
+  if (comments.error) throwCommunityQueryError("load recent reply counts", comments.error);
+  if (reactions.error) throwCommunityQueryError("load recent reactions", reactions.error);
+  if (spaces.error) throwCommunityQueryError("load recent post spaces", spaces.error);
   const commentCounts = new Map<string, number>();
-  (commentResult.data ?? []).forEach((comment) => {
-    commentCounts.set(comment.post_id, (commentCounts.get(comment.post_id) ?? 0) + 1);
-  });
-  const reactionSummaries = buildReactionSummaries(reactionResult.data ?? [], viewerId, "post");
-
+  (comments.data ?? []).forEach((comment) => commentCounts.set(comment.post_id, (commentCounts.get(comment.post_id) ?? 0) + 1));
+  const reactionSummaries = buildReactionSummaries(reactions.data ?? [], viewerId, "post");
+  const spaceMap = new Map((spaces.data ?? []).map((space) => [space.id, space]));
   return postRows.map((post) => ({
     ...post,
     ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")),
     commentCount: commentCounts.get(post.id) ?? 0,
     reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary(),
-  })) as CommunityPostView[];
+    spaceSlug: spaceMap.get(post.space_id)?.slug ?? "",
+    spaceTitle: spaceMap.get(post.space_id)?.title ?? "The In Gate",
+  }));
+}
+
+export async function getCommunitySpaceBySlug(supabase: CommunityClient, slug: string) {
+  const { data, error } = await supabase.from("community_spaces").select("id, slug, title, description, sort_order").eq("slug", slug).maybeSingle();
+  if (error) throwCommunityQueryError("load this community space", error);
+  return data;
+}
+
+export async function getCommunityPostsForSpace(supabase: CommunityClient, spaceId: string, viewerId: string) {
+  const { data: posts, error: postsError } = await supabase.from("community_posts").select("id, space_id, author_id, title, body, moderation_status, is_pinned, edited_at, deleted_at, created_at").eq("space_id", spaceId).eq("moderation_status", "published").is("deleted_at", null).order("created_at", { ascending: false });
+  if (postsError) throwCommunityQueryError("load community posts", postsError);
+  const postRows = posts ?? [];
+  const postIds = postRows.map((post) => post.id);
+  const [identities, commentResult, reactionResult] = await Promise.all([
+    getVisibleIdentities(supabase, postRows.map((post) => post.author_id), viewerId),
+    postIds.length ? supabase.from("community_comments").select("post_id").in("post_id", postIds).eq("moderation_status", "published").is("deleted_at", null) : Promise.resolve({ data: [], error: null }),
+    postIds.length ? supabase.from("community_reactions").select("post_id, comment_id, profile_id, reaction_type").in("post_id", postIds) : Promise.resolve({ data: [], error: null }),
+  ]);
+  if (commentResult.error) throwCommunityQueryError("load comment counts", commentResult.error);
+  if (reactionResult.error) throwCommunityQueryError("load reactions", reactionResult.error);
+  const commentCounts = new Map<string, number>();
+  (commentResult.data ?? []).forEach((comment) => commentCounts.set(comment.post_id, (commentCounts.get(comment.post_id) ?? 0) + 1));
+  const reactionSummaries = buildReactionSummaries(reactionResult.data ?? [], viewerId, "post");
+  return postRows.map((post) => ({ ...post, ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")), commentCount: commentCounts.get(post.id) ?? 0, reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary() })) as CommunityPostView[];
 }
 
 export async function getCommunityPostById(supabase: CommunityClient, postId: string, viewerId: string) {
-  const { data: post, error: postError } = await supabase
-    .from("community_posts")
-    .select("id, space_id, author_id, title, body, moderation_status, is_pinned, edited_at, deleted_at, created_at")
-    .eq("id", postId)
-    .maybeSingle();
-
-  if (postError) {
-    throwCommunityQueryError("load this community post", postError);
-  }
-
-  if (!post) {
-    return null;
-  }
-
+  const { data: post, error: postError } = await supabase.from("community_posts").select("id, space_id, author_id, title, body, moderation_status, is_pinned, edited_at, deleted_at, created_at").eq("id", postId).maybeSingle();
+  if (postError) throwCommunityQueryError("load this community post", postError);
+  if (!post) return null;
   const [identities, commentsResult, reactionsResult] = await Promise.all([
     getVisibleIdentities(supabase, [post.author_id], viewerId),
-    supabase
-      .from("community_comments")
-      .select("id")
-      .eq("post_id", post.id)
-      .eq("moderation_status", "published")
-      .is("deleted_at", null),
-    supabase
-      .from("community_reactions")
-      .select("post_id, comment_id, profile_id, reaction_type")
-      .eq("post_id", post.id),
+    supabase.from("community_comments").select("id").eq("post_id", post.id).eq("moderation_status", "published").is("deleted_at", null),
+    supabase.from("community_reactions").select("post_id, comment_id, profile_id, reaction_type").eq("post_id", post.id),
   ]);
-
-  if (commentsResult.error) {
-    throwCommunityQueryError("load the post comment count", commentsResult.error);
-  }
-
-  if (reactionsResult.error) {
-    throwCommunityQueryError("load post reactions", reactionsResult.error);
-  }
-
+  if (commentsResult.error) throwCommunityQueryError("load the post comment count", commentsResult.error);
+  if (reactionsResult.error) throwCommunityQueryError("load post reactions", reactionsResult.error);
   const reactionSummaries = buildReactionSummaries(reactionsResult.data ?? [], viewerId, "post");
-
-  return {
-    ...post,
-    ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")),
-    commentCount: commentsResult.data?.length ?? 0,
-    reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary(),
-  } as CommunityPostView;
+  return { ...post, ...(identities.get(post.author_id) ?? emptyAuthorIdentity("A member")), commentCount: commentsResult.data?.length ?? 0, reactions: reactionSummaries.get(post.id) ?? emptyReactionSummary() } as CommunityPostView;
 }
 
-export async function getCommunityCommentsForPost(
-  supabase: CommunityClient,
-  postId: string,
-  viewerId: string
-) {
-  const { data: comments, error: commentsError } = await supabase
-    .from("community_comments")
-    .select("id, post_id, parent_comment_id, author_id, body, moderation_status, edited_at, deleted_at, created_at")
-    .eq("post_id", postId)
-    .order("created_at", { ascending: true });
-
-  if (commentsError) {
-    throwCommunityQueryError("load comments", commentsError);
-  }
-
+export async function getCommunityCommentsForPost(supabase: CommunityClient, postId: string, viewerId: string) {
+  const { data: comments, error: commentsError } = await supabase.from("community_comments").select("id, post_id, parent_comment_id, author_id, body, moderation_status, edited_at, deleted_at, created_at").eq("post_id", postId).order("created_at", { ascending: true });
+  if (commentsError) throwCommunityQueryError("load comments", commentsError);
   const commentRows = comments ?? [];
   const commentIds = commentRows.map((comment) => comment.id);
   const [identities, reactionsResult] = await Promise.all([
     getVisibleIdentities(supabase, commentRows.map((comment) => comment.author_id), viewerId),
-    commentIds.length > 0
-      ? supabase
-          .from("community_reactions")
-          .select("post_id, comment_id, profile_id, reaction_type")
-          .in("comment_id", commentIds)
-      : Promise.resolve({ data: [], error: null }),
+    commentIds.length ? supabase.from("community_reactions").select("post_id, comment_id, profile_id, reaction_type").in("comment_id", commentIds) : Promise.resolve({ data: [], error: null }),
   ]);
-
-  if (reactionsResult.error) {
-    throwCommunityQueryError("load comment reactions", reactionsResult.error);
-  }
-
+  if (reactionsResult.error) throwCommunityQueryError("load comment reactions", reactionsResult.error);
   const reactionSummaries = buildReactionSummaries(reactionsResult.data ?? [], viewerId, "comment");
-
-  return commentRows.map((comment) => ({
-    ...comment,
-    ...(identities.get(comment.author_id) ?? emptyAuthorIdentity("A member")),
-    reactions: reactionSummaries.get(comment.id) ?? emptyReactionSummary(),
-  })) as CommunityCommentView[];
+  return commentRows.map((comment) => ({ ...comment, ...(identities.get(comment.author_id) ?? emptyAuthorIdentity("A member")), reactions: reactionSummaries.get(comment.id) ?? emptyReactionSummary() })) as CommunityCommentView[];
 }
