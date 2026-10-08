@@ -1,0 +1,21 @@
+name: atig-local
+services:
+  rest:
+    image: postgrest/postgrest:v14.17
+    container_name: atig-rest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3111:3000"
+    environment:
+      PGRST_DB_URI: "postgres://authenticator:${POSTGRES_PASSWORD}@db:5432/at_the_in_gate"
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_EXTRA_SEARCH_PATH: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: "${JWT_JWKS}"
+      PGRST_DB_MAX_ROWS: "1000"
+    networks:
+      - supabase
+networks:
+  supabase:
+    external: true
+    name: supabase_default
